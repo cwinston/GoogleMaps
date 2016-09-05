@@ -1,0 +1,2 @@
+module google.maps
+plugin GoogleMaps
