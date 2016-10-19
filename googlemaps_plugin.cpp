@@ -1,14 +1,4 @@
 #include "googlemaps_plugin.h"
-#include "GeocoderRequest.h"
-#include "GeocoderResult.h"
-#include "LatLng.h"
-#include "LatLngBounds.h"
-#include "GeocoderComponentRestrictions.h"
-#include "GeocoderAddressComponent.h"
-#include "GeocoderGeometry.h"
-#include "SphericalGeometry.h"
-#include "MaxZoomService.h"
-
 #include <qqml.h>
 
 void GoogleMapsPlugin::registerTypes(const char *uri)
@@ -24,5 +14,8 @@ void GoogleMapsPlugin::registerTypes(const char *uri)
     qmlRegisterType<googleMaps::LatLngBounds>(uri, 1, 0, "LatLngBounds");
     qmlRegisterType<googleMaps::SphericalGeometry>(uri, 1, 0, "SphericalGeometry");
     qmlRegisterType<googleMaps::MaxZoomService>(uri, 1, 0, "MaxZoomService");
+    qmlRegisterType<googleMaps::Geocoder>(uri, 1, 0, "Geocoder");
+    qmlRegisterType<googleMaps::ElevationService>(uri, 1, 0, "ElevationService");
+    qmlRegisterType<googleMaps::GoogleMaps>(uri, 1, 0, "GoogleMaps");
 }
 
