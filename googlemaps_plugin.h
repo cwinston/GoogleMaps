@@ -2,6 +2,19 @@
 #define GOOGLEMAPS_PLUGIN_H
 
 #include <QQmlExtensionPlugin>
+#include "GeocoderRequest.h"
+#include "GeocoderResult.h"
+#include "LatLng.h"
+#include "LatLngBounds.h"
+#include "GeocoderComponentRestrictions.h"
+#include "GeocoderAddressComponent.h"
+#include "GeocoderGeometry.h"
+#include "SphericalGeometry.h"
+#include "MaxZoomService.h"
+#include "Geocoder.h"
+#include "ElevationService.h"
+#include "GoogleMaps.h"
+
 
 class GoogleMapsPlugin : public QQmlExtensionPlugin
 {
