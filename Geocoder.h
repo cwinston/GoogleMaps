@@ -65,7 +65,7 @@ namespace googleMaps
             void geocodeResultReceived(QList<googleMaps::GeocoderResult>& results, QString& status);
             void sendGeocoderRequest(googleMaps::GeocoderRequest request);
             void requestChanged(googleMaps::GeocoderRequest request);
-            void resultsChanged(googleMaps::GeocoderResult request);
+            void resultsChanged(googleMaps::GeocoderResult result);
             void test(QString msg);
 
         public slots:
