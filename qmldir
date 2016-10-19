@@ -1,2 +1,5 @@
-module google.maps
-plugin GoogleMaps
+module GoogleMaps
+plugin GoogleMapsPlugin /plugins/googleMaps/
+classname 1.0 MapViewer
+GoogleMapViewer 1.0 GoogleMapViewer.qml
+typeinfo googleMaps.qmltypes
