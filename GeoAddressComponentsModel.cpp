@@ -18,12 +18,12 @@ QVariant googleMaps::GeoAddressComponentsModel::data(const QModelIndex& index, i
     return QVariant();
 }
 
-//bool googleMaps::GeoAddressComponentsModel::insertRows(int row, int column, QModelIndex parent)
-//{
-//    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-//     //   m_addressComponents << data;
-//        endInsertRows();
-//}
+void googleMaps::GeoAddressComponentsModel::insertRows(int row, int column, QModelIndex parent)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+        //m_addressComponents << data;
+        endInsertRows();
+}
 
 QHash<int, QByteArray> googleMaps::GeoAddressComponentsModel::roleNames() const
 {

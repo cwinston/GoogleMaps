@@ -24,7 +24,7 @@ namespace googleMaps
         public:
             explicit GeoAddressComponentsModel(QObject* parent = 0);
             virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-          //  virtual bool insertRows(int row, int column, QModelIndex parent = QModelIndex());
+            virtual void insertRows(int row, int column, QModelIndex parent = QModelIndex());
 
             virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
             virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
