@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>GoogleMapViewer.qml</file>
+        <file>maptest.html</file>
+    </qresource>
+</RCC>
