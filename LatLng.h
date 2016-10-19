@@ -8,12 +8,9 @@ using namespace std;
 #define GEO_LAT "lat"
 #define GEO_LNG "lng"
 
-namespace google
+namespace googleMaps
 {
-	namespace maps
-	{
-		class LatLng;
-	}
+    class LatLng;
 }
 
 namespace googleMaps
