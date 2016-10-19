@@ -9,7 +9,7 @@ using namespace std;
 namespace googleMaps
 {
 	class LatLng;
-	class LocationElevationRequest;
+    //class LocationElevationRequest;
 }
 
 namespace googleMaps
@@ -21,11 +21,12 @@ namespace googleMaps
             QList<googleMaps::LatLng> m_locations;
 
         public:
-            LocationElevationRequest(QObject *parent = 0);
+            explicit LocationElevationRequest(QObject *parent = 0);
+            LocationElevationRequest(const LocationElevationRequest& rhs);
             ~LocationElevationRequest();
             void addLocation(googleMaps::LatLng location);
             void removeLocation(googleMaps::LatLng location);
-            QList<googleMaps::LatLng> getLocations();
+            QList<googleMaps::LatLng> getLocations() const;
 	};
 }
 
