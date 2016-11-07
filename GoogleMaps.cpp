@@ -70,15 +70,17 @@ void googleMaps::GoogleMaps::getMaxZoomAtLatLng(googleMaps::LatLng latLng) {
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::geocode(QString& location)
+void googleMaps::GoogleMaps::geocodeName(QString location)
 {
     googleMaps::GeocoderRequest request = googleMaps::Geocoder::createGeocoderRequest(location);
-    connect(m_geoCoder, SIGNAL(geocodeResultReceived(QList<googleMaps::GeocoderResult>&,QString&)), this, SLOT(handleGeocoderResults(QList<googleMaps::GeocoderResult>&,QString&)));
+    //     disconnect(m_viewer, SIGNAL(geoCoderResponseReceived(googleMaps::GeocoderResult&)), this, SLOT(handleGeoLocationReceived(googleMaps::GeocoderResult&)));
+    //     disconnect(m_viewer, SIGNAL(selectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)), this, SLOT(handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)));
+    connect(m_geoCoder, SIGNAL(geocodeResultReceived(QVariantList,QString&)), this, SLOT(handleGeocoderResults(QVariantList,QString&)));
     m_geoCoder->geocode(request);
 }
 
 
-void googleMaps::GoogleMaps::geocode(googleMaps::LatLng& latLng) {
+void googleMaps::GoogleMaps::geocodeLatLng(googleMaps::LatLng latLng) {
     throw "Not yet implemented";
 }
 
@@ -99,32 +101,25 @@ void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
     qDebug() << " Json message received " << strJson;
 }
 
-void googleMaps::GoogleMaps::updateGeocoderResults(QList<googleMaps::GeocoderResult>& results, QString& status)
+void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString& status)
 {
     qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
-    if (results.size() == 1)
-    {
-        emit geoCoderResponseReceived(results.at(0));
-    }
-    else if (results.size() > 1)
-    {
-        emit selectGeoLocationRequest(results);
-    }
+    emit geoLocationsReceived();
 }
 
-void googleMaps::GoogleMaps::updateDistanceResults(qreal distance) {
+void googleMaps::GoogleMaps::handleDistanceResults(qreal distance) {
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::updatePositionResults(googleMaps::LatLng position) {
+void googleMaps::GoogleMaps::handlePositionResults(googleMaps::LatLng position) {
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::updateMaxZoomResults(googleMaps::MaxZoomResult result, int status) {
+void googleMaps::GoogleMaps::handleMaxZoomResults(googleMaps::MaxZoomResult result, int status) {
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::updateElevationResults(QList<googleMaps::ElevationResult> results, int status) {
+void googleMaps::GoogleMaps::handleElevationResults(QList<googleMaps::ElevationResult> results, int status) {
     throw "Not yet implemented";
 }
 
@@ -173,4 +168,7 @@ void googleMaps::GoogleMaps::handleMaxZoomReceived(qreal zoomLevel) {
     throw "Not yet implemented";
 }
 
-
+QVariantList googleMaps::GoogleMaps::getGeoCoderResults()
+{
+    return m_geoCoder->getResults();
+}
