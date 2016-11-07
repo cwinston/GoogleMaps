@@ -5,6 +5,13 @@ import GoogleMaps 1.0
 
 Item
 {
+    signal connectionReady();
+    signal mapReady();
+    signal geocoderLocationsReceived(variant results);
+    signal distanceResultsReceived(real distance);
+    signal positionResultsReceived(LatLng position);
+    property bool isMapReady: false;
+
     WebEngineView
     {
         id:webview
@@ -13,18 +20,23 @@ Item
         url: "maptest.html"
 
          onLoadingChanged: {
-             console.log("  loading changed  isloading  "+loading)
-
-             console.log("  channel ready?   "+mapController.connectionMade)
-             console.log("  webChannel transports  "+webChannel.transports[0]);
+             console.log("  loading changed  isloading  "+loading);
              if (!mapController.connectionMade)
              {
+                 console.log("  channel ready?   "+mapController.connectionMade)
+                 console.log("  webChannel transports  "+webChannel.transports[0]);
                 mapController.channel = webview.webChannel;
              }
          }
 
          onLoadProgressChanged: {
               console.log("  loadProgress  "+webview.loadProgress)
+             if ((webview.loadProgress == 100) && !isMapReady)
+             {
+                 console.log("map ready ");
+                 isMapReady = true;
+                 mapReady();
+             }
          }
     }
 
@@ -32,10 +44,46 @@ Item
     {
         id:mapController
 
+        onTransportReady:
+        {
+            connectionReady();
+        }
+
+        onGeoLocationsReceived:
+        {
+            geocoderLocationsReceived(mapController.geocoderResults);
+        }
+
     }
 
-    function geocode(location)
+    function geocodeName(locationName)
     {
-        mapController.geocode(location);
+        mapController.geocodeName(locationName);
+
+    }
+
+    function geocodeLocation(location)
+    {
+        mapController.geocodeLatLng(location);
+    }
+
+    function computeArea(path)
+    {
+        mapController.computeArea(path);
+    }
+
+    function computeDistanceBetween(from, to)
+    {
+        mapController.computeDistanceBetween(from, to);
+    }
+
+    function computeLength(path)
+    {
+        mapController.computeLength(path);
+    }
+
+    function computeHeading(from, to)
+    {
+        mapController.computeHeading(from, to)
     }
 }
