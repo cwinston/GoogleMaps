@@ -41,13 +41,13 @@ namespace googleMaps
     class Geocoder : public QObject
     {
         Q_OBJECT
-          Q_PROPERTY(googleMaps::GeocoderResult result READ getResult NOTIFY resultsChanged)
+          Q_PROPERTY(QVariantList results READ getResults NOTIFY resultsChanged)
           Q_PROPERTY(googleMaps::GeocoderRequest request READ getLastRequest NOTIFY requestChanged)
        // Q_PROPERTY(googleMaps::GeocoderResult result READ getResult)
       //  Q_PROPERTY(googleMaps::GeocoderRequest request READ getLastRequest)
        // Q_ENUMS(EGeocoderStatus)
         protected:
-            QList<googleMaps::GeocoderResult> m_results;
+            QVariantList m_results;
             googleMaps::GeocoderRequest m_lastRequest;
 
         public:
@@ -56,13 +56,12 @@ namespace googleMaps
             static googleMaps::GeocoderRequest createGeocoderRequest(const QString& location);
             static googleMaps::GeocoderRequest createGeocoderRequest(const googleMaps::LatLng& latLng);
             void geocode(googleMaps::GeocoderRequest aRequest);
-            QList<googleMaps::GeocoderResult> getResults() const;
+            QVariantList getResults() const;
             GeocoderRequest getLastRequest();
-            GeocoderResult getResult();
 
 
         signals:
-            void geocodeResultReceived(QList<googleMaps::GeocoderResult>& results, QString& status);
+            void geocodeResultReceived(QVariantList results, QString& status);
             void sendGeocoderRequest(googleMaps::GeocoderRequest request);
             void requestChanged(googleMaps::GeocoderRequest request);
             void resultsChanged(googleMaps::GeocoderResult result);
