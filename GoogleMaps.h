@@ -115,6 +115,7 @@ namespace googleMaps
             /// Returns the LatLng which lies the given fraction of the way between the origin LatLng and the destination LatLng.
             /// </summary>
             void interpolate(googleMaps::LatLng& from, googleMaps::LatLng& to, qreal& fraction);
+            void centerMapAt(googleMaps::LatLng newCenter);
             void getMaxZoomAtLatLng(googleMaps::LatLng latLng);
             void geocodeName(QString location);
             void geocodeLatLng(googleMaps::LatLng latLng);
@@ -122,24 +123,17 @@ namespace googleMaps
             void getElevationForLocations(googleMaps::LocationElevationRequest request);
             void messageReceived(const QJsonObject& message);
             void handleGeocoderResults(QVariantList results, QString &status);
-            void handleDistanceResults(qreal distance);
-            void handlePositionResults(googleMaps::LatLng position);
             void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
 
 
-    private slots:
-        //void handleTransportReady();
-        void handleGeoLocationReceived(googleMaps::GeocoderResult& result);
-        void handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>& results);
-        void handleAreaComputed(qreal area);
-        void handleHeadingComputed(qreal heding);
-        void handleDistanceComputed(qreal distance);
-        void handleLengthComputed(qreal length);
-        void handleOffsetComputed(googleMaps::LatLng offset);
-        void handleOffsetOriginComputed(googleMaps::LatLng offsetOrigin);
-        void handlePositionInterpolated(googleMaps::LatLng originOffset);
-        void handleMaxZoomReceived(qreal zoomLevel);
+        private slots:
+            //void handleTransportReady();
+            void handleGeoLocationReceived(googleMaps::GeocoderResult& result);
+            void handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>& results);
+            void handleMaxZoomReceived(qreal zoomLevel);
+            void handleDistanceResults(qreal distance);
+            void handlePositionResults(googleMaps::LatLng position);
 
 
     };
