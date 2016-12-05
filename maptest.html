@@ -118,8 +118,8 @@ var map;
 				console.log("  num results  "+ results.length)
 				console.log("  num results  "+ results[0].geometry.location.lat()+ " : "+ results[0].geometry.location.lng())
 				var position = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng())
-				map.setCenter(position);
-				map.setZoom(14);
+                                //map.setCenter(position);
+				//map.setZoom(14);
 				// This calls flash with the resuls check your traces
                                 window.geocoder.setRequestResults(results, status);
                                 //channel.objects.Geocoder.setRequestResults(results, status);
