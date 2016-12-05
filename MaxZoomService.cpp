@@ -5,14 +5,16 @@ using namespace std;
 #include "MaxZoomResult.h"
 #include "LatLng.h"
 
-googleMaps::MaxZoomService::MaxZoomService() {
+googleMaps::MaxZoomService::MaxZoomService(QObject *parent) {
 }
 
-void googleMaps::MaxZoomService::getMaxZoomAtLatLng(googleMaps::LatLng latLng) {
+void googleMaps::MaxZoomService::getMaxZoomAtLatLng(googleMaps::LatLng latLng)
+{
 	throw "Not yet implemented";
 }
 
-void googleMaps::MaxZoomService::setResults(googleMaps::MaxZoomResult results) {
+void googleMaps::MaxZoomService::setResults(googleMaps::MaxZoomResult results)
+{
     this->m_results = results;
 }
 

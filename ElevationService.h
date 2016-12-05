@@ -42,7 +42,7 @@ namespace googleMaps
         Q_OBJECT
         public:
             explicit ElevationService(QObject* parent = 0);
-            ~ElevationService();
+            virtual ~ElevationService();
             void getElevationAlongPath(googleMaps::PathElevationRequest request, EElevationStatus status);
             void getElevationForLocations(googleMaps::LocationElevationRequest request, EElevationStatus status);
             void elevationResultsReceived(googleMaps::ElevationResult result, EElevationStatus status);

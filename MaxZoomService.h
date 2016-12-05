@@ -30,7 +30,7 @@ namespace googleMaps
             googleMaps::MaxZoomResult m_results;
 
         public:
-            MaxZoomService();
+            explicit MaxZoomService(QObject* parent = 0);
 
             void getMaxZoomAtLatLng(googleMaps::LatLng latLng);
 
