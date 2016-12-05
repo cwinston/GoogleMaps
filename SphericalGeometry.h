@@ -71,11 +71,17 @@ namespace googleMaps
             /// <summary>
             /// Returns the LatLng which lies the given fraction of the way between the origin LatLng and the destination LatLng.
             /// </summary>
-            googleMaps::LatLng interpolate(googleMaps::LatLng from, googleMaps::LatLng to, qreal fraction);
-            void setDistanceResult(const qreal aDistanceResult);
-            qreal getDistanceResult() const;
-            void setPositionResult(const googleMaps::LatLng aPositionResult);
+            googleMaps::LatLng interpolate(googleMaps::LatLng from, googleMaps::LatLng to, qreal fraction);            
+            qreal getDistanceResult() const;            
             googleMaps::LatLng getPositionResult() const;
+
+         signals:
+            void positionResultReceived(const googleMaps::LatLng position);
+            void distanceResultReceived(const qreal distance);
+
+         public slots:
+            void setPositionResult(const googleMaps::LatLng aPositionResult);
+            void setDistanceResult(const qreal aDistanceResult);
 	};
 }
 
