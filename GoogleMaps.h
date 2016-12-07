@@ -25,6 +25,7 @@
 #include "LatLng.h"
 #include "GeocoderResult.h"
 #include "ElevationResult.h"
+#include "Map.h"
 
 namespace googleMaps
 {
@@ -55,6 +56,7 @@ namespace googleMaps
         googleMaps::SphericalGeometry* m_sphericalGeometryService;
         googleMaps::MaxZoomService* m_maxZoomService;
         googleMaps::ElevationService* m_elevationService;
+        googleMaps::Map* m_map;
         QWebChannel* m_channel;
         bool m_transportReady;
 

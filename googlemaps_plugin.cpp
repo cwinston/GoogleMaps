@@ -17,5 +17,11 @@ void GoogleMapsPlugin::registerTypes(const char *uri)
     qmlRegisterType<googleMaps::Geocoder>(uri, 1, 0, "Geocoder");
     qmlRegisterType<googleMaps::ElevationService>(uri, 1, 0, "ElevationService");
     qmlRegisterType<googleMaps::GoogleMaps>(uri, 1, 0, "GoogleMaps");
+    qmlRegisterType<googleMaps::Map>(uri, 1, 0, "Map");
+    qmlRegisterType<googleMaps::MapOptions>(uri, 1, 0, "MapOptions");
+    qmlRegisterType<googleMaps::Marker>(uri, 1, 0, "Marker");
+    qmlRegisterType<googleMaps::MarkerOptions>(uri, 1, 0, "MarkerOptions");
+    qmlRegisterType<googleMaps::Size>(uri, 1, 0, "Size");
+    qmlRegisterType<googleMaps::Point>(uri, 1, 0, "Point");
 }
 

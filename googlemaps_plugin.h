@@ -14,6 +14,11 @@
 #include "Geocoder.h"
 #include "ElevationService.h"
 #include "GoogleMaps.h"
+#include "Map.h"
+#include "Marker.h"
+#include "MarkerOptions.h"
+#include "Size.h"
+#include "Point.h"
 
 
 class GoogleMapsPlugin : public QQmlExtensionPlugin
