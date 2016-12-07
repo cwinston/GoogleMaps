@@ -24,7 +24,13 @@ SOURCES += \
     MaxZoomService.cpp \
     PathElevationRequest.cpp \
     SphericalGeometry.cpp \
-    GoogleMaps.cpp
+    GoogleMaps.cpp \
+    Map.cpp \
+    MapOptions.cpp \
+    Marker.cpp \
+    MarkerOptions.cpp \
+    Point.cpp \
+    Size.cpp
 
 HEADERS += \
     googlemaps_plugin.h \
@@ -45,7 +51,13 @@ HEADERS += \
     PathElevationRequest.h \
     SphericalGeometry.h \
     qtutils.h \
-    GoogleMaps.h
+    GoogleMaps.h \
+    Map.h \
+    MapOptions.h \
+    Marker.h \
+    MarkerOptions.h \
+    Point.h \
+    Size.h
 
 
 pluginfiles.files += \
