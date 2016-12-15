@@ -25,10 +25,12 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     m_sphericalGeometryService = new googleMaps::SphericalGeometry(this);
     m_elevationService = new googleMaps::ElevationService(this);
     m_maxZoomService = new googleMaps::MaxZoomService(this);
+    m_map = new googleMaps::Map(this);
     m_channel->registerObject(QStringLiteral("Geocoder"), m_geoCoder);
     m_channel->registerObject(QStringLiteral("ElevationService"), m_elevationService);
     m_channel->registerObject(QStringLiteral("SphericalGeometry"), m_sphericalGeometryService);
     m_channel->registerObject(QStringLiteral("MaxZoom"), m_maxZoomService);
+    m_channel->registerObject(QStringLiteral("Map"), m_map);
     emit transportReady();
 }
 
@@ -39,7 +41,8 @@ bool googleMaps::GoogleMaps::isConnected()
 
 void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
 {
-
+    qDebug() << "[GoogleMaps] centerMapAt " << newCenter.lat() << "  " << newCenter.lng();
+    m_map->updateCenter(newCenter);
 }
 
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
