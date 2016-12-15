@@ -8,6 +8,7 @@ using namespace std;
 #include "LatLng.h"
 //#include "MouseEvent.h"
 //#include "AbstractGoogleMapsService.h"
+#include <QDebug>
 
 googleMaps::Map::Map(QObject *parent)
 {
@@ -22,73 +23,95 @@ googleMaps::Map::~Map()
 googleMaps::Map::Map(googleMaps::MapOptions options) {
 }
 
-googleMaps::Map::Map(const googleMaps::Map &rhs, QObject* parent)
+googleMaps::Map::Map(const googleMaps::Map &rhs)
 {
 }
 
-void googleMaps::Map::updateBounds(googleMaps::LatLngBounds latLngBounds)
+void googleMaps::Map::updateBounds(QVariant latLngBounds)
 {
-
+    m_bounds = latLngBounds;
 }
 
 void googleMaps::Map::fitBounds(googleMaps::LatLngBounds bounds) {
 	throw "Not yet implemented";
 }
 
-googleMaps::LatLngBounds googleMaps::Map::getBounds() {
+QVariant googleMaps::Map::getBounds() const
+{
+    return QVariant(m_bounds);
+}
+
+QVariant googleMaps::Map::getCenter() const
+{
+    return QVariant(m_mapCenter);
+}
+
+googleMaps::EMapTypeID googleMaps::Map::getMapTypeId() const
+{
+    return m_mapTypeID;
+}
+
+int googleMaps::Map::getZoom() const
+{
+    return m_zoom;
+}
+
+void googleMaps::Map::updateCenter(QVariant latlng)
+{
+    m_mapCenter = latlng;
+    emit centerOnLocation(latlng);
+}
+
+void googleMaps::Map::panToBound(googleMaps::LatLngBounds latLngBounds)
+{
 	throw "Not yet implemented";
 }
 
-googleMaps::LatLng googleMaps::Map::getCenter() {
+void googleMaps::Map::updateMapTypeId(googleMaps::EMapTypeID mapTypeId)
+{
+    m_mapTypeID = mapTypeId;
+}
+
+void googleMaps::Map::updateZoom(int zoom)
+{
+    qDebug() <<  "[Map] update zoom  "  << zoom;
+    m_zoom = zoom;
+}
+
+void googleMaps::Map::updateOptions(googleMaps::MapOptions options)
+{
+    m_options = options;
+}
+
+void googleMaps::Map::panMapTo(googleMaps::LatLng latLng)
+{
 	throw "Not yet implemented";
 }
 
-googleMaps::EMapTypeID googleMaps::Map::getMapTypeId() {
-	throw "Not yet implemented";
+int googleMaps::Map::getTilt() const
+{
+    return m_tilt;
 }
 
-int googleMaps::Map::getZoom() {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::updateCenter(googleMaps::LatLng latlng) {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::panToBound(googleMaps::LatLngBounds latLngBounds) {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::updateMapTypeId(googleMaps::EMapTypeID mapTypeId) {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::updateZoom(int zoom) {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::updateOptions(googleMaps::MapOptions options) {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::panMapTo(googleMaps::LatLng latLng) {
-	throw "Not yet implemented";
-}
-
-int googleMaps::Map::getTilt() {
-	throw "Not yet implemented";
-}
-
-void googleMaps::Map::updateTilt(int tilt) {
-	throw "Not yet implemented";
+void googleMaps::Map::updateTilt(int tilt)
+{
+    m_tilt = tilt;
 }
 
 
-//void googleMaps::Map::setMapTypes(googleMaps::MapTypeRegistry mapTypes) {
-//	this->_mapTypes = mapTypes;
-//}
+void googleMaps::Map::updateMapTypes(googleMaps::MapTypeRegistry mapTypes)
+{
+    for (auto key : mapTypes.get().keys())
+    {
+        MapType*  type = mapTypes.get().value(key);
+        this->m_mapTypes.set(key, type);
+    }
+}
 
-//googleMaps::MapTypeRegistry googleMaps::Map::getMapTypes() {
-//	return this->_mapTypes;
-//}
+googleMaps::MapTypeRegistry& googleMaps::Map::getMapTypes()
+{
+    return this->m_mapTypes;
+}
+
+
 

@@ -86,4 +86,10 @@ Item
     {
         mapController.computeHeading(from, to)
     }
+
+    function centerMapAt(location)
+    {
+        console.log("[GMV] centerMapAt  "+location);
+        mapController.centerMapAt(location);
+    }
 }

@@ -83,7 +83,17 @@ namespace googleMaps
             QMap<QString, googleMaps::MapType*> registry;
         public:
             explicit MapTypeRegistry(QObject* parent = 0) {setParent(parent);}
+
             void set(QString id, MapType* mapType) {registry[id] = mapType;}
+            QMap<QString, googleMaps::MapType*> get() const {return registry;}
+            MapTypeRegistry(const googleMaps::MapTypeRegistry& rhs)
+            {
+                for (auto key : rhs.get().keys())
+                {
+                    MapType*  type = rhs.get().value(key);
+                    registry.insert(key, type);
+                }
+            }
 
     };
 
@@ -91,24 +101,32 @@ namespace googleMaps
     class Map: public QObject
 	{
         Q_OBJECT
+        Q_PROPERTY(QVariant bounds READ getBounds NOTIFY boundsChanged WRITE updateBounds)
+        Q_PROPERTY(QVariant center READ getCenter NOTIFY centerChanged WRITE updateCenter)
+        Q_PROPERTY(int zoom READ getZoom WRITE updateZoom NOTIFY zoom_changed)
         protected:
             googleMaps::MapTypeRegistry m_mapTypes;
             googleMaps::LatLngBounds m_bounds;
             googleMaps::MapOptions m_options;
+            googleMaps::LatLng m_mapCenter;
+            googleMaps::EMapTypeID m_mapTypeID;
+            int m_tilt;
+            int m_zoom;
 
         public:
             explicit Map( QObject* parent = 0);
             Map(googleMaps::MapOptions options);
-            Map(const googleMaps::Map &rhs, QObject* parent = 0);
+            Map(const googleMaps::Map &rhs);
             virtual ~Map();
             void fitBounds(googleMaps::LatLngBounds bounds);
-            googleMaps::LatLngBounds getBounds();
-            googleMaps::LatLng getCenter();
-
-            googleMaps::EMapTypeID getMapTypeId();
-
-            int getZoom();
-            int getTilt();
+            QVariant getBounds() const;
+            QVariant getCenter() const;
+            googleMaps::MapOptions getOptions() const;
+            googleMaps::EMapTypeID getMapTypeId() const;
+            googleMaps::MapTypeRegistry& getMapTypes();
+            int getZoom() const;
+            int getTilt() const;
+            void panMapTo(googleMaps::LatLng latLng);
 
             
         public slots:
@@ -116,10 +134,11 @@ namespace googleMaps
             void updateZoom(int zoom);
             void updateOptions(googleMaps::MapOptions options);
             void updateTilt(int tilt);\
-            void panMapTo(googleMaps::LatLng latLng);
-            void updateBounds(googleMaps::LatLngBounds latLngBounds);
-            void updateCenter(googleMaps::LatLng latlng);
-            void panToBound(googleMaps::LatLngBounds latLngBounds);            
+
+            void updateBounds(QVariant latLngBounds);
+            void updateCenter(QVariant latlng);
+            void panToBound(googleMaps::LatLngBounds latLngBounds);
+            void updateMapTypes(googleMaps::MapTypeRegistry mapTypes);
 
         signals:
             void boundsChanged();
@@ -132,10 +151,8 @@ namespace googleMaps
             void maptypeid_changed();
             void resize();
             void zoom_changed();
+            void centerOnLocation(googleMaps::LatLng latLng);
 
-//		public: void setMapTypes(googleMaps::MapTypeRegistry mapTypes);
-
-//		public: googleMaps::MapTypeRegistry getMapTypes();
 	};
 }
 
