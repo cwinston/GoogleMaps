@@ -49,47 +49,48 @@ namespace googleMaps
 
         public:
             explicit MapOptions(QObject* parent = 0);
-            MapOptions(const MapOptions& options);
-            void setBackgroundColor(QString backgroundColor);
-            QString getBackgroundColor();
-            void setCenter(googleMaps::LatLng center);
-            googleMaps::LatLng getCenter();
-            void setDisableDefaultUI(bool disableDefaultUI);
-            bool isDisableDefaultUI();
-            void setDisableDoubleClickZoom(bool disableDoubleClickZoom);
-            bool isDisableDoubleClickZoom();
-            void setDraggable(bool draggable);
-            bool isDraggable();
-            void setMapTypeControl(bool mapTypeControl);
-            bool isMapTypeControl();
-            void setMapTypeId(googleMaps::EMapTypeID mapTypeId);
-            googleMaps::EMapTypeID getMapTypeId();
-            void setMaxZoom(int maxZoom);
-            int getMaxZoom();
-
-            int getMinZoom();
-
-            int getZoom();
-            int getFullscreenControlPosition();
-            int getZoomControlPosition();
-            bool isZoomControl();
-            bool isClickableIcons();
-            bool isFullscreenControl();
-            qreal getHeading();
-            bool isRotateControl();
-            int getRotateControlPosition();
+            //copy constructor
+            MapOptions(const MapOptions& rhs);
+            //assignment operator
+            MapOptions& operator=(const MapOptions &rhs);
+            QString getBackgroundColor() const;
+            googleMaps::LatLng getCenter() const;
+            bool isDisableDefaultUI() const;
+            bool isDisableDoubleClickZoom() const;
+            bool isDraggable() const;
+            bool hasMapTypeControl() const;
+            googleMaps::EMapTypeID getMapTypeId() const;
+            int getMaxZoom() const;
+            int getMinZoom() const;
+            int getZoom() const;
+            int getFullscreenControlPosition() const;
+            int getZoomControlPosition() const;
+            bool hasZoomControl() const;
+            bool hasClickableIcons() const;
+            bool hasFullscreenControl() const;
+            qreal getHeading() const;
+            bool hasRotateControl() const;
+            int getRotateControlPosition() const;
 
         public slots:
-            void setZoomControlPosition(int zoomControlPosition);
-            void setFullscreenControlPosition(int fullscreenControlPosition);
-            void setRotateControlPosition(int rotateControlPosition);
-            void setRotateControl(bool rotateControl);
-            void setHeading(qreal heading);
-            void setFullscreenControl(bool fullscreenControl);
-            void setClickableIcons(bool clickableIcons);
-            void setZoomControl(bool zoomControl);
-            void setZoom(int zoom);
-            void setMinZoom(int minZoom);
+            void updateZoomControlPosition(int zoomControlPosition);
+            void updateFullscreenControlPosition(int fullscreenControlPosition);
+            void updateRotateControlPosition(int rotateControlPosition);
+            void updateRotateControl(bool rotateControl);
+            void updateHeading(qreal heading);
+            void updateFullscreenControl(bool fullscreenControl);
+            void updateClickableIcons(bool clickableIcons);
+            void updateZoomControl(bool zoomControl);
+            void updateZoom(int zoom);
+            void updateMinZoom(int minZoom);
+            void updateMaxZoom(int maxZoom);
+            void updateMapTypeId(googleMaps::EMapTypeID mapTypeId);
+            void updateMapTypeControl(bool mapTypeControl);
+            void updateDraggable(bool draggable);
+            void updateDisableDoubleClickZoom(bool disableDoubleClickZoom);
+            void updateDisableDefaultUI(bool disableDefaultUI);
+            void updateCenter(googleMaps::LatLng center);
+            void updateBackgroundColor(QString backgroundColor);
 
 
 	};
