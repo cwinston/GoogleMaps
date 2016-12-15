@@ -60,6 +60,37 @@ var map;
                                 console.log("channel.objects.Geocoder   "+channel.objects.Geocoder);
                                     qt.webChannelTransport.send2();
                             }
+                            if (channel.objects.SphericalGeometry != null)
+                            {
+                                window.sphericalGeometry = channel.objects.SphericalGeometry;
+                                console.log("SphericalGeometry   "+window.sphericalGeometry);
+                            }
+                            if (channel.objects.Map != null)
+                            {
+                                window.map = channel.objects.Map;
+                                channel.objects.Map.updateZoom(window.googleMap.zoom);
+                                console.log("Map   "+window.map);
+                                console.log("real map "+window.googleMap.zoom);
+                                channel.objects.Map.centerOnLocation.connect(function(data)
+                                {
+                                        console.log("centerOnLocation   "+data);
+                                        centerOnLocation(data);
+                                        console.log("centerOnLocation   "+channel.objects.Map.zoom);
+                                        console.log("test 1st arg   "+arguments[0]);
+                                });
+
+                            }
+                            if (channel.objects.MaxZoom != null)
+                            {
+                                window.maxZoom = channel.objects.MaxZoom;
+                                console.log("MaxZoom   "+window.maxZoom);
+                            }
+                            if (channel.objects.ElevationService != null)
+                            {
+                                window.elevationService = channel.objects.ElevationService;
+                                console.log("ElevationService   "+window.elevationService);
+                            }
+
 
                     });
                 }
@@ -76,7 +107,7 @@ var map;
                     mapTypeId: google.maps.MapTypeId.ROADMAP
              };
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-	  
+          window.googleMap = map;
             google.maps.event.addListener(map, 'click', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
     }
@@ -98,9 +129,11 @@ var map;
     google.maps.event.addDomListener(window, 'load', initialize);
   
   <!-- Can call this from AIR using the DOM for geocoding stuff..weeeeee -->
-  function geocodeStringAddress(_stringAddress) {
-	  console.log("looking up geocode address "+_stringAddress)
-	if(geoCoder == null) {
+  function geocodeStringAddress(_stringAddress)
+  {
+          console.log("looking up geocode address "+_stringAddress+"   "+geoCoder)
+        if(geoCoder == null)
+        {
 		geoCoder = new google.maps.Geocoder();
 	}
 	geoCoder.geocode( { 'address': _stringAddress}, handleGeocodeResult );
@@ -108,41 +141,42 @@ var map;
   
     <!-- Handles the result of a geocode -->
   function handleGeocodeResult(results, status) 
-	{
-		
-		if (status == google.maps.GeocoderStatus.OK) 
-		{
-		
-			try {
-				console.log("  results are back  "+ results)
-				console.log("  num results  "+ results.length)
-				console.log("  num results  "+ results[0].geometry.location.lat()+ " : "+ results[0].geometry.location.lng())
-				var position = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng())
-                                //map.setCenter(position);
-				//map.setZoom(14);
-				// This calls flash with the resuls check your traces
-                                window.geocoder.setRequestResults(results, status);
-                                //channel.objects.Geocoder.setRequestResults(results, status);
-				// Call this so we get a map going
-				//initialize( results[0].geometry.location );
-			} catch (err) {
-				// Sink the error that was trying to call an AIR function
-			}
-		} 
-		else 
-		{
-			try {
-				// Calls a function in AS3 that references the error
-				window.JSgeocodeError(status);
-			} catch (err) {
-				// Sink it
-			}
-		}
-	}
+    {
+            console.log("  results are back  "+ status+"  num results  "+ results.length)
+            if (status == google.maps.GeocoderStatus.OK)
+            {
+
+                    try {
+                            console.log("  results are back  "+ results)
+                            console.log("  num results  "+ results.length)
+                            console.log("  num results  "+ results[0].geometry.location.lat()+ " : "+ results[0].geometry.location.lng())
+                            var position = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng())
+                            //map.setCenter(position);
+                            //map.setZoom(14);
+                            // This calls flash with the resuls check your traces
+                            window.geocoder.setRequestResults(results, status);
+                            //channel.objects.Geocoder.setRequestResults(results, status);
+                            // Call this so we get a map going
+                            //initialize( results[0].geometry.location );
+                    } catch (err) {
+                            // Sink the error that was trying to call an AIR function
+                    }
+            }
+            else
+            {
+                    try {
+                            // Calls a function in AS3 that references the error
+                            window.JSgeocodeError(status);
+                    } catch (err) {
+                            // Sink it
+                    }
+            }
+    }
   
 	function centerOnLocation(position)
 	{
-		map.panTo(position);
+            console.log("center on map position "+position.lat());
+            window.googleMap.setCenter(position);
 	}
   
 	function computeDistanceBetween(LatLng1, LatLng2)
