@@ -27,7 +27,7 @@ googleMaps::Map::Map(const googleMaps::Map &rhs)
 {
 }
 
-void googleMaps::Map::updateBounds(QVariant latLngBounds)
+void googleMaps::Map::updateBounds(googleMaps::LatLngBounds latLngBounds)
 {
     m_bounds = latLngBounds;
 }
@@ -36,14 +36,14 @@ void googleMaps::Map::fitBounds(googleMaps::LatLngBounds bounds) {
 	throw "Not yet implemented";
 }
 
-QVariant googleMaps::Map::getBounds() const
+googleMaps::LatLngBounds googleMaps::Map::getBounds() const
 {
-    return QVariant(m_bounds);
+    return m_bounds;
 }
 
-QVariant googleMaps::Map::getCenter() const
+googleMaps::LatLng googleMaps::Map::getCenter() const
 {
-    return QVariant(m_mapCenter);
+    return m_mapCenter;
 }
 
 googleMaps::EMapTypeID googleMaps::Map::getMapTypeId() const
@@ -56,10 +56,11 @@ int googleMaps::Map::getZoom() const
     return m_zoom;
 }
 
-void googleMaps::Map::updateCenter(QVariant latlng)
+void googleMaps::Map::updateCenter(googleMaps::LatLng latlng)
 {
     m_mapCenter = latlng;
-    emit centerOnLocation(latlng);
+    qDebug() << "[googleMaps::Map] centerMapAt " << latlng.lat() << "  " << latlng.lng();
+    emit centerOnLocation(latlng.lat(), latlng.lng());
 }
 
 void googleMaps::Map::panToBound(googleMaps::LatLngBounds latLngBounds)
