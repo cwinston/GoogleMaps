@@ -38,17 +38,9 @@ var map;
                                     channel.objects.Geocoder.sendGeocoderRequest.connect(function(request)
                                     {
                                             geocodeStringAddress(request);
-                                            console.log("geocoder   "+arguments);
+                                            console.log("geocoder   "+request);
                                             console.log("geocoder   "+arguments.length);
                                             console.log("geocoder   "+arguments[0]);
-                                    });
-
-                                    channel.objects.Geocoder.test.connect(function(data)
-                                    {
-                                            console.log("test   "+data);
-                                            geocodeStringAddress(data);
-                                            console.log("test num args   "+arguments.length);
-                                            console.log("test 1st arg   "+arguments[0]);
                                     });
 
                                     console.log("transport   "+qt.webChannelTransport);
@@ -143,7 +135,7 @@ var map;
   function handleGeocodeResult(results, status) 
     {
             console.log("  results are back  "+ status+"  num results  "+ results.length)
-            if (status == google.maps.GeocoderStatus.OK)
+            if ((status == google.maps.GeocoderStatus.OK) || (status == google.maps.GeocoderStatus.ZERO_RESULTS))
             {
 
                     try {
@@ -159,6 +151,8 @@ var map;
                             // Call this so we get a map going
                             //initialize( results[0].geometry.location );
                     } catch (err) {
+                        console.log("  results are back  error caught ")
+                        window.geocoder.setRequestResults(results, status);
                             // Sink the error that was trying to call an AIR function
                     }
             }

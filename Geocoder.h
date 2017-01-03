@@ -62,10 +62,9 @@ namespace googleMaps
 
         signals:
             void geocodeResultReceived(QVariantList results, QString& status);
-            void sendGeocoderRequest(googleMaps::GeocoderRequest request);
+            void sendGeocoderRequest(QString msg);
             void requestChanged(googleMaps::GeocoderRequest request);
             void resultsChanged(googleMaps::GeocoderResult result);
-            void test(QString msg);
 
         public slots:
             Q_INVOKABLE void setRequestResults(QVariantList results, QString status);

@@ -16,13 +16,13 @@ googleMaps::Geocoder::Geocoder(QObject *parent) {
 void googleMaps::Geocoder::geocode(const googleMaps::GeocoderRequest aRequest)
 {
      qDebug() << "[GEOCODER] sending request " << aRequest.getAddress();
-    emit sendGeocoderRequest(aRequest);
-     emit test(aRequest.getAddress());
+    emit sendGeocoderRequest(aRequest.getAddress());
+    // emit test(aRequest);
 }
 
 void googleMaps::Geocoder::setRequestResults(QVariantList results, QString status)
 {
-   // qDebug() << "[GEOCODER] set results " << results << "  num results " << results.size();
+    qDebug() << "[GEOCODER] set results " << results << "  num results " << results.size();
     m_results = results;
     emit geocodeResultReceived(results, status);
 }
