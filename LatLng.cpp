@@ -8,10 +8,8 @@ googleMaps::LatLng::LatLng(QObject *parent):m_lat(0), m_lng(0)
     setParent(parent);
 }
 
-googleMaps::LatLng::LatLng(const qreal lat, const qreal lng, QObject* parent):m_lat(lat), m_lng(lng)
-{
-    setParent(parent);
-}
+googleMaps::LatLng::LatLng(const qreal lat, const qreal lng):m_lat(lat), m_lng(lng)
+{}
 
 //copy constructor
 googleMaps::LatLng::LatLng(const LatLng& rhs)
@@ -58,8 +56,9 @@ void googleMaps::LatLng::setLng(const qreal lng)
     emit lngChanged(lng);
 }
 
-QString googleMaps::LatLng::toString() {
-	throw "Not yet implemented";
+QString googleMaps::LatLng::toString() const
+{
+    return "Lat : "+QString::number(m_lat)+" Lng : "+QString::number(m_lng);
 }
 
 void  googleMaps::LatLng::deserialize(const QVariantMap& data)

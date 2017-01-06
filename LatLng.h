@@ -22,17 +22,16 @@ namespace googleMaps
             Q_PROPERTY(qreal lng READ lng WRITE setLng NOTIFY lngChanged)
             public:
                 explicit LatLng(QObject* parent = 0);
-                LatLng(qreal lat, qreal lng, QObject* parent = 0);
+                LatLng(qreal lat, qreal lng);
                 //copy constructor
                 LatLng(const LatLng& rhs);
                 //assignment operator
                 LatLng& operator=(const LatLng &rhs);
                 virtual ~LatLng();
-                qreal lat() const;
-                qreal lng() const;
+
                 void setLat(const qreal lat);
                 void setLng(const qreal lng);
-                QString toString();
+                QString toString() const;
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
 
@@ -42,6 +41,9 @@ namespace googleMaps
              signals:
                 void latChanged(qreal m_lat);
                 void lngChanged(qreal m_lng);
+             public slots:
+                qreal lat() const;
+                qreal lng() const;
 		};
 }
 
