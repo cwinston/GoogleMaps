@@ -20,6 +20,7 @@ googleMaps::LatLngBounds::LatLngBounds(const LatLngBounds& rhs)
     m_nwPoint = rhs.getNorthWest();
     m_swPoint = rhs.getSouthWest();
     m_nePoint = rhs.getNorthEast();
+    m_centerPoint = rhs.getCenter();
 }
 
 //assignment operator
@@ -32,6 +33,7 @@ googleMaps::LatLngBounds& googleMaps::LatLngBounds::operator=(const LatLngBounds
     m_nwPoint = rhs.getNorthWest();
     m_swPoint = rhs.getSouthWest();
     m_nePoint = rhs.getNorthEast();
+    m_centerPoint = rhs.getCenter();
     return *this;
 }
 
