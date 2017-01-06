@@ -1,4 +1,5 @@
 #include "googlemaps_plugin.h"
+#include <QQmlExtensionPlugin>
 #include <qqml.h>
 
 void GoogleMapsPlugin::registerTypes(const char *uri)
@@ -24,4 +25,75 @@ void GoogleMapsPlugin::registerTypes(const char *uri)
     qmlRegisterType<googleMaps::Size>(uri, 1, 0, "Size");
     qmlRegisterType<googleMaps::Point>(uri, 1, 0, "Point");
 }
+
+void GoogleMapsPlugin::computeArea(const QList<googleMaps::LatLng>& path)
+{
+
+}
+
+void GoogleMapsPlugin::computeDistanceBetween(const googleMaps::LatLng& from, const googleMaps::LatLng& to)
+{
+
+}
+
+void GoogleMapsPlugin::computeHeading(const googleMaps::LatLng& from, const googleMaps::LatLng& to)
+{
+
+}
+
+void GoogleMapsPlugin::computeLength(const QList<googleMaps::LatLng>& path)
+{
+
+}
+
+void GoogleMapsPlugin::computeOffset(const googleMaps::LatLng& from, const qreal& distance, const qreal& heading)
+{
+
+}
+
+void GoogleMapsPlugin::computeOffsetOrigin(const googleMaps::LatLng& to, const qreal& distance, const qreal& heading)
+{
+
+}
+
+void GoogleMapsPlugin::interpolate(googleMaps::LatLng& from, googleMaps::LatLng& to, qreal& fraction)
+{
+
+}
+
+void GoogleMapsPlugin::centerMapAt(googleMaps::LatLng newCenter)
+{
+
+}
+
+void GoogleMapsPlugin::getMaxZoomAtLatLng(googleMaps::LatLng latLng)
+{
+
+}
+
+void GoogleMapsPlugin::geocodeName(QString location)
+{
+
+}
+
+void GoogleMapsPlugin::geocodeLatLng(googleMaps::LatLng latLng)
+{
+
+}
+
+void GoogleMapsPlugin::getElevationAlongPath(googleMaps::PathElevationRequest request)
+{
+
+}
+
+void GoogleMapsPlugin::getElevationForLocations(googleMaps::LocationElevationRequest request)
+{
+
+}
+
+void GoogleMapsPlugin::messageReceived(const QJsonObject& message)
+{
+
+}
+
 

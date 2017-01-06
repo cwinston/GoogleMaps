@@ -1,6 +1,6 @@
 TEMPLATE = lib
 QT += qml quick webchannel webengine webenginewidgets
-CONFIG += qt plugin c++11 debug
+CONFIG += qt plugin c++11 static debug
 
 TARGET = GoogleMapsPlugin
 uri = GoogleMaps

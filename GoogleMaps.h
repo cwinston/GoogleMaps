@@ -10,6 +10,7 @@
 #define GOOGLEMAPS_H
 
 #include <QObject>
+#include <QQmlExtensionPlugin>
 #include <QWebChannelAbstractTransport>
 #include <QWebChannel>
 #include "GeocoderRequest.h"
@@ -35,6 +36,28 @@ namespace googleMaps
 
 namespace googleMaps
 {
+
+    struct MapsInterface : public QQmlExtensionPlugin
+    {
+        virtual void computeArea(const QList<googleMaps::LatLng>& path) = 0;
+        virtual void computeDistanceBetween(const googleMaps::LatLng& from, const googleMaps::LatLng& to) = 0;
+        virtual void computeHeading(const googleMaps::LatLng& from, const googleMaps::LatLng& to) = 0;
+        virtual void computeLength(const QList<googleMaps::LatLng>& path) = 0;
+        virtual void computeOffset(const googleMaps::LatLng& from, const qreal& distance, const qreal& heading) = 0;
+        virtual void computeOffsetOrigin(const googleMaps::LatLng& to, const qreal& distance, const qreal& heading) = 0;
+        virtual void interpolate(googleMaps::LatLng& from, googleMaps::LatLng& to, qreal& fraction) = 0;
+        virtual void centerMapAt(googleMaps::LatLng newCenter) = 0;
+        virtual void getMaxZoomAtLatLng(googleMaps::LatLng latLng) = 0;
+        virtual void geocodeName(QString location) = 0;
+        virtual void geocodeLatLng(googleMaps::LatLng latLng) = 0;
+        virtual void getElevationAlongPath(googleMaps::PathElevationRequest request) = 0;
+        virtual void getElevationForLocations(googleMaps::LocationElevationRequest request) = 0;
+        virtual void messageReceived(const QJsonObject& message) = 0;
+      //  virtual void handleGeocoderResults(QVariantList results, QString &status) = 0;
+      //  virtual void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status) = 0;
+      //  virtual void handleElevationResults(QList<googleMaps::ElevationResult> results, int status) = 0;
+    };
+
     class GoogleMaps : public QObject
     {
         Q_OBJECT
@@ -140,4 +163,5 @@ namespace googleMaps
 
     };
 }
+Q_DECLARE_INTERFACE(googleMaps::MapsInterface, "googleMaps.MapsInterface")
 #endif // GOOGLEMAPS_H
