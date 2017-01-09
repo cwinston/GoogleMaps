@@ -11,10 +11,19 @@ using namespace std;
 namespace googleMaps
 {
     class LatLng;
+    enum ECardinalPoints;
 }
 
 namespace googleMaps
 {
+        enum ECardinalPoints
+        {
+            DIR_NORTH = 0,
+            DIR_EAST = 90,
+            DIR_SOUTH = 180,
+            DIR_WEST = 270
+        };
+
         class LatLng : public QObject
 		{
             Q_OBJECT
@@ -31,6 +40,8 @@ namespace googleMaps
 
                 void setLat(const qreal lat);
                 void setLng(const qreal lng);
+                Q_INVOKABLE qreal lat() const;
+                Q_INVOKABLE qreal lng() const;
                 QString toString() const;
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
@@ -42,8 +53,6 @@ namespace googleMaps
                 void latChanged(qreal m_lat);
                 void lngChanged(qreal m_lng);
              public slots:
-                qreal lat() const;
-                qreal lng() const;
 		};
 }
 

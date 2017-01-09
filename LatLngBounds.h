@@ -24,11 +24,11 @@ namespace googleMaps
         class LatLngBounds : public QObject
 		{
             Q_OBJECT
-            Q_PROPERTY(LatLng nwPoint READ getNorthWest WRITE setNWPoint NOTIFY nwPointChanged)
-            Q_PROPERTY(LatLng sePoint READ getSouthEast WRITE setSEPoint NOTIFY sePointChanged)
-            Q_PROPERTY(LatLng nePoint READ getNorthEast WRITE setNEPoint NOTIFY nePointChanged)
-            Q_PROPERTY(LatLng swPoint READ getSouthWest WRITE setSWPoint NOTIFY swPointChanged)
-            Q_PROPERTY(LatLng centerPoint READ getCenter WRITE setCenter NOTIFY centerChanged)
+            Q_PROPERTY(googleMaps::LatLng nwPoint READ getNorthWest WRITE setNWPoint NOTIFY nwPointChanged)
+            Q_PROPERTY(googleMaps::LatLng sePoint READ getSouthEast WRITE setSEPoint NOTIFY sePointChanged)
+            Q_PROPERTY(googleMaps::LatLng nePoint READ getNorthEast WRITE setNEPoint NOTIFY nePointChanged)
+            Q_PROPERTY(googleMaps::LatLng swPoint READ getSouthWest WRITE setSWPoint NOTIFY swPointChanged)
+            Q_PROPERTY(googleMaps::LatLng centerPoint READ getCenter WRITE setCenter NOTIFY centerChanged)
 
             protected:
                 googleMaps::LatLng m_nwPoint;

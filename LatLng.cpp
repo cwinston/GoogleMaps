@@ -3,7 +3,7 @@ using namespace std;
 #include <QDebug>
 #include "LatLng.h"
 
-googleMaps::LatLng::LatLng(QObject *parent):m_lat(0), m_lng(0)
+googleMaps::LatLng::LatLng(QObject *parent):m_lat(-1), m_lng(-1)
 {
     setParent(parent);
 }

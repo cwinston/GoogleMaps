@@ -11,11 +11,11 @@ namespace googleMaps
 {
 	class LatLng;
 	class SphericalGeometry;
-   // class AbstractGoogleMapsService;
 }
 
 namespace googleMaps
 {
+
     class SphericalGeometry : public QObject
 	{
         Q_OBJECT
