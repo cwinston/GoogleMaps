@@ -10,12 +10,16 @@ using namespace std;
 #include "LatLng.h"
 #include <QDebug>
 
-googleMaps::Geocoder::Geocoder(QObject *parent) {
+googleMaps::Geocoder::Geocoder(QObject *parent)
+{
+     qDebug() << "[GEOCODER]";
+     setParent(parent);
 }
 
 void googleMaps::Geocoder::geocode(const googleMaps::GeocoderRequest aRequest)
 {
      qDebug() << "[GEOCODER] sending request " << aRequest.getAddress();
+     m_lastRequest = aRequest;
     emit sendGeocoderRequest(aRequest.getAddress());
     // emit test(aRequest);
 }

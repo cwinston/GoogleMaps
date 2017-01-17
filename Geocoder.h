@@ -22,7 +22,6 @@ namespace googleMaps
      enum GeocoderStatus;
     class LatLng;
     class Geocoder;
-    //class AbstractGoogleMapsService;
 }
 
 namespace googleMaps
