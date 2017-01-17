@@ -20,17 +20,22 @@
 #include "SphericalGeometry.h"
 #include "MaxZoomService.h"
 #include "Geocoder.h"
-#include "SphericalGeometry.h"
-#include "MaxZoomService.h"
-#include "ElevationService.h"
 #include "LatLng.h"
 #include "GeocoderResult.h"
-#include "ElevationResult.h"
+#include "ElevationService.h"
 #include "Map.h"
 
 namespace googleMaps
 {
     class GoogleMaps;
+    class Geocoder;
+    class LatLng;
+    class Map;
+    class SphericalGeometry;
+    class ElevationService;
+    class MaxZoomService;
+    class PathElevationRequest;
+    class LocationElevationRequest;
 }
 
 
@@ -129,12 +134,12 @@ namespace googleMaps
             /// Return Value:  LatLng
             /// Returns the LatLng resulting from moving a distance from an origin in the specified heading (expressed in degrees clockwise from north).
             /// </summary>
-            void computeOffset(const googleMaps::LatLng& from, const qreal& distance, const qreal& heading);
+            void computeOffset(const googleMaps::LatLng from, const qreal distance, const qreal heading);
 
             /// <summary>
             /// Returns the location of origin when provided with a LatLng destination, meters travelled and original heading. Headings are expressed in degrees clockwise from North. This function returns null when no solution is available.
             /// </summary>
-            void computeOffsetOrigin(const googleMaps::LatLng& to, const qreal& distance, const qreal& heading);
+            void computeOffsetOrigin(const googleMaps::LatLng to, const qreal distance, const qreal heading);
 
             /// <summary>
             /// Returns the LatLng which lies the given fraction of the way between the origin LatLng and the destination LatLng.

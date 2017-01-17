@@ -1,6 +1,6 @@
 TEMPLATE = lib
 QT += qml quick webchannel webengine webenginewidgets
-CONFIG += qt plugin c++11 static debug
+CONFIG += qt plugin c++11 debug static
 
 TARGET = GoogleMapsPlugin
 uri = GoogleMaps
@@ -74,7 +74,7 @@ DESTDIR = ../../plugins/googleMaps
 qml.files = *.qml
 qml.path = $$DESTDIR
 target.path = /googleMaps
-pluginfiles.path += $$[QT_INSTALL_QML]/qml/qmlextensionplugins/imports/TimeExample
+pluginfiles.path += $$[QT_INSTALL_QML]/qml/qmlextensionplugins/imports/GoogleMaps
 
 OTHER_FILES += qmldir
 
