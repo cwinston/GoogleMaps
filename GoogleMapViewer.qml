@@ -18,7 +18,7 @@ Item
         id:webview
         width: parent.width
         height: parent.height
-        url: "maptest.html?key="+mapsKey
+        url: "maptest.html"
 
          onLoadingChanged: {
              console.log("  loading changed  isloading  "+loading);
@@ -42,12 +42,8 @@ Item
 
          Component.onCompleted:
          {
-             webview.loadHtml("https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+mapsKey)
              webview.url = "maptest.html?key="+mapsKey;
-             //webview.url = "https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+mapsKey;
-             console.log("map key "+mapsKey);
              mapController.setMapsKey(mapsKey);
-
          }
     }
 
@@ -69,7 +65,6 @@ Item
 
     function geocodeName(locationName)
     {
-        console.log("[GoogleMapsViewer]  computeOffset ")
         mapController.geocodeName(locationName);
 
     }
