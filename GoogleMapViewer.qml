@@ -11,13 +11,14 @@ Item
     signal distanceResultsReceived(real distance);
     signal positionResultsReceived(LatLng position);
     property bool isMapReady: false;
+    property string mapsKey: "";
 
     WebEngineView
     {
         id:webview
         width: parent.width
         height: parent.height
-        url: "maptest.html"
+        url: "maptest.html?key="+mapsKey
 
          onLoadingChanged: {
              console.log("  loading changed  isloading  "+loading);
@@ -37,6 +38,16 @@ Item
                  isMapReady = true;
                  mapReady();
              }
+         }
+
+         Component.onCompleted:
+         {
+             webview.loadHtml("https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+mapsKey)
+             webview.url = "maptest.html?key="+mapsKey;
+             //webview.url = "https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+mapsKey;
+             console.log("map key "+mapsKey);
+             mapController.setMapsKey(mapsKey);
+
          }
     }
 
@@ -58,6 +69,7 @@ Item
 
     function geocodeName(locationName)
     {
+        console.log("[GoogleMapsViewer]  computeOffset ")
         mapController.geocodeName(locationName);
 
     }
@@ -85,6 +97,22 @@ Item
     function computeHeading(from, to)
     {
         mapController.computeHeading(from, to)
+    }
+
+    function computeOffset(from, distance, heading)
+    {
+        console.log("[GoogleMapsViewer]  computeOffset ")
+        mapController.computeOffset(from, distance, heading);
+    }
+
+    function computeOffsetOrigin(to, distance, heading)
+    {
+        mapController.computeOffsetOrigin(to, distance, heading);
+    }
+
+    function interpolate(from, to, fraction)
+    {
+        mapController.interpolate(from, to, fraction);
     }
 
     function centerMapAt(location)
