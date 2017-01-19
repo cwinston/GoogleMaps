@@ -1,10 +1,12 @@
 #include "GoogleMaps.h"
 #include <QDebug>
 
+
 googleMaps::GoogleMaps::GoogleMaps(QObject *parent):
     QObject(parent)
 {
     m_transportReady = false;
+    m_mapsKey = "";
 }
 
 googleMaps::GoogleMaps::~GoogleMaps()
@@ -23,20 +25,41 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     m_transportReady = true;
     m_geoCoder = new googleMaps::Geocoder(this);
     m_sphericalGeometryService = new googleMaps::SphericalGeometry(this);
-    m_elevationService = new googleMaps::ElevationService(this);
-    m_maxZoomService = new googleMaps::MaxZoomService(this);
+ //   m_elevationService = new googleMaps::ElevationService(this);
+ //   m_maxZoomService = new googleMaps::MaxZoomService(this);
     m_map = new googleMaps::Map(this);
     m_channel->registerObject(QStringLiteral("Geocoder"), m_geoCoder);
-    m_channel->registerObject(QStringLiteral("ElevationService"), m_elevationService);
+ //   m_channel->registerObject(QStringLiteral("ElevationService"), m_elevationService);
     m_channel->registerObject(QStringLiteral("SphericalGeometry"), m_sphericalGeometryService);
-    m_channel->registerObject(QStringLiteral("MaxZoom"), m_maxZoomService);
+ //   m_channel->registerObject(QStringLiteral("MaxZoom"), m_maxZoomService);
     m_channel->registerObject(QStringLiteral("Map"), m_map);
+    if (m_mapsKey != "")
+    {
+        m_map->setMapsKey(m_mapsKey);
+    }
+    m_startupTimer = new QTimer(this);
+    m_startupTimer->setSingleShot(true);
+    m_startupTimer->setInterval(1800);
+    connect(m_startupTimer, SIGNAL(timeout()), this, SLOT(handleStartupTimeout()));
+    m_startupTimer->start();
     emit transportReady();
+}
+
+void googleMaps::GoogleMaps::setMapsKey(const QString key)
+{
+    qDebug() << "[GoogleMaps] key set " << key;
+    m_mapsKey = key;
 }
 
 bool googleMaps::GoogleMaps::isConnected()
 {
    return m_transportReady;
+}
+
+void googleMaps::GoogleMaps::handleStartupTimeout()
+{
+    qDebug() << "[GoogleMaps] start map " ;
+    m_map->startMap();
 }
 
 void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
@@ -73,14 +96,15 @@ void googleMaps::GoogleMaps::computeLength(const QList<googleMaps::LatLng>& path
     connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
 }
 
-void googleMaps::GoogleMaps::computeOffset(const googleMaps::LatLng& from, const qreal& distance, const qreal& heading)
+void googleMaps::GoogleMaps::computeOffset(const LatLng from, const qreal distance, const qreal heading)
 {
-    qDebug() << "[GoogleMaps] handleGeocoderResults " ;
+    qDebug() << "[GoogleMaps] computeOffset " ;
+    //connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
     m_sphericalGeometryService->computeOffset(from, distance, heading);
-    connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
+
 }
 
-void googleMaps::GoogleMaps::computeOffsetOrigin(const googleMaps::LatLng& to, const qreal& distance, const qreal& heading)
+void googleMaps::GoogleMaps::computeOffsetOrigin(const googleMaps::LatLng to, const qreal distance, const qreal heading)
 {
     qDebug() << "[GoogleMaps] computeOffsetOrigin " ;
     m_sphericalGeometryService->computeOffsetOrigin(to, distance, heading);
@@ -131,7 +155,7 @@ void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
 
 void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString& status)
 {
-    qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
+//    qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
     emit geoLocationsReceived();
 }
 

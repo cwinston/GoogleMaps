@@ -13,6 +13,7 @@
 #include <QQmlExtensionPlugin>
 #include <QWebChannelAbstractTransport>
 #include <QWebChannel>
+#include <QTimer>
 #include "GeocoderRequest.h"
 #include "GeocoderComponentRestrictions.h"
 #include "GeocoderAddressComponent.h"
@@ -69,6 +70,7 @@ namespace googleMaps
         Q_PROPERTY(QWebChannel* channel READ getChannel WRITE setChannel NOTIFY transportReady)
         Q_PROPERTY(bool connectionMade READ isConnected NOTIFY transportReady)
         Q_PROPERTY(QVariantList geocoderResults READ getGeoCoderResults NOTIFY geoLocationsReceived)
+        Q_PROPERTY(QString mapsKey WRITE setMapsKey)
 
     public:
         explicit GoogleMaps(QObject *parent = 0);
@@ -85,8 +87,10 @@ namespace googleMaps
         googleMaps::MaxZoomService* m_maxZoomService;
         googleMaps::ElevationService* m_elevationService;
         googleMaps::Map* m_map;
+        QTimer* m_startupTimer;
         QWebChannel* m_channel;
         bool m_transportReady;
+        QString m_mapsKey;
 
 
 
@@ -155,6 +159,7 @@ namespace googleMaps
             void handleGeocoderResults(QVariantList results, QString &status);
             void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
+            void setMapsKey(const QString key);
 
 
         private slots:
@@ -164,6 +169,7 @@ namespace googleMaps
             void handleMaxZoomReceived(qreal zoomLevel);
             void handleDistanceResults(qreal distance);
             void handlePositionResults(googleMaps::LatLng position);
+            void handleStartupTimeout();
 
 
     };
