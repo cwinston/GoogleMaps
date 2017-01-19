@@ -83,7 +83,6 @@ namespace googleMaps
             QMap<QString, googleMaps::MapType*> registry;
         public:
             explicit MapTypeRegistry(QObject* parent = 0) {setParent(parent);}
-
             void set(QString id, MapType* mapType) {registry[id] = mapType;}
             QMap<QString, googleMaps::MapType*> get() const {return registry;}
             MapTypeRegistry(const googleMaps::MapTypeRegistry& rhs)
@@ -93,6 +92,19 @@ namespace googleMaps
                     MapType*  type = rhs.get().value(key);
                     registry.insert(key, type);
                 }
+            }
+            googleMaps::MapTypeRegistry& googleMaps::MapTypeRegistry::operator =(const googleMaps::MapTypeRegistry& rhs)
+            {
+                if(this == &rhs)
+                {
+                    return *this;
+                }
+                for (auto key : rhs.get().keys())
+                {
+                    MapType*  type = rhs.get().value(key);
+                    registry.insert(key, type);
+                }
+                return *this;
             }
 
     };
@@ -104,6 +116,8 @@ namespace googleMaps
         Q_PROPERTY(googleMaps::LatLngBounds bounds READ getBounds NOTIFY boundsChanged WRITE updateBounds)
         Q_PROPERTY(googleMaps::LatLng center READ getCenter NOTIFY centerChanged WRITE updateCenter)
         Q_PROPERTY(int zoom READ getZoom WRITE updateZoom NOTIFY zoom_changed)
+        Q_PROPERTY(QString mapsKey READ getMapsKey NOTIFY mapsKeySet)
+
         protected:
             googleMaps::MapTypeRegistry m_mapTypes;
             googleMaps::LatLngBounds m_bounds;
@@ -112,33 +126,39 @@ namespace googleMaps
             googleMaps::EMapTypeID m_mapTypeID;
             int m_tilt;
             int m_zoom;
+            QString m_mapsKey;
 
         public:
             explicit Map( QObject* parent = 0);
-            Map(googleMaps::MapOptions options);
+            Map(const MapOptions options);
             Map(const googleMaps::Map &rhs);
+            //assignment operator
+            googleMaps::Map& operator=(const googleMaps::Map &rhs);
             virtual ~Map();
             void fitBounds(googleMaps::LatLngBounds bounds);
             googleMaps::LatLngBounds getBounds() const;
             googleMaps::LatLng getCenter() const;
             googleMaps::MapOptions getOptions() const;
             googleMaps::EMapTypeID getMapTypeId() const;
-            googleMaps::MapTypeRegistry& getMapTypes();
+            googleMaps::MapTypeRegistry getMapTypes() const;
             int getZoom() const;
             int getTilt() const;
             void panMapTo(googleMaps::LatLng latLng);
+            void setMapsKey(const QString key);
+            void setOptions(const googleMaps::MapOptions options);
+            QString getMapsKey() const;
 
             
         public slots:
             void updateMapTypeId(googleMaps::EMapTypeID mapTypeId);
             void updateZoom(int zoom);
             void updateOptions(googleMaps::MapOptions options);
-            void updateTilt(int tilt);\
-
+            void updateTilt(int tilt);
             void updateBounds(LatLngBounds latLngBounds);
             void updateCenter(LatLng latlng);
             void panToBound(googleMaps::LatLngBounds latLngBounds);
             void updateMapTypes(googleMaps::MapTypeRegistry mapTypes);
+            void startMap();
 
         signals:
             void boundsChanged();
@@ -152,6 +172,9 @@ namespace googleMaps
             void resize();
             void zoom_changed();
             void centerOnLocation(qreal lat, qreal lng);
+            void mapsKeySet();
+            void optionsChanged();
+            void startMapView();
 
 	};
 }

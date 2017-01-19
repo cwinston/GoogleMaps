@@ -13,6 +13,7 @@ using namespace std;
 googleMaps::Map::Map(QObject *parent)
 {
     setParent(parent);
+    m_mapsKey = "";
 }
 
 googleMaps::Map::~Map()
@@ -20,11 +21,66 @@ googleMaps::Map::~Map()
 
 }
 
-googleMaps::Map::Map(googleMaps::MapOptions options) {
+googleMaps::Map::Map(const googleMaps::MapOptions options)
+{
+   setOptions(options);
+}
+
+void googleMaps::Map::setOptions(const googleMaps::MapOptions options)
+{
+    m_options = options;
+    emit optionsChanged();
 }
 
 googleMaps::Map::Map(const googleMaps::Map &rhs)
 {
+    m_mapTypes = rhs.getMapTypes();
+    m_bounds = rhs.getBounds();
+    m_options = rhs.getOptions();
+    m_mapCenter = rhs.getCenter();
+    m_mapTypeID = rhs.getMapTypeId();
+    m_tilt = rhs.getTilt();
+    m_zoom = rhs.getZoom();
+    m_mapsKey = rhs.getMapsKey();
+}
+
+googleMaps::Map& googleMaps::Map::operator=(const googleMaps::Map &rhs)
+{
+    if(this == &rhs)
+    {
+        return *this;
+    }
+    m_mapTypes = rhs.getMapTypes();
+    m_bounds = rhs.getBounds();
+    m_options = rhs.getOptions();
+    m_mapCenter = rhs.getCenter();
+    m_mapTypeID = rhs.getMapTypeId();
+    m_tilt = rhs.getTilt();
+    m_zoom = rhs.getZoom();
+    m_mapsKey = rhs.getMapsKey();
+    return *this;
+}
+
+void googleMaps::Map::setMapsKey(const QString key)
+{
+    qDebug() <<  "[Map] setMapsKey  "  << key;
+    m_mapsKey = key;
+}
+
+QString googleMaps::Map::getMapsKey() const
+{
+    return m_mapsKey;
+}
+
+void googleMaps::Map::startMap()
+{
+     qDebug() <<  "[Map] startMapView  ";
+    emit startMapView();
+}
+
+googleMaps::MapOptions googleMaps::Map::getOptions() const
+{
+    return m_options;
 }
 
 void googleMaps::Map::updateBounds(googleMaps::LatLngBounds latLngBounds)
@@ -109,7 +165,7 @@ void googleMaps::Map::updateMapTypes(googleMaps::MapTypeRegistry mapTypes)
     }
 }
 
-googleMaps::MapTypeRegistry& googleMaps::Map::getMapTypes()
+googleMaps::MapTypeRegistry googleMaps::Map::getMapTypes() const
 {
     return this->m_mapTypes;
 }
