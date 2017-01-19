@@ -16,10 +16,25 @@ namespace googleMaps
 
 		class LatLng;
 		class LatLngBounds;
+        enum ECardinalPositions;
 }
 
 namespace googleMaps
 {
+
+        enum ECardinalPositions
+        {
+            POS_NORTH = 0,
+            POS_NORTH_EAST,
+            POS_EAST,
+            POS_SOUTH_EAST,
+            POS_SOUTH,
+            POS_SOUTH_WEST,
+            POS_WEST,
+            POS_NORTH_WEST,
+            POS_CENTER
+
+        };
 
         class LatLngBounds : public QObject
 		{
