@@ -11,12 +11,10 @@
         height: 100%;
       }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCDbu78y8JGWwQvJyW3ISJZg0Pe42tFaek&library=geometry"></script>
     <script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
     <script type="text/javascript" >
 
-google.maps.visualRefresh = true;
-var map;
+
   var geoCoder = null;
   var placesService;
   var channel;
@@ -33,6 +31,30 @@ var map;
                                     console.log("transport   "+qt.webChannelTransport);
 
 
+                            if (channel.objects.Map != null)
+                            {
+                                window.map = channel.objects.Map;
+                               // channel.objects.Map.updateZoom(window.googleMap.zoom);
+                                console.log("Map   "+window.map.mapsKey);
+                              //  console.log("real map "+window.googleMap.zoom);
+                                channel.objects.Map.centerOnLocation.connect(function(lat, lng)
+                                {
+                                        console.log("centerOnLocation   "+lat+" , "+lng);
+                                        centerOnLocation(lat, lng);
+                                        console.log("centerOnLocation   "+channel.objects.Map.zoom);
+                                        console.log("test 1st arg   "+arguments[0]);
+                                });
+                                channel.objects.Map.startMapView.connect(function()
+                                {
+                                        console.log("start map  ");
+                                        startMap();
+                                });
+                                if (window.map.mapsKey !== "")
+                                {
+                                    loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+window.map.mapsKey);
+                                }
+
+                            }
                             if (channel.objects.Geocoder != null)
                             {
                                     channel.objects.Geocoder.sendGeocoderRequest.connect(function(request)
@@ -56,22 +78,15 @@ var map;
                             {
                                 window.sphericalGeometry = channel.objects.SphericalGeometry;
                                 console.log("SphericalGeometry   "+window.sphericalGeometry);
-                            }
-                            if (channel.objects.Map != null)
-                            {
-                                window.map = channel.objects.Map;
-                                channel.objects.Map.updateZoom(window.googleMap.zoom);
-                                console.log("Map   "+window.map);
-                                console.log("real map "+window.googleMap.zoom);
-                                channel.objects.Map.centerOnLocation.connect(function(lat, lng)
+                                channel.objects.SphericalGeometry.computeOffsetRequest.connect(function(fromLat, fromLng, distance, heading)
                                 {
-                                        console.log("centerOnLocation   "+lat+" , "+lng);
-                                        centerOnLocation(lat, lng);
-                                        console.log("centerOnLocation   "+channel.objects.Map.zoom);
-                                        console.log("test 1st arg   "+arguments[0]);
+                                        computeOffset(fromLat, fromLng, distance, heading);
+                                        //geocodeStringAddress(request);
+                             //           console.log("SphericalGeometry   "+request);
                                 });
 
                             }
+
                             if (channel.objects.MaxZoom != null)
                             {
                                 window.maxZoom = channel.objects.MaxZoom;
@@ -87,21 +102,7 @@ var map;
                     });
                 }
                 console.log("initialize   "+channel);
-            var mapOptions =
-            {
-                    zoom: 8,
-                    scaleControl: true,
-                    scaleControlOptions:
-                    {
-                        position: google.maps.ControlPosition.BOTTOM_CENTER
-                    },
-                    center: new google.maps.LatLng(30.267, -97),
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-             };
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-          window.googleMap = map;
-            google.maps.event.addListener(map, 'click', placeMarker);
-            google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
+
     }
 	
 	function handleTransportMessage(message)
@@ -116,9 +117,10 @@ var map;
     {
 
         console.log("initialize doc loader  "+window.geocoder);
+        initialize();
     });
 
-    google.maps.event.addDomListener(window, 'load', initialize);
+    document.addEventListener(window, 'load', initialize);
   
   <!-- Can call this from AIR using the DOM for geocoding stuff..weeeeee -->
   function geocodeStringAddress(_stringAddress)
@@ -192,6 +194,14 @@ var map;
 	{
   
 	}
+
+        function computeOffset(fromLat, fromLng, distance, heading)
+        {
+            console.log("New position  "+newPos);
+            var start = new google.maps.LatLng(fromLat, fromLng);
+            var newPos = google.maps.geometry.spherical.computeOffset(start, distance, heading);
+            console.log("New position  lat: "+newPos.lat()+"  lng:  "+newPos.lng());
+        }
   
 	function placeMarker(event)
 	{
@@ -213,10 +223,31 @@ var map;
   
 	}
   
-    function unlockBounds()
+        function unlockBounds()
 	{
   
 	}
+
+        function startMap()
+        {
+            console.log("starting map  "+google.maps);
+            google.maps.visualRefresh = true;
+            var map;
+            var mapOptions =
+            {
+                    zoom: 8,
+                    scaleControl: true,
+                    scaleControlOptions:
+                    {
+                        position: google.maps.ControlPosition.BOTTOM_CENTER
+                    },
+                    center: new google.maps.LatLng(30.267, -97),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+             };
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            google.maps.event.addListener(map, 'click', placeMarker);
+            google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
+        }
 	
 	function loadjsfile(filename)
 	{
@@ -224,11 +255,14 @@ var map;
 		//load an external JavaScript file
 		var fileref=document.createElement('script')
 		fileref.setAttribute("type","text/javascript")
-		fileref.setAttribute("src", filename)	
-		if (typeof fileref!="undefined")
+                fileref.setAttribute("src", filename);
+              //  fileref.onload = startMap();
+                if (typeof fileref!=="undefined")
 		{
+                console.log("loading "+fileref);
 			document.getElementsByTagName("head")[0].appendChild(fileref)
 		}
+                console.log("Loaded  "+document.scripts.length);
 	}
     </script>
   </head>
