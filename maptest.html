@@ -51,7 +51,7 @@
                                 });
                                 if (window.map.mapsKey !== "")
                                 {
-                                    loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&library=geometry&key="+window.map.mapsKey);
+                                    loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&key="+window.map.mapsKey);
                                 }
 
                             }
@@ -173,7 +173,7 @@
 	{
             console.log(" window.google  "+window.google.maps.LatLng);
             console.log("window.google.map "+window.googleMap);
-            console.log("window.google.map "+window.googleMap.LatLng);
+           // console.log("window.google.map "+window.googleMap.LatLng);
             position = new window.google.maps.LatLng(lat, lng);
             console.log("center on map position "+position.lat());
             window.googleMap.setCenter(position);
@@ -245,6 +245,7 @@
                     mapTypeId: google.maps.MapTypeId.ROADMAP
              };
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            window.googleMap = map;
             google.maps.event.addListener(map, 'click', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
         }
@@ -256,7 +257,6 @@
 		var fileref=document.createElement('script')
 		fileref.setAttribute("type","text/javascript")
                 fileref.setAttribute("src", filename);
-              //  fileref.onload = startMap();
                 if (typeof fileref!=="undefined")
 		{
                 console.log("loading "+fileref);
