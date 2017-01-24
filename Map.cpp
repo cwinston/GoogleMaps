@@ -112,11 +112,18 @@ int googleMaps::Map::getZoom() const
     return m_zoom;
 }
 
-void googleMaps::Map::updateCenter(googleMaps::LatLng latlng)
+void googleMaps::Map::updateCenter(QVariant latlng)
 {
-    m_mapCenter = latlng;
-    qDebug() << "[googleMaps::Map] centerMapAt " << latlng.lat() << "  " << latlng.lng();
-    emit centerOnLocation(latlng.lat(), latlng.lng());
+    m_mapCenter.deserialize(latlng);
+    qDebug() << "[googleMaps::Map] centerMapAt " << m_mapCenter.lat() << "  " << m_mapCenter.lng();
+    emit centerChanged(m_mapCenter);
+}
+
+void googleMaps::Map::centerMapAt(googleMaps::LatLng latLng)
+{
+    m_mapCenter = latLng;
+    qDebug() << "[googleMaps::Map] centerMapAt " << m_mapCenter.lat() << "  " << m_mapCenter.lng();
+    emit centerOnLocation(m_mapCenter.lat(), m_mapCenter.lng());
 }
 
 void googleMaps::Map::panToBound(googleMaps::LatLngBounds latLngBounds)
@@ -129,10 +136,10 @@ void googleMaps::Map::updateMapTypeId(googleMaps::EMapTypeID mapTypeId)
     m_mapTypeID = mapTypeId;
 }
 
-void googleMaps::Map::updateZoom(int zoom)
+void googleMaps::Map::updateZoom(QVariant zoom)
 {
     qDebug() <<  "[Map] update zoom  "  << zoom;
-    m_zoom = zoom;
+    m_zoom = zoom.toDouble();
 }
 
 void googleMaps::Map::updateOptions(googleMaps::MapOptions options)

@@ -6,6 +6,7 @@ using namespace std;
 
 //#include "MapTypeRegistry.h"
 #include <QMap>
+#include <QVariant>
 #include "MapOptions.h"
 #include "LatLngBounds.h"
 #include "LatLng.h"
@@ -114,7 +115,7 @@ namespace googleMaps
 	{
         Q_OBJECT
         Q_PROPERTY(googleMaps::LatLngBounds bounds READ getBounds NOTIFY boundsChanged WRITE updateBounds)
-        Q_PROPERTY(googleMaps::LatLng center READ getCenter NOTIFY centerChanged WRITE updateCenter)
+        Q_PROPERTY(googleMaps::LatLng center READ getCenter NOTIFY centerChanged WRITE centerMapAt)
         Q_PROPERTY(int zoom READ getZoom WRITE updateZoom NOTIFY zoom_changed)
         Q_PROPERTY(QString mapsKey READ getMapsKey NOTIFY mapsKeySet)
 
@@ -151,18 +152,19 @@ namespace googleMaps
             
         public slots:
             void updateMapTypeId(googleMaps::EMapTypeID mapTypeId);
-            void updateZoom(int zoom);
+            void updateZoom(QVariant zoom);
             void updateOptions(googleMaps::MapOptions options);
             void updateTilt(int tilt);
             void updateBounds(LatLngBounds latLngBounds);
-            void updateCenter(LatLng latlng);
+            void updateCenter(QVariant latlng);
+            void centerMapAt(googleMaps::LatLng latLng);
             void panToBound(googleMaps::LatLngBounds latLngBounds);
             void updateMapTypes(googleMaps::MapTypeRegistry mapTypes);
             void startMap();
 
         signals:
-            void boundsChanged();
-            void centerChanged();
+            void boundsChanged(googleMaps::LatLngBounds latLngBounds);
+            void centerChanged(googleMaps::LatLng position);
             void click(LatLng mapLocation);
             void dblclick(LatLng mapLocation);
             void drag();
@@ -170,7 +172,7 @@ namespace googleMaps
             void dragstart();
             void maptypeid_changed();
             void resize();
-            void zoom_changed();
+            void zoom_changed(qreal zoomLevel);
             void centerOnLocation(qreal lat, qreal lng);
             void mapsKeySet();
             void optionsChanged();
