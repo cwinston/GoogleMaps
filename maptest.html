@@ -201,6 +201,7 @@
             var start = new google.maps.LatLng(fromLat, fromLng);
             var newPos = google.maps.geometry.spherical.computeOffset(start, distance, heading);
             console.log("New position  lat: "+newPos.lat()+"  lng:  "+newPos.lng());
+            channel.objects.SphericalGeometry.setPositionResult(newPos);
         }
   
 	function placeMarker(event)
@@ -210,13 +211,20 @@
   
 	function handleZoomChange(event)
 	{
-	  
+            console.log("map zoom changed  "+window.googleMap.zoom);
+            channel.objects.Map.updateZoom(window.googleMap.zoom);
 	}
 	  
 	function handleMarkerClicked(event)
 	{
 	  
 	}
+
+        function handleMapCenterChange(event)
+        {
+            console.log("map center changed  "+window.googleMap.center);
+            channel.objects.Map.updateCenter(window.googleMap.center);
+        }
   
 	function lockBounds()
 	{
@@ -248,6 +256,7 @@
             window.googleMap = map;
             google.maps.event.addListener(map, 'click', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
+            google.maps.event.addListener(map, 'center_changed', handleMapCenterChange);
         }
 	
 	function loadjsfile(filename)
