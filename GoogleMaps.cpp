@@ -65,7 +65,7 @@ void googleMaps::GoogleMaps::handleStartupTimeout()
 void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
 {
     qDebug() << "[GoogleMaps] centerMapAt " << newCenter.lat() << "  " << newCenter.lng();
-    m_map->updateCenter(newCenter);
+    m_map->centerMapAt(newCenter);
 }
 
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
