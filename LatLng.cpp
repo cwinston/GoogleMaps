@@ -80,4 +80,19 @@ void  googleMaps::LatLng::deserialize(const QVariantMap& data)
 }
 
 
-
+void  googleMaps::LatLng::deserialize(const QVariant& data)
+{
+     qDebug() << "[LatLng] parse latLng result " << data << "\n";
+     qDebug() << "[LatLng]  latLng keys " << data.toMap().keys() << "\n";
+     for (auto locPoint : data.toMap().keys())
+     {
+         if (locPoint == GEO_LAT)
+         {
+             m_lat = data.toMap()[locPoint].toDouble();
+         }
+         else if (locPoint == GEO_LNG)
+         {
+            m_lng = data.toMap()[locPoint].toDouble();
+         }
+     }
+}

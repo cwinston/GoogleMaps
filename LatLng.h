@@ -45,6 +45,7 @@ namespace googleMaps
                 QString toString() const;
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
+                void deserialize(const QVariant& data);
 
              protected:
                 qreal m_lat;
