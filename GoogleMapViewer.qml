@@ -8,8 +8,8 @@ Item
     signal connectionReady();
     signal mapReady();
     signal geocoderLocationsReceived(variant results);
-    signal distanceResultsReceived(real distance);
-    signal positionResultsReceived(LatLng position);
+    signal distanceResultReceived(variant distance);
+    signal positionResultReceived(variant position);
     property bool isMapReady: false;
     property string mapsKey: "";
 
@@ -59,6 +59,17 @@ Item
         onGeoLocationsReceived:
         {
             geocoderLocationsReceived(mapController.geocoderResults);
+        }
+
+        onDistanceResultsReceived:
+        {
+            distanceResultsReceived(mapController.distanceResult);
+        }
+
+        onPositionResultsReceived:
+        {
+            console.log("position result in  "+mapController.positionResult)
+            positionResultReceived(mapController.positionResult);
         }
 
     }
