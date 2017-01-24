@@ -70,6 +70,8 @@ namespace googleMaps
         Q_PROPERTY(QWebChannel* channel READ getChannel WRITE setChannel NOTIFY transportReady)
         Q_PROPERTY(bool connectionMade READ isConnected NOTIFY transportReady)
         Q_PROPERTY(QVariantList geocoderResults READ getGeoCoderResults NOTIFY geoLocationsReceived)
+        Q_PROPERTY(googleMaps::LatLng positionResult READ getPositionResult NOTIFY positionResultsReceived)
+        Q_PROPERTY(qreal distnceResult READ getDistanceResult NOTIFY distanceResultsReceived)
         Q_PROPERTY(QString mapsKey WRITE setMapsKey)
 
     public:
@@ -79,7 +81,9 @@ namespace googleMaps
         QWebChannel* getChannel() const;
         void setChannel(QWebChannel *chnl);
         bool isConnected();
-        QVariantList getGeoCoderResults();
+        QVariantList getGeoCoderResults() const;
+        qreal getDistanceResult() const;
+        googleMaps::LatLng getPositionResult() const;
 
     protected:
         googleMaps::Geocoder* m_geoCoder;
@@ -95,8 +99,8 @@ namespace googleMaps
 
 
     signals:
-            void distanceResultsReceived(qreal distance);
-            void positionResultsReceived(googleMaps::LatLng position);
+            void distanceResultsReceived();
+            void positionResultsReceived();
             void maxZoomReceived(qreal zoomLevel);
             void elevationResultsReceived(QList<googleMaps::ElevationResult> results);
             void sendMessage(const QJsonObject &message);

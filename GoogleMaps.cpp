@@ -86,7 +86,7 @@ void googleMaps::GoogleMaps::computeHeading(const googleMaps::LatLng& from, cons
 {
     qDebug() << "[GoogleMaps] computeHeading ";
     m_sphericalGeometryService->computeHeading(from, to);
-    connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
+    connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(QVariant)), this, SLOT(handleDistanceResults(QVariant)));
 }
 
 void googleMaps::GoogleMaps::computeLength(const QList<googleMaps::LatLng>& path)
@@ -99,7 +99,7 @@ void googleMaps::GoogleMaps::computeLength(const QList<googleMaps::LatLng>& path
 void googleMaps::GoogleMaps::computeOffset(const LatLng from, const qreal distance, const qreal heading)
 {
     qDebug() << "[GoogleMaps] computeOffset " ;
-    //connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
+    connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
     m_sphericalGeometryService->computeOffset(from, distance, heading);
 
 }
@@ -159,12 +159,15 @@ void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString
     emit geoLocationsReceived();
 }
 
-void googleMaps::GoogleMaps::handleDistanceResults(qreal distance) {
-    throw "Not yet implemented";
+void googleMaps::GoogleMaps::handleDistanceResults(qreal distance)
+{
+    emit distanceResultsReceived();
 }
 
-void googleMaps::GoogleMaps::handlePositionResults(googleMaps::LatLng position) {
-    throw "Not yet implemented";
+void googleMaps::GoogleMaps::handlePositionResults(LatLng position)
+{
+     qDebug() << "[GoogleMaps]   setPositionResult:  lat " << position.lat() << " lng  " << position.lng();
+    emit positionResultsReceived();
 }
 
 void googleMaps::GoogleMaps::handleMaxZoomResults(googleMaps::MaxZoomResult result, int status) {
@@ -192,7 +195,17 @@ void googleMaps::GoogleMaps::handleMaxZoomReceived(qreal zoomLevel) {
     throw "Not yet implemented";
 }
 
-QVariantList googleMaps::GoogleMaps::getGeoCoderResults()
+QVariantList googleMaps::GoogleMaps::getGeoCoderResults() const
 {
     return m_geoCoder->getResults();
+}
+
+qreal googleMaps::GoogleMaps::getDistanceResult() const
+{
+    return m_sphericalGeometryService->getDistanceResult();
+}
+
+googleMaps::LatLng googleMaps::GoogleMaps::getPositionResult() const
+{
+    return m_sphericalGeometryService->getPositionResults();
 }
