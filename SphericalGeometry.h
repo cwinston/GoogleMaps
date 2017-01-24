@@ -1,10 +1,10 @@
 #include <exception>
 using namespace std;
+#include "LatLng.h"
+#include <QVariant>
 
 #ifndef __SphericalGeometry_h__
 #define __SphericalGeometry_h__
-
-#include "LatLng.h"
 
 
 namespace googleMaps
@@ -74,12 +74,12 @@ namespace googleMaps
             /// Returns the LatLng which lies the given fraction of the way between the origin LatLng and the destination LatLng.
             /// </summary>
             void interpolate(const googleMaps::LatLng from, const googleMaps::LatLng to, const qreal fraction);
-            qreal getDistanceResult() const;            
+            qreal getDistanceResult() const;
             googleMaps::LatLng getPositionResults() const;
 
          signals:
-            void positionResultReceived();
-            void distanceResultReceived();
+            void positionResultReceived(googleMaps::LatLng result);
+            void distanceResultReceived(qreal result);
             void computeOffsetOriginRequest(qreal toLat, qreal toLng, qreal distance, qreal heading);
             void interpolateRequest(qreal fromLat, qreal fromLng, qreal toLat, qreal toLng, qreal fraction);
             void computeOffsetRequest(qreal fromLat, qreal fromLng, qreal distance, qreal heading);
@@ -89,8 +89,8 @@ namespace googleMaps
             //void computeAreaRequest(QVariantList path);
 
          public slots:
-            void setPositionResult(const googleMaps::LatLng aPositionResult);
-            void setDistanceResult(const qreal aDistanceResult);
+            void setPositionResult(QVariant positionResult);
+            void setDistanceResult(QVariant distanceResult);
 	};
 }
 

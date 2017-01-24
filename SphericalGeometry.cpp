@@ -10,8 +10,8 @@ googleMaps::SphericalGeometry::SphericalGeometry(QObject *parent)
 {
     setParent(parent);
      qDebug() << "[SphericalGeometry]  ";
-    m_distanceResult = -1;
-    m_positionResult = LatLng(-1,-1);
+    //m_distanceResult = -1;
+    //m_positionResult = LatLng(-1,-1);
 }
 
 
@@ -65,10 +65,10 @@ void googleMaps::SphericalGeometry::computeHeading(const googleMaps::LatLng from
 }
 
 
-void googleMaps::SphericalGeometry::setDistanceResult(const qreal aDistanceResult)
+void googleMaps::SphericalGeometry::setDistanceResult(QVariant distanceResult)
 {
-    this->m_distanceResult = aDistanceResult;
-    emit distanceResultReceived();
+  //  this->m_distanceResult = distanceResult;
+    emit distanceResultReceived(m_distanceResult);
 }
 
 qreal googleMaps::SphericalGeometry::getDistanceResult() const
@@ -76,9 +76,13 @@ qreal googleMaps::SphericalGeometry::getDistanceResult() const
     return this->m_distanceResult;
 }
 
-void googleMaps::SphericalGeometry::setPositionResult(const googleMaps::LatLng aPositionResult)
+void googleMaps::SphericalGeometry::setPositionResult(QVariant positionResult)
 {
-    this->m_positionResult = aPositionResult;
+    googleMaps::LatLng pos;
+   // qDebug() << "[SphericalGeometry]   setPositionResult:  lat " << aPositionResult.lat() << "  lng  " << aPositionResult.lng() ;
+    pos.deserialize(positionResult);
+    this->m_positionResult = pos;
+    emit positionResultReceived(pos);
 }
 
 googleMaps::LatLng googleMaps::SphericalGeometry::getPositionResults() const
