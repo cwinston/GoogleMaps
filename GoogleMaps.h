@@ -101,6 +101,9 @@ namespace googleMaps
     signals:
             void distanceResultsReceived();
             void positionResultsReceived();
+            void boundsChanged(googleMaps::LatLngBounds bounds);
+            void centerChanged(googleMaps::LatLng position);
+            void zoomChanged(qreal zoomLevel);
             void maxZoomReceived(qreal zoomLevel);
             void elevationResultsReceived(QList<googleMaps::ElevationResult> results);
             void sendMessage(const QJsonObject &message);

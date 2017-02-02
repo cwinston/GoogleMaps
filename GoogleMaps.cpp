@@ -11,6 +11,12 @@ googleMaps::GoogleMaps::GoogleMaps(QObject *parent):
 
 googleMaps::GoogleMaps::~GoogleMaps()
 {
+    disconnect(m_map, SIGNAL(centerChanged(googleMaps::LatLng)), this, SIGNAL(centerChanged(googleMaps::LatLng)));
+    disconnect(m_map, SIGNAL(zoom_changed(qreal)), this, SIGNAL(zoomChanged(qreal)));
+    delete m_channel;
+    delete m_geoCoder;
+    delete m_sphericalGeometryService;
+    delete m_map;
 }
 
 QWebChannel* googleMaps::GoogleMaps::getChannel() const
@@ -33,6 +39,8 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     m_channel->registerObject(QStringLiteral("SphericalGeometry"), m_sphericalGeometryService);
  //   m_channel->registerObject(QStringLiteral("MaxZoom"), m_maxZoomService);
     m_channel->registerObject(QStringLiteral("Map"), m_map);
+    connect(m_map, SIGNAL(centerChanged(googleMaps::LatLng)), this, SIGNAL(centerChanged(googleMaps::LatLng)));
+    connect(m_map, SIGNAL(zoom_changed(qreal)), this, SIGNAL(zoomChanged(qreal)));
     if (m_mapsKey != "")
     {
         m_map->setMapsKey(m_mapsKey);
@@ -42,7 +50,6 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     m_startupTimer->setInterval(1800);
     connect(m_startupTimer, SIGNAL(timeout()), this, SLOT(handleStartupTimeout()));
     m_startupTimer->start();
-    emit transportReady();
 }
 
 void googleMaps::GoogleMaps::setMapsKey(const QString key)
@@ -60,6 +67,7 @@ void googleMaps::GoogleMaps::handleStartupTimeout()
 {
     qDebug() << "[GoogleMaps] start map " ;
     m_map->startMap();
+    emit transportReady();
 }
 
 void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
@@ -125,8 +133,6 @@ void googleMaps::GoogleMaps::getMaxZoomAtLatLng(googleMaps::LatLng latLng) {
 void googleMaps::GoogleMaps::geocodeName(QString location)
 {
     googleMaps::GeocoderRequest request = googleMaps::Geocoder::createGeocoderRequest(location);
-    //     disconnect(m_viewer, SIGNAL(geoCoderResponseReceived(googleMaps::GeocoderResult&)), this, SLOT(handleGeoLocationReceived(googleMaps::GeocoderResult&)));
-    //     disconnect(m_viewer, SIGNAL(selectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)), this, SLOT(handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)));
     connect(m_geoCoder, SIGNAL(geocodeResultReceived(QVariantList,QString&)), this, SLOT(handleGeocoderResults(QVariantList,QString&)));
     m_geoCoder->geocode(request);
 }
@@ -161,12 +167,14 @@ void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString
 
 void googleMaps::GoogleMaps::handleDistanceResults(qreal distance)
 {
+    disconnect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
     emit distanceResultsReceived();
 }
 
 void googleMaps::GoogleMaps::handlePositionResults(LatLng position)
 {
      qDebug() << "[GoogleMaps]   setPositionResult:  lat " << position.lat() << " lng  " << position.lng();
+     disconnect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
     emit positionResultsReceived();
 }
 
@@ -180,15 +188,11 @@ void googleMaps::GoogleMaps::handleElevationResults(QList<googleMaps::ElevationR
 
 void googleMaps::GoogleMaps::handleGeoLocationReceived(googleMaps::GeocoderResult &result) {
     qDebug() << "[GeoWorldBuilder]   GeoLocation Received ";
-//     disconnect(m_viewer, SIGNAL(geoCoderResponseReceived(googleMaps::GeocoderResult&)), this, SLOT(handleGeoLocationReceived(googleMaps::GeocoderResult&)));
-//     disconnect(m_viewer, SIGNAL(selectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)), this, SLOT(handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)));
 }
 
 void googleMaps::GoogleMaps::handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>& results)
 {
     qDebug() << "[GeoWorldBuilder] need2  SelectGeoLocationRequest ";
-//    disconnect(m_viewer, SIGNAL(geoCoderResponseReceived(googleMaps::GeocoderResult&)), this, SLOT(handleGeoLocationReceived(googleMaps::GeocoderResult&)));
-//    disconnect(m_viewer, SIGNAL(selectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)), this, SLOT(handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>&)));
 }
 
 void googleMaps::GoogleMaps::handleMaxZoomReceived(qreal zoomLevel) {

@@ -153,10 +153,10 @@ namespace googleMaps
         public slots:
             void updateMapTypeId(googleMaps::EMapTypeID mapTypeId);
             void updateZoom(QVariant zoom);
+            void updateCenter(QVariant latlng);
             void updateOptions(googleMaps::MapOptions options);
             void updateTilt(int tilt);
             void updateBounds(LatLngBounds latLngBounds);
-            void updateCenter(QVariant latlng);
             void centerMapAt(googleMaps::LatLng latLng);
             void panToBound(googleMaps::LatLngBounds latLngBounds);
             void updateMapTypes(googleMaps::MapTypeRegistry mapTypes);
