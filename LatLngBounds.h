@@ -43,6 +43,10 @@ namespace googleMaps
             Q_PROPERTY(googleMaps::LatLng sePoint READ getSouthEast WRITE setSEPoint NOTIFY sePointChanged)
             Q_PROPERTY(googleMaps::LatLng nePoint READ getNorthEast WRITE setNEPoint NOTIFY nePointChanged)
             Q_PROPERTY(googleMaps::LatLng swPoint READ getSouthWest WRITE setSWPoint NOTIFY swPointChanged)
+            Q_PROPERTY(googleMaps::LatLng northPoint READ getNorth WRITE setNorth NOTIFY northPointChanged)
+            Q_PROPERTY(googleMaps::LatLng southPoint READ getSouth WRITE setSouth NOTIFY southPointChanged)
+            Q_PROPERTY(googleMaps::LatLng eastPoint READ getEast WRITE setEast NOTIFY eastPointChanged)
+            Q_PROPERTY(googleMaps::LatLng westPoint READ getWest WRITE setWest NOTIFY westPointChanged)
             Q_PROPERTY(googleMaps::LatLng centerPoint READ getCenter WRITE setCenter NOTIFY centerChanged)
 
             protected:
@@ -50,10 +54,10 @@ namespace googleMaps
                 googleMaps::LatLng m_sePoint;
                 googleMaps::LatLng m_nePoint;
                 googleMaps::LatLng m_swPoint;
-                qreal m_east;
-                qreal m_west;
-                qreal m_north;
-                qreal m_south;
+                googleMaps::LatLng m_east;
+                googleMaps::LatLng m_west;
+                googleMaps::LatLng m_north;
+                googleMaps::LatLng m_south;
                 googleMaps::LatLng m_centerPoint;
 
 
@@ -74,37 +78,24 @@ namespace googleMaps
 
                 void setCenter(const googleMaps::LatLng center);
 
-                qreal& getEast();
+                LatLng getEast() const;
 
-                qreal& getNorth();
+                LatLng getNorth() const;
 
                 googleMaps::LatLng getNorthEast() const;
 
                 googleMaps::LatLng getNorthWest() const;
 
-                qreal &getSouth();
+                LatLng getSouth() const;
 
                 googleMaps::LatLng getSouthEast() const;
 
                 googleMaps::LatLng getSouthWest() const;
 
-                qreal& getWest() const;
-
-                bool intersects(googleMaps::LatLngBounds aParam0);
-
-                bool isEmpty();
-
-                bool isFullLat();
-
-                bool isFullLng();
-
-                bool isLargerThan(googleMaps::LatLngBounds aParam0);
-
-                googleMaps::LatLng toSpan();
+                LatLng getWest() const;
 
                 QString toString();
 
-                void Union(googleMaps::LatLngBounds aParam0);
 
                 void setNWPoint(const googleMaps::LatLng nwPoint);
 
@@ -113,11 +104,11 @@ namespace googleMaps
                 void setSEPoint(const googleMaps::LatLng sePoint);
 
                 void setNEPoint(const googleMaps::LatLng nePoint);
-                void setEast(qreal east);
+                void setEast(const googleMaps::LatLng east);
 
-                void setNorth(qreal north);
-                void setSouth(qreal south);
-                void setWest(qreal west);
+                void setNorth(const googleMaps::LatLng north);
+                void setSouth(const googleMaps::LatLng south);
+                void setWest(const googleMaps::LatLng west);
                 void deserialize(const QVariantMap& data);
 
             signals:
@@ -125,6 +116,10 @@ namespace googleMaps
                 void sePointChanged(bool modified);
                 void nePointChanged(bool modified);
                 void swPointChanged(bool modified);
+                void northPointChanged(bool modified);
+                void southPointChanged(bool modified);
+                void westPointChanged(bool modified);
+                void eastPointChanged(bool modified);
                 void centerChanged(bool modified);
 
 		};

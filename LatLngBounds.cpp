@@ -40,21 +40,25 @@ googleMaps::LatLngBounds& googleMaps::LatLngBounds::operator=(const LatLngBounds
 void googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
 {
    m_nwPoint = nwPoint;
+   emit nwPointChanged(true);
 }
 
 void googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
 {
     m_sePoint = sePoint;
+    emit sePointChanged(true);
 }
 
 void googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
 {
     m_nePoint = nePoint;
+    emit nePointChanged(true);
 }
 
 void googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
 {
     m_swPoint = swPoint;
+    emit swPointChanged(true);
 }
 
 bool googleMaps::LatLngBounds::containsBounds(googleMaps::LatLngBounds bounds) {
@@ -76,11 +80,13 @@ void googleMaps::LatLngBounds::setCenter(googleMaps::LatLng center)
     m_centerPoint = center;
 }
 
-qreal& googleMaps::LatLngBounds::getEast()  {
+googleMaps::LatLng googleMaps::LatLngBounds::getEast() const
+{
     return m_east;
 }
 
-qreal& googleMaps::LatLngBounds::getNorth()  {
+googleMaps::LatLng googleMaps::LatLngBounds::getNorth() const
+{
     return m_north;
 }
 
@@ -94,39 +100,19 @@ googleMaps::LatLng googleMaps::LatLngBounds::getNorthWest() const
     return m_nwPoint;
 }
 
-qreal& googleMaps::LatLngBounds::getSouth()
+googleMaps::LatLng googleMaps::LatLngBounds::getSouth() const
 {
     return m_south;
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getSouthEast() const
 {
-    return LatLng(m_south,m_east);
+    return m_sePoint;
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getSouthWest() const
 {
-    return LatLng(m_south,m_west);
-}
-
-qreal& googleMaps::LatLngBounds::getWest() const
-{
-	throw "Not yet implemented";
-}
-
-bool googleMaps::LatLngBounds::intersects(googleMaps::LatLngBounds aParam0)
-{
-	throw "Not yet implemented";
-}
-
-bool googleMaps::LatLngBounds::isEmpty()
-{
-	throw "Not yet implemented";
-}
-
-bool googleMaps::LatLngBounds::isLargerThan(googleMaps::LatLngBounds aParam0)
-{
-	throw "Not yet implemented";
+    return m_swPoint;
 }
 
 QString googleMaps::LatLngBounds::toString()
@@ -134,52 +120,62 @@ QString googleMaps::LatLngBounds::toString()
 	throw "Not yet implemented";
 }
 
-void googleMaps::LatLngBounds::setEast(qreal east)
+void googleMaps::LatLngBounds::setEast(const LatLng east)
 {
     m_east = east;
+    emit eastPointChanged(true);
 }
 
-void googleMaps::LatLngBounds::setNorth(qreal north)
+void googleMaps::LatLngBounds::setNorth(const LatLng north)
 {
     m_north = north;
+    emit northPointChanged(true);
 }
 
-void googleMaps::LatLngBounds::setSouth(qreal south)
+void googleMaps::LatLngBounds::setSouth(const LatLng south)
 {
     m_south = south;
+    emit southPointChanged(true);
 }
 
-void googleMaps::LatLngBounds::setWest(qreal west)
+void googleMaps::LatLngBounds::setWest(const LatLng west)
 {
     m_west = west;
+    emit westPointChanged(true);
+}
+
+googleMaps::LatLng googleMaps::LatLngBounds::getWest() const
+{
+    return m_west;
 }
 
 void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
 {
     qDebug() << "[LatLngBounds] parse bounds result " << data << "\n";
      qDebug() << "[LatLngBounds]  bounds keys " << data.keys() << "\n";
+     qreal eastPoint, westPoint, southPoint, northPoint;
      for (auto cPoint : data.keys())
      {
          if (cPoint == CARDINAL_EAST)
          {
-             m_east = data[cPoint].toDouble();
+             eastPoint = data[cPoint].toDouble();
          }
          else if (cPoint == CARDINAL_NORTH)
          {
-             m_north = data[cPoint].toDouble();
+             northPoint = data[cPoint].toDouble();
          }
          else if (cPoint == CARDINAL_SOUTH)
          {
-             m_south = data[cPoint].toDouble();
+             southPoint = data[cPoint].toDouble();
          }
          else if (cPoint == CARDINAL_WEST)
          {
-             m_west =  data[cPoint].toDouble();
+             westPoint =  data[cPoint].toDouble();
          }
      }
-     setNEPoint(LatLng(m_north, m_east));
-     setSEPoint(LatLng(m_south, m_east));
-     setNWPoint(LatLng(m_north, m_west));
-     setSWPoint(LatLng(m_south, m_west));
+     setNEPoint(LatLng(northPoint, eastPoint));
+     setSEPoint(LatLng(southPoint, eastPoint));
+     setNWPoint(LatLng(northPoint, westPoint));
+     setSWPoint(LatLng(southPoint, westPoint));
 
 }
