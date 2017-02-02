@@ -10,6 +10,9 @@ Item
     signal geocoderLocationsReceived(variant results);
     signal distanceResultReceived(variant distance);
     signal positionResultReceived(variant position);
+    signal mapZoomChanged(variant level);
+    signal mapCenterChanged(variant position);
+    signal mapBoundsChanged(variant bounds);
     property bool isMapReady: false;
     property string mapsKey: "";
 
@@ -70,6 +73,24 @@ Item
         {
             console.log("position result in  "+mapController.positionResult)
             positionResultReceived(mapController.positionResult);
+        }
+
+        onCenterChanged:
+        {
+            console.log("[MAPVIEWER] center changed "+position);
+            mapCenterChanged(position);
+        }
+
+        onZoomChanged:
+        {
+            console.log("[MAPVIEWER] zoom changed "+zoomLevel);
+            mapZoomChanged(zoomLevel);
+        }
+
+        onBoundsChanged:
+        {
+            console.log("[MAPVIEWER] bounds changed "+bounds);
+            mapBoundsChanged(bounds);
         }
 
     }
