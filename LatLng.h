@@ -29,6 +29,7 @@ namespace googleMaps
             Q_OBJECT
             Q_PROPERTY(qreal lat READ lat WRITE setLat NOTIFY latChanged)
             Q_PROPERTY(qreal lng READ lng WRITE setLng NOTIFY lngChanged)
+            Q_ENUMS(ECardinalPoints)
             public:
                 explicit LatLng(QObject* parent = 0);
                 LatLng(qreal lat, qreal lng);
