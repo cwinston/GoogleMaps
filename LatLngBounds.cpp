@@ -21,6 +21,10 @@ googleMaps::LatLngBounds::LatLngBounds(const LatLngBounds& rhs)
     m_swPoint = rhs.getSouthWest();
     m_nePoint = rhs.getNorthEast();
     m_centerPoint = rhs.getCenter();
+    m_east = rhs.getEast();
+    m_west = rhs.getWest();
+    m_north = rhs.getNorth();
+    m_south = rhs.getSouth();
 }
 
 //assignment operator
@@ -34,31 +38,35 @@ googleMaps::LatLngBounds& googleMaps::LatLngBounds::operator=(const LatLngBounds
     m_swPoint = rhs.getSouthWest();
     m_nePoint = rhs.getNorthEast();
     m_centerPoint = rhs.getCenter();
+    m_east = rhs.getEast();
+    m_west = rhs.getWest();
+    m_north = rhs.getNorth();
+    m_south = rhs.getSouth();
     return *this;
 }
 
 void googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
 {
    m_nwPoint = nwPoint;
-   emit nwPointChanged(true);
+   emit boundsChanged(ECardinalPositions::POS_NORTH_WEST);
 }
 
 void googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
 {
     m_sePoint = sePoint;
-    emit sePointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_SOUTH_EAST);
 }
 
 void googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
 {
     m_nePoint = nePoint;
-    emit nePointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_NORTH_EAST);
 }
 
 void googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
 {
     m_swPoint = swPoint;
-    emit swPointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_SOUTH_WEST);
 }
 
 bool googleMaps::LatLngBounds::containsBounds(googleMaps::LatLngBounds bounds) {
@@ -78,6 +86,7 @@ googleMaps::LatLng googleMaps::LatLngBounds::getCenter() const
 void googleMaps::LatLngBounds::setCenter(googleMaps::LatLng center)
 {
     m_centerPoint = center;
+    emit boundsChanged(ECardinalPositions::POS_CENTER);
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getEast() const
@@ -123,25 +132,25 @@ QString googleMaps::LatLngBounds::toString()
 void googleMaps::LatLngBounds::setEast(const LatLng east)
 {
     m_east = east;
-    emit eastPointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_EAST);
 }
 
 void googleMaps::LatLngBounds::setNorth(const LatLng north)
 {
     m_north = north;
-    emit northPointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_NORTH);
 }
 
 void googleMaps::LatLngBounds::setSouth(const LatLng south)
 {
     m_south = south;
-    emit southPointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_SOUTH);
 }
 
 void googleMaps::LatLngBounds::setWest(const LatLng west)
 {
     m_west = west;
-    emit westPointChanged(true);
+    emit boundsChanged(ECardinalPositions::POS_WEST);
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getWest() const
@@ -151,8 +160,6 @@ googleMaps::LatLng googleMaps::LatLngBounds::getWest() const
 
 void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
 {
-    qDebug() << "[LatLngBounds] parse bounds result " << data << "\n";
-     qDebug() << "[LatLngBounds]  bounds keys " << data.keys() << "\n";
      qreal eastPoint, westPoint, southPoint, northPoint;
      for (auto cPoint : data.keys())
      {
@@ -177,5 +184,4 @@ void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
      setSEPoint(LatLng(southPoint, eastPoint));
      setNWPoint(LatLng(northPoint, westPoint));
      setSWPoint(LatLng(southPoint, westPoint));
-
 }
