@@ -128,7 +128,7 @@ Item
 
     function computeOffset(from, distance, heading)
     {
-        console.log("[GoogleMapsViewer]  computeOffset ")
+        //console.log("[GoogleMapsViewer]  computeOffset ")
         mapController.computeOffset(from, distance, heading);
     }
 

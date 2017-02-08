@@ -78,35 +78,35 @@ void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
 
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
 {
-    qDebug() << "[GoogleMaps] computeArea " << path.size();
+    //qDebug() << "[GoogleMaps] computeArea " << path.size();
     m_sphericalGeometryService->computeArea(path);
     connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
 }
 
 void googleMaps::GoogleMaps::computeDistanceBetween(const googleMaps::LatLng& from, const googleMaps::LatLng& to)
 {
-    qDebug() << "[GoogleMaps] computeDistanceBetween ";
+    //qDebug() << "[GoogleMaps] computeDistanceBetween ";
     m_sphericalGeometryService->computeDistanceBetween(from, to);
     connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
 }
 
 void googleMaps::GoogleMaps::computeHeading(const googleMaps::LatLng& from, const googleMaps::LatLng& to)
 {
-    qDebug() << "[GoogleMaps] computeHeading ";
+    //qDebug() << "[GoogleMaps] computeHeading ";
     m_sphericalGeometryService->computeHeading(from, to);
     connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(QVariant)), this, SLOT(handleDistanceResults(QVariant)));
 }
 
 void googleMaps::GoogleMaps::computeLength(const QList<googleMaps::LatLng>& path)
 {
-    qDebug() << "[GoogleMaps] computeLength " << path.size();
+    //qDebug() << "[GoogleMaps] computeLength " << path.size();
     m_sphericalGeometryService->computeLength(path);
     connect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
 }
 
 void googleMaps::GoogleMaps::computeOffset(const LatLng from, const qreal distance, const qreal heading)
 {
-    qDebug() << "[GoogleMaps] computeOffset " ;
+    //qDebug() << "[GoogleMaps] computeOffset " ;
     connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
     m_sphericalGeometryService->computeOffset(from, distance, heading);
 
@@ -114,14 +114,14 @@ void googleMaps::GoogleMaps::computeOffset(const LatLng from, const qreal distan
 
 void googleMaps::GoogleMaps::computeOffsetOrigin(const googleMaps::LatLng to, const qreal distance, const qreal heading)
 {
-    qDebug() << "[GoogleMaps] computeOffsetOrigin " ;
+    //qDebug() << "[GoogleMaps] computeOffsetOrigin " ;
     m_sphericalGeometryService->computeOffsetOrigin(to, distance, heading);
     connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
 }
 
 void googleMaps::GoogleMaps::interpolate(googleMaps::LatLng& from, googleMaps::LatLng& to, qreal& fraction)
 {
-    qDebug() << "[GoogleMaps] interpolate ";
+    //qDebug() << "[GoogleMaps] interpolate ";
     m_sphericalGeometryService->interpolate(from, to, fraction);
     connect(m_sphericalGeometryService, SIGNAL(positionResultReceived(googleMaps::LatLng)), this, SLOT(handlePositionResults(googleMaps::LatLng)));
 }
