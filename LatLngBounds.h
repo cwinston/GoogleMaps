@@ -6,10 +6,15 @@ using namespace std;
 
 #include "LatLng.h"
 
-#define CARDINAL_EAST "east"
-#define CARDINAL_WEST "west"
-#define CARDINAL_SOUTH "south"
-#define CARDINAL_NORTH "north"
+#define CARDINAL_EAST "East"
+#define CARDINAL_WEST "West"
+#define CARDINAL_SOUTH "South"
+#define CARDINAL_NORTH "North"
+#define CARDINAL_NW "Northwest"
+#define CARDINAL_NE "Northeast"
+#define CARDINAL_SW "Southwest"
+#define CARDINAL_SE "Southeast"
+#define CARDINAL_CENTER "Center"
 
 namespace googleMaps
 {
