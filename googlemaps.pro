@@ -30,7 +30,8 @@ SOURCES += \
     Marker.cpp \
     MarkerOptions.cpp \
     Point.cpp \
-    Size.cpp
+    Size.cpp \
+    LatLngValidator.cpp
 
 HEADERS += \
     googlemaps_plugin.h \
@@ -57,7 +58,8 @@ HEADERS += \
     Marker.h \
     MarkerOptions.h \
     Point.h \
-    Size.h
+    Size.h \
+    LatLngValidator.h
 
 
 pluginfiles.files += \
