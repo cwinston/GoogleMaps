@@ -182,17 +182,23 @@
   
 	function computeDistanceBetween(LatLng1, LatLng2)
 	{
-	  
+            var newPos = google.maps.geometry.spherical.computeDistanceBetween(LatLng1, LatLng2);
+            //console.log("New position  lat: "+newPos.lat()+"  lng:  "+newPos.lng());
+            channel.objects.SphericalGeometry.setDistanceResult(newPos);
 	}
   
 	function computeLength(list)
 	{
-  
+            var newPos = google.maps.geometry.spherical.computeLength(list);
+            //console.log("New position  lat: "+newPos.lat()+"  lng:  "+newPos.lng());
+            channel.objects.SphericalGeometry.setDistanceResult(newPos);
 	}
 	
 	function computeArea(list)
 	{
-  
+            var newPos = google.maps.geometry.spherical.computeArea(list);
+            //console.log("New position  lat: "+newPos.lat()+"  lng:  "+newPos.lng());
+            channel.objects.SphericalGeometry.setDistanceResult(newPos);
 	}
 
         function computeOffset(fromLat, fromLng, distance, heading)
