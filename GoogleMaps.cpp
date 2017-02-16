@@ -13,10 +13,13 @@ googleMaps::GoogleMaps::~GoogleMaps()
 {
     disconnect(m_map, SIGNAL(centerChanged(googleMaps::LatLng)), this, SIGNAL(centerChanged(googleMaps::LatLng)));
     disconnect(m_map, SIGNAL(zoom_changed(qreal)), this, SIGNAL(zoomChanged(qreal)));
-    delete m_channel;
-    delete m_geoCoder;
-    delete m_sphericalGeometryService;
-    delete m_map;
+    if (m_channel)
+    {
+        delete m_channel;
+        delete m_geoCoder;
+        delete m_sphericalGeometryService;
+        delete m_map;
+    }
 }
 
 QWebChannel* googleMaps::GoogleMaps::getChannel() const
@@ -56,6 +59,11 @@ void googleMaps::GoogleMaps::setMapsKey(const QString key)
 {
     qDebug() << "[GoogleMaps] key set " << key;
     m_mapsKey = key;
+}
+
+QString googleMaps::GoogleMaps::getMapKey() const
+{
+    return m_mapsKey;
 }
 
 bool googleMaps::GoogleMaps::isConnected()

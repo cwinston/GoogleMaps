@@ -72,7 +72,7 @@ namespace googleMaps
         Q_PROPERTY(QVariantList geocoderResults READ getGeoCoderResults NOTIFY geoLocationsReceived)
         Q_PROPERTY(googleMaps::LatLng positionResult READ getPositionResult NOTIFY positionResultsReceived)
         Q_PROPERTY(qreal distnceResult READ getDistanceResult NOTIFY distanceResultsReceived)
-        Q_PROPERTY(QString mapsKey WRITE setMapsKey)
+        Q_PROPERTY(QString mapsKey READ getMapKey WRITE setMapsKey)
 
     public:
         explicit GoogleMaps(QObject *parent = 0);
@@ -84,6 +84,7 @@ namespace googleMaps
         QVariantList getGeoCoderResults() const;
         qreal getDistanceResult() const;
         googleMaps::LatLng getPositionResult() const;
+        QString getMapKey() const;
 
     protected:
         googleMaps::Geocoder* m_geoCoder;
