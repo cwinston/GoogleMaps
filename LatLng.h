@@ -1,6 +1,7 @@
 #include <exception>
 using namespace std;
 #include <QObject>
+#include "LatLngValidator.h"
 
 #ifndef __LatLng_h__
 #define __LatLng_h__
@@ -11,6 +12,7 @@ using namespace std;
 namespace googleMaps
 {
     class LatLng;
+    class LatLngValidator;
     enum ECardinalPoints;
 }
 
@@ -47,14 +49,17 @@ namespace googleMaps
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
                 void deserialize(const QVariant& data);
+                bool isValidLatLng(const LatLng *position);
+                void reset();
 
              protected:
                 qreal m_lat;
                 qreal m_lng;
+                LatLngValidator* m_validator;
              signals:
                 void latChanged(qreal m_lat);
                 void lngChanged(qreal m_lng);
-             public slots:
+           //  public slots:
 		};
 }
 
