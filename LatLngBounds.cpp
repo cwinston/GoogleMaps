@@ -5,7 +5,9 @@ using namespace std;
 #include "LatLngBounds.h"
 #include "LatLng.h"
 
-googleMaps::LatLngBounds::LatLngBounds(googleMaps::LatLng se, googleMaps::LatLng nw, QObject* parent):m_nwPoint(nw), m_sePoint(se) {
+googleMaps::LatLngBounds::LatLngBounds(googleMaps::LatLng se, googleMaps::LatLng nw, QObject* parent):m_nwPoint(nw), m_sePoint(se)
+{
+    setParent(parent);
 }
 
 googleMaps::LatLngBounds::LatLngBounds(QObject* parent)
@@ -184,4 +186,88 @@ void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
      setSEPoint(LatLng(southPoint, eastPoint));
      setNWPoint(LatLng(northPoint, westPoint));
      setSWPoint(LatLng(southPoint, westPoint));
+}
+
+void googleMaps::LatLngBounds::invalidate()
+{
+    m_sePoint.reset();
+    m_nwPoint.reset();
+    m_swPoint.reset();
+    m_nePoint.reset();
+    m_east.reset();
+    m_west.reset();
+    m_north.reset();
+    m_south.reset();
+}
+
+QString googleMaps::LatLngBounds::cardinalToText(const googleMaps::ECardinalPositions pos)
+{
+    QString cardPos;
+    switch(pos)
+    {
+        case googleMaps::ECardinalPositions::POS_CENTER:
+            cardPos = CARDINAL_CENTER;
+        break;
+        case POS_EAST:
+            cardPos = CARDINAL_EAST;
+        break;
+        case POS_NORTH:
+            cardPos = CARDINAL_NORTH;
+            break;
+        case POS_NORTH_EAST:
+            cardPos = CARDINAL_NE;
+            break;
+        case POS_NORTH_WEST:
+            cardPos = CARDINAL_NW;
+            break;
+        case POS_SOUTH:
+            cardPos = CARDINAL_SOUTH;
+            break;
+        case POS_SOUTH_EAST:
+            cardPos = CARDINAL_EAST;
+            break;
+        case POS_SOUTH_WEST:
+            cardPos = CARDINAL_SW;
+            break;
+          case POS_WEST:
+            cardPos = CARDINAL_WEST;
+            break;
+    }
+    return cardPos;
+}
+
+QString googleMaps::LatLngBounds::cardinalToText(const int pos)
+{
+    QString cardPos;
+    switch(pos)
+    {
+        case googleMaps::ECardinalPositions::POS_CENTER:
+            cardPos = CARDINAL_CENTER;
+        break;
+        case POS_EAST:
+            cardPos = CARDINAL_EAST;
+        break;
+        case POS_NORTH:
+            cardPos = CARDINAL_NORTH;
+            break;
+        case POS_NORTH_EAST:
+            cardPos = CARDINAL_NE;
+            break;
+        case POS_NORTH_WEST:
+            cardPos = CARDINAL_NW;
+            break;
+        case POS_SOUTH:
+            cardPos = CARDINAL_SOUTH;
+            break;
+        case POS_SOUTH_EAST:
+            cardPos = CARDINAL_EAST;
+            break;
+        case POS_SOUTH_WEST:
+            cardPos = CARDINAL_SW;
+            break;
+          case POS_WEST:
+            cardPos = CARDINAL_WEST;
+            break;
+    }
+    return cardPos;
 }

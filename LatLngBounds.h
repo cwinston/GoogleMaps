@@ -97,12 +97,8 @@ namespace googleMaps
                 googleMaps::LatLng getSouthEast() const;
 
                 googleMaps::LatLng getSouthWest() const;
-
                 LatLng getWest() const;
-
                 QString toString();
-
-
                 void setNWPoint(const googleMaps::LatLng nwPoint);
                 void setSWPoint(const googleMaps::LatLng swPoint);
                 void setSEPoint(const googleMaps::LatLng sePoint);
@@ -112,6 +108,9 @@ namespace googleMaps
                 void setSouth(const googleMaps::LatLng south);
                 void setWest(const googleMaps::LatLng west);
                 void deserialize(const QVariantMap& data);
+                void invalidate();
+                static QString cardinalToText(const googleMaps::ECardinalPositions pos);
+                static QString cardinalToText(const int pos);
 
             signals:
                 void boundsChanged(googleMaps::ECardinalPositions position);
