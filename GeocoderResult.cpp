@@ -6,7 +6,9 @@ using namespace std;
 #include "GeocoderGeometry.h"
 #include "GeoAddressComponentsModel.h"
 
-googleMaps::GeocoderResult::GeocoderResult(QObject *parent) {
+googleMaps::GeocoderResult::GeocoderResult(QObject *parent)
+{
+    setParent(parent);
 }
 
 googleMaps::GeocoderResult::~GeocoderResult() {
