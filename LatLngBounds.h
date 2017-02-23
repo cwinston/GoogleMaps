@@ -5,11 +5,11 @@ using namespace std;
 #define __LatLngBounds_h__
 
 #include "LatLng.h"
-
-#define CARDINAL_EAST "East"
-#define CARDINAL_WEST "West"
-#define CARDINAL_SOUTH "South"
-#define CARDINAL_NORTH "North"
+#include <QBitArray>
+#define CARDINAL_EAST "east"
+#define CARDINAL_WEST "west"
+#define CARDINAL_SOUTH "south"
+#define CARDINAL_NORTH "north"
 #define CARDINAL_NW "Northwest"
 #define CARDINAL_NE "Northeast"
 #define CARDINAL_SW "Southwest"
@@ -41,6 +41,9 @@ namespace googleMaps
 
         };
 
+        inline ECardinalPositions operator|(ECardinalPositions a, ECardinalPositions b)
+        {return static_cast<ECardinalPositions>(static_cast<int>(a) | static_cast<int>(b));}
+
         class LatLngBounds : public QObject
 		{
             Q_OBJECT
@@ -65,6 +68,7 @@ namespace googleMaps
                 googleMaps::LatLng m_north;
                 googleMaps::LatLng m_south;
                 googleMaps::LatLng m_centerPoint;
+                QBitArray m_validator;
 
 
             public:
@@ -82,7 +86,7 @@ namespace googleMaps
 
                 googleMaps::LatLng getCenter() const;
 
-                void setCenter(const googleMaps::LatLng center);
+                bool setCenter(const googleMaps::LatLng center);
 
                 LatLng getEast() const;
 
@@ -99,21 +103,23 @@ namespace googleMaps
                 googleMaps::LatLng getSouthWest() const;
                 LatLng getWest() const;
                 QString toString();
-                void setNWPoint(const googleMaps::LatLng nwPoint);
-                void setSWPoint(const googleMaps::LatLng swPoint);
-                void setSEPoint(const googleMaps::LatLng sePoint);
-                void setNEPoint(const googleMaps::LatLng nePoint);
-                void setEast(const googleMaps::LatLng east);
-                void setNorth(const googleMaps::LatLng north);
-                void setSouth(const googleMaps::LatLng south);
-                void setWest(const googleMaps::LatLng west);
+                bool setNWPoint(const LatLng nwPoint);
+                bool setSWPoint(const googleMaps::LatLng swPoint);
+                bool setSEPoint(const googleMaps::LatLng sePoint);
+                bool setNEPoint(const googleMaps::LatLng nePoint);
+                bool setEast(const googleMaps::LatLng east);
+                bool setNorth(const googleMaps::LatLng north);
+                bool setSouth(const googleMaps::LatLng south);
+                bool setWest(const googleMaps::LatLng west);
                 void deserialize(const QVariantMap& data);
                 void invalidate();
+                bool isValid() const;
                 static QString cardinalToText(const googleMaps::ECardinalPositions pos);
                 static QString cardinalToText(const int pos);
 
             signals:
                 void boundsChanged(googleMaps::ECardinalPositions position);
+                void boundsValidityChanged(bool isValid);
 
 		};
 }

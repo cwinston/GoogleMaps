@@ -2,17 +2,20 @@
 using namespace std;
 
 #include <QDebug>
+#include <QtMath>
 #include "LatLngBounds.h"
 #include "LatLng.h"
 
 googleMaps::LatLngBounds::LatLngBounds(googleMaps::LatLng se, googleMaps::LatLng nw, QObject* parent):m_nwPoint(nw), m_sePoint(se)
 {
     setParent(parent);
+    m_validator = QBitArray(9);
 }
 
 googleMaps::LatLngBounds::LatLngBounds(QObject* parent)
 {
     setParent(parent);
+    m_validator = QBitArray(9);
 }
 
 //copy constructor
@@ -47,28 +50,92 @@ googleMaps::LatLngBounds& googleMaps::LatLngBounds::operator=(const LatLngBounds
     return *this;
 }
 
-void googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
+bool googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
 {
-   m_nwPoint = nwPoint;
-   emit boundsChanged(ECardinalPositions::POS_NORTH_WEST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_WEST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_WEST) <<   "    val " << POS_NORTH_WEST << "    - " << bit2Set;
+    if (nwPoint.isValidLatLng(nwPoint))
+    {
+       m_nwPoint = nwPoint;
+       m_validator.setBit(POS_NORTH_WEST, true);
+       emit boundsChanged(ECardinalPositions::POS_NORTH_WEST);
+       if (isValid())
+       {
+           emit boundsValidityChanged(true);
+       }
+       return true;
+    }
+    else
+    {
+         m_validator.setBit(bit2Set, false);
+         return false;
+    }
 }
 
-void googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
+bool googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
 {
-    m_sePoint = sePoint;
-    emit boundsChanged(ECardinalPositions::POS_SOUTH_EAST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_EAST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_EAST) <<   "    val " << POS_SOUTH_EAST << "    - " << bit2Set;
+    if (LatLng::isValidLatLng(sePoint))
+    {
+        m_sePoint = sePoint;
+        m_validator.setBit(POS_SOUTH_EAST, true);
+        emit boundsChanged(ECardinalPositions::POS_SOUTH_EAST);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, true);
+        return false;
+    }
 }
 
-void googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
+bool googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
 {
-    m_nePoint = nePoint;
-    emit boundsChanged(ECardinalPositions::POS_NORTH_EAST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_EAST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_EAST) <<  "    val " << POS_NORTH_EAST <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(nePoint))
+    {
+        m_nePoint = nePoint;
+        m_validator.setBit(POS_NORTH_EAST, true);
+        emit boundsChanged(ECardinalPositions::POS_NORTH_EAST);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
-void googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
+bool googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
 {
-    m_swPoint = swPoint;
-    emit boundsChanged(ECardinalPositions::POS_SOUTH_WEST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_WEST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_WEST) <<  "    val " << POS_SOUTH_WEST <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(swPoint))
+    {
+        m_swPoint = swPoint;
+        m_validator.setBit(POS_SOUTH_WEST, true);
+        emit boundsChanged(ECardinalPositions::POS_SOUTH_WEST);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
 bool googleMaps::LatLngBounds::containsBounds(googleMaps::LatLngBounds bounds) {
@@ -85,10 +152,26 @@ googleMaps::LatLng googleMaps::LatLngBounds::getCenter() const
     return m_centerPoint;
 }
 
-void googleMaps::LatLngBounds::setCenter(googleMaps::LatLng center)
+bool googleMaps::LatLngBounds::setCenter(const googleMaps::LatLng center)
 {
-    m_centerPoint = center;
-    emit boundsChanged(ECardinalPositions::POS_CENTER);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_CENTER);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_CENTER) <<  "    val " << POS_CENTER <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(center))
+    {
+        m_centerPoint = center;
+        m_validator.setBit(POS_CENTER, true);
+        emit boundsChanged(ECardinalPositions::POS_CENTER);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getEast() const
@@ -131,28 +214,93 @@ QString googleMaps::LatLngBounds::toString()
 	throw "Not yet implemented";
 }
 
-void googleMaps::LatLngBounds::setEast(const LatLng east)
+bool googleMaps::LatLngBounds::setEast(const LatLng east)
 {
-    m_east = east;
-    emit boundsChanged(ECardinalPositions::POS_EAST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_EAST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_EAST) << "    val " << POS_EAST << "    - " << bit2Set;
+    if (LatLng::isValidLatLng(east))
+    {
+        m_east = east;
+        m_validator.setBit(POS_EAST, true);
+        emit boundsChanged(ECardinalPositions::POS_EAST);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
-void googleMaps::LatLngBounds::setNorth(const LatLng north)
+bool googleMaps::LatLngBounds::setNorth(const LatLng north)
 {
-    m_north = north;
-    emit boundsChanged(ECardinalPositions::POS_NORTH);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH) <<  "    val " << POS_NORTH <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(north))
+    {
+        m_north = north;
+        m_validator.setBit(POS_NORTH, true);
+        emit boundsChanged(ECardinalPositions::POS_NORTH);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
-void googleMaps::LatLngBounds::setSouth(const LatLng south)
+bool googleMaps::LatLngBounds::setSouth(const LatLng south)
 {
-    m_south = south;
-    emit boundsChanged(ECardinalPositions::POS_SOUTH);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH) <<  "    val " << POS_SOUTH <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(south))
+    {
+        m_south = south;
+        m_validator.setBit(POS_SOUTH, true);
+        emit boundsChanged(ECardinalPositions::POS_SOUTH);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
+
 }
 
-void googleMaps::LatLngBounds::setWest(const LatLng west)
+bool googleMaps::LatLngBounds::setWest(const LatLng west)
 {
-    m_west = west;
-    emit boundsChanged(ECardinalPositions::POS_WEST);
+    qreal bit2Set = qPow(2, ECardinalPositions::POS_WEST);
+    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_WEST) <<  "    val " << POS_WEST <<  "    - " << bit2Set;
+    if (LatLng::isValidLatLng(west))
+    {
+        m_west = west;
+        m_validator.setBit(POS_WEST, true);
+        emit boundsChanged(ECardinalPositions::POS_WEST);
+        if (isValid())
+        {
+            emit boundsValidityChanged(true);
+        }
+        return true;
+    }
+    else
+    {
+        m_validator.setBit(bit2Set, false);
+        return false;
+    }
 }
 
 googleMaps::LatLng googleMaps::LatLngBounds::getWest() const
@@ -186,6 +334,10 @@ void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
      setSEPoint(LatLng(southPoint, eastPoint));
      setNWPoint(LatLng(northPoint, westPoint));
      setSWPoint(LatLng(southPoint, westPoint));
+     if (isValid())
+     {
+         emit boundsValidityChanged(true);
+     }
 }
 
 void googleMaps::LatLngBounds::invalidate()
@@ -198,6 +350,7 @@ void googleMaps::LatLngBounds::invalidate()
     m_west.reset();
     m_north.reset();
     m_south.reset();
+    emit boundsValidityChanged(false);
 }
 
 QString googleMaps::LatLngBounds::cardinalToText(const googleMaps::ECardinalPositions pos)
@@ -270,4 +423,15 @@ QString googleMaps::LatLngBounds::cardinalToText(const int pos)
             break;
     }
     return cardPos;
+}
+
+
+bool googleMaps::LatLngBounds::isValid() const
+{
+    bool flag;
+    QBitArray comparitor(9);
+    comparitor.fill(true);
+    flag = (m_validator == comparitor)? true : false;
+    qDebug() << "[LatLngBounds] isValid " << flag;
+    return flag;
 }
