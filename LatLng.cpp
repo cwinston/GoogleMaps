@@ -32,6 +32,16 @@
         return *this;
     }
 
+    bool googleMaps::LatLng::operator!=(const LatLng rhs) const
+    {
+        return ((m_lat != rhs.lat()) || (m_lng != rhs.lng()))? true : false;
+    }
+
+    bool googleMaps::LatLng::operator==(const LatLng rhs) const
+    {
+        return ((m_lat == rhs.lat()) && (m_lng == rhs.lng()))? true : false;
+    }
+
     googleMaps::LatLng::~LatLng()
     {
     }

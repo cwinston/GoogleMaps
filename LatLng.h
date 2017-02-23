@@ -43,6 +43,8 @@ namespace googleMaps
                 LatLng(const LatLng& rhs);
                 //assignment operator
                 LatLng& operator=(const LatLng &rhs);
+                bool operator!=(const googleMaps::LatLng rhs) const;
+                bool operator==(const googleMaps::LatLng rhs) const;
                 virtual ~LatLng();
                 static bool isValidLatLng(const LatLng &position);
                 void setLat(const qreal lat);

@@ -19,8 +19,8 @@ using namespace std;
 namespace googleMaps
 {
 
-		class LatLng;
-		class LatLngBounds;
+        class LatLng;
+        class LatLngBounds;
         enum ECardinalPositions;
 }
 
@@ -45,7 +45,7 @@ namespace googleMaps
         {return static_cast<ECardinalPositions>(static_cast<int>(a) | static_cast<int>(b));}
 
         class LatLngBounds : public QObject
-		{
+        {
             Q_OBJECT
             Q_PROPERTY(googleMaps::LatLng nwPoint READ getNorthWest WRITE setNWPoint NOTIFY boundsChanged)
             Q_PROPERTY(googleMaps::LatLng sePoint READ getSouthEast WRITE setSEPoint NOTIFY boundsChanged)
@@ -121,7 +121,7 @@ namespace googleMaps
                 void boundsChanged(googleMaps::ECardinalPositions position);
                 void boundsValidityChanged(bool isValid);
 
-		};
+        };
 }
 
 Q_DECLARE_METATYPE(googleMaps::LatLngBounds)
