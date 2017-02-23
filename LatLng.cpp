@@ -6,21 +6,18 @@
     googleMaps::LatLng::LatLng(QObject *parent):m_lat(-1), m_lng(-1)
     {
         setParent(parent);
-        m_validator = new LatLngValidator(this);
     }
 
     googleMaps::LatLng::LatLng(const qreal lat, const qreal lng):m_lat(lat), m_lng(lng)
     {
-        m_validator = new LatLngValidator(this);
     }
 
     //copy constructor
     googleMaps::LatLng::LatLng(const LatLng& rhs)
     {
-        m_validator = new LatLngValidator(this);
         m_lat = rhs.lat();
         m_lng = rhs.lng();
-        isValidLatLng(this);
+
     }
 
     //assignment operator
@@ -32,13 +29,11 @@
         }
         m_lat = rhs.lat();
         m_lng = rhs.lng();
-        isValidLatLng(this);
         return *this;
     }
 
     googleMaps::LatLng::~LatLng()
     {
-        delete m_validator;
     }
 
     qreal googleMaps::LatLng::lat() const
@@ -69,10 +64,25 @@
         return latlngStr;
     }
 
-    bool googleMaps::LatLng::isValidLatLng(const googleMaps::LatLng* position)
+    bool googleMaps::LatLng::isValidLatLng(const googleMaps::LatLng& position)
     {
+        LatLngValidator* validator = new LatLngValidator();
+        QString posStr = position.toString();
         int pos = 0;
-        qDebug() << "[LatLng] " << position->toString()  << "    "  << m_validator->validate(position->toString(), pos);
+        qDebug() << "[LatLng] posStr " <<  posStr;
+        int validState = static_cast<int>(validator->validate(posStr, pos));
+        qDebug() << "[LatLng] state   " << QString::number(validState);
+        if ((position.lat() >= -90.00) && (position.lat() <= 90.00))
+        {
+            if ((position.lng() >= -180.00) && (position.lng() <= 180.00))
+            {
+                if (validState == 2)
+                {
+                    qDebug() << "[LatLng] latitude & longitude is valid ";
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -92,7 +102,7 @@
              }
          }
          qDebug() << "[LatLng]  lat  " << m_lat << "   lng "<< m_lng << "\n";
-         isValidLatLng(this);
+         isValidLatLng(*this);
     }
 
 
@@ -111,11 +121,33 @@
                 m_lng = data.toMap()[locPoint].toDouble();
              }
          }
-         isValidLatLng(this);
+         isValidLatLng(*this);
     }
 
     void googleMaps::LatLng::reset()
     {
         m_lat = -1;
         m_lng = -1;
+    }
+
+
+    QString googleMaps::LatLng::directionToText(const googleMaps::ECardinalPoints dir)
+    {
+        QString cardPos;
+        switch(dir)
+        {
+            case DIR_EAST:
+                cardPos = DIRECTION_EAST;
+            break;
+            case DIR_NORTH:
+                cardPos = DIRECTION_NORTH;
+                break;
+            case DIR_SOUTH:
+                cardPos = DIRECTION_SOUTH;
+                break;
+              case DIR_WEST:
+                cardPos = DIRECTION_WEST;
+                break;
+        }
+        return cardPos;
     }

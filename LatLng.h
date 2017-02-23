@@ -8,6 +8,10 @@ using namespace std;
 
 #define GEO_LAT "lat"
 #define GEO_LNG "lng"
+#define DIRECTION_NORTH "North"
+#define DIRECTION_SOUTH "South"
+#define DIRECTION_EAST "East"
+#define DIRECTION_WEST "West"
 
 namespace googleMaps
 {
@@ -40,7 +44,7 @@ namespace googleMaps
                 //assignment operator
                 LatLng& operator=(const LatLng &rhs);
                 virtual ~LatLng();
-
+                static bool isValidLatLng(const LatLng &position);
                 void setLat(const qreal lat);
                 void setLng(const qreal lng);
                 Q_INVOKABLE qreal lat() const;
@@ -49,13 +53,12 @@ namespace googleMaps
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
                 void deserialize(const QVariant& data);
-                bool isValidLatLng(const LatLng *position);
                 void reset();
+                static QString directionToText(const googleMaps::ECardinalPoints dir);
 
              protected:
                 qreal m_lat;
                 qreal m_lng;
-                LatLngValidator* m_validator;
              signals:
                 void latChanged(qreal m_lat);
                 void lngChanged(qreal m_lng);
