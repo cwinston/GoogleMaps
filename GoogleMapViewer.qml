@@ -13,6 +13,9 @@ Item
     signal mapZoomChanged(variant level);
     signal mapCenterChanged(variant position);
     signal mapBoundsChanged(variant bounds);
+    signal mapMarkerCreated(variant marker);
+    signal mapMarkerCleared();
+    signal mapMarkersCleared();
     property bool isMapReady: false;
     property string mapsKey: "";
 
@@ -93,6 +96,21 @@ Item
             mapBoundsChanged(bounds);
         }
 
+        onMarkerCreated:
+        {
+            mapMarkerCreated(marker);
+        }
+
+        onMarkerCleared:
+        {
+            mapMarkerCleared();
+        }
+
+        onMarkersCleared:
+        {
+            mapMarkersCleared();
+        }
+
     }
 
     function geocodeName(locationName)
@@ -146,5 +164,20 @@ Item
     {
         console.log("[GMV] centerMapAt  "+location);
         mapController.centerMapAt(location);
+    }
+
+    function addMarker(position)
+    {
+        mapController.addMarker(position);
+    }
+
+    function clearMarker(position)
+    {
+        mapController.clearMarker(position);
+    }
+
+    function clearMarkers()
+    {
+        mapController.clearMarkers();
     }
 }
