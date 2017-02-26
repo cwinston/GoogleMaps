@@ -93,8 +93,22 @@
                                 channel.objects.SphericalGeometry.computeOffsetRequest.connect(function(fromLat, fromLng, distance, heading)
                                 {
                                         computeOffset(fromLat, fromLng, distance, heading);
-                                        //geocodeStringAddress(request);
-                             //           console.log("SphericalGeometry   "+request);
+                                });
+                                channel.objects.SphericalGeometry.computeOffsetOriginRequest.connect(function(fromLat, fromLng, distance, heading)
+                                {
+                                        computeOffsetOrigin(fromLat, fromLng, distance, heading);
+                                });
+                                channel.objects.SphericalGeometry.interpolateRequest.connect(function(fromLat, fromLng, toLat, toLng, fraction)
+                                {
+                                        interpolate(fromLat, fromLng, toLat, toLng, fraction);
+                                });
+                                channel.objects.SphericalGeometry.computeHeadingRequest.connect(function(fromLat, fromLng, toLat, toLng)
+                                {
+                                        computeHeading(fromLat, fromLng, toLat, toLng);
+                                });
+                                channel.objects.SphericalGeometry.computeDistanceBetweenRequest.connect(function(fromLat, fromLng, toLat, toLng)
+                                {
+                                        computeDistanceBetween(fromLat, fromLng, toLat, toLng);
                                 });
 
                             }
@@ -224,6 +238,7 @@
   
 	function placeMarker(event)
 	{
+         console.log("placeMarker  "+event.latLng);
 		var newMarker = new google.maps.Marker({position:event.latLng, map:map});
 	}
   
