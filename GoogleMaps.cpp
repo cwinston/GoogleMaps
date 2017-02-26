@@ -84,6 +84,35 @@ void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
     m_map->centerMapAt(newCenter);
 }
 
+void googleMaps::GoogleMaps::addMarker(googleMaps::Marker position)
+{
+    if (m_map)
+    {
+        m_map->addMarker(position);
+    }
+}
+
+void googleMaps::GoogleMaps::clearMarker(googleMaps::LatLng position)
+{
+    if (m_map)
+    {
+        m_map->clearMarker(position);
+    }
+}
+
+void googleMaps::GoogleMaps::clearMarkers()
+{
+    if (m_map)
+    {
+        m_map->clearMarkers();
+    }
+}
+
+googleMaps::Marker googleMaps::GoogleMaps::createMarker(const googleMaps::MarkerOptions options)
+{
+    return googleMaps::Map::createMarker(options);
+}
+
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
 {
     //qDebug() << "[GoogleMaps] computeArea " << path.size();
@@ -145,8 +174,8 @@ void googleMaps::GoogleMaps::geocodeName(QString location)
     m_geoCoder->geocode(request);
 }
 
-
-void googleMaps::GoogleMaps::geocodeLatLng(googleMaps::LatLng latLng) {
+void googleMaps::GoogleMaps::geocodeLatLng(googleMaps::LatLng latLng)
+{
     throw "Not yet implemented";
 }
 
@@ -170,11 +199,13 @@ void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
 void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString& status)
 {
 //    qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
+    qDebug() << "[GeoWorldBuilder]   GeoLocation Received ";
     emit geoLocationsReceived();
 }
 
 void googleMaps::GoogleMaps::handleDistanceResults(qreal distance)
 {
+     qDebug() << "[GoogleMaps]   set Distance Result:  lat " << QString::number(distance);
     disconnect(m_sphericalGeometryService, SIGNAL(distanceResultReceived(qreal)), this, SLOT(handleDistanceResults(qreal)));
     emit distanceResultsReceived();
 }
@@ -192,15 +223,6 @@ void googleMaps::GoogleMaps::handleMaxZoomResults(googleMaps::MaxZoomResult resu
 
 void googleMaps::GoogleMaps::handleElevationResults(QList<googleMaps::ElevationResult> results, int status) {
     throw "Not yet implemented";
-}
-
-void googleMaps::GoogleMaps::handleGeoLocationReceived(googleMaps::GeocoderResult &result) {
-    qDebug() << "[GeoWorldBuilder]   GeoLocation Received ";
-}
-
-void googleMaps::GoogleMaps::handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>& results)
-{
-    qDebug() << "[GeoWorldBuilder] need2  SelectGeoLocationRequest ";
 }
 
 void googleMaps::GoogleMaps::handleMaxZoomReceived(qreal zoomLevel) {

@@ -110,6 +110,9 @@ namespace googleMaps
             void sendMessage(const QJsonObject &message);
             void geoLocationsReceived();
             void transportReady();
+            void markerCreated(googleMaps::Marker marker);
+            void markersCleared();
+            void markerCleared();
 
     public slots:
             /// <summary>
@@ -168,12 +171,13 @@ namespace googleMaps
             void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
             void setMapsKey(const QString key);
+            void addMarker(googleMaps::Marker position);
+            void clearMarker(googleMaps::LatLng position);
+            void clearMarkers();
+            googleMaps::Marker createMarker(const googleMaps::MarkerOptions options = MarkerOptions());
 
 
         private slots:
-            //void handleTransportReady();
-            void handleGeoLocationReceived(googleMaps::GeocoderResult& result);
-            void handleSelectGeoLocationRequest(QList<googleMaps::GeocoderResult>& results);
             void handleMaxZoomReceived(qreal zoomLevel);
             void handleDistanceResults(qreal distance);
             void handlePositionResults(googleMaps::LatLng position);
