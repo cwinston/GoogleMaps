@@ -62,4 +62,6 @@ namespace googleMaps
 	};
 }
 
+Q_DECLARE_METATYPE(googleMaps::Marker)
+
 #endif

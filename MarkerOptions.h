@@ -59,6 +59,8 @@ namespace googleMaps
             bool isVisible() const;
             void setZIndex(qreal zIndex);
             qreal getZIndex() const;
+            void deserialize(const QVariantMap& data);
+            void deserialize(const QVariant& data);
 
         signals:
             void click();
@@ -74,5 +76,7 @@ namespace googleMaps
             void title_changed();
 	};
 }
+
+Q_DECLARE_METATYPE(googleMaps::MarkerOptions)
 
 #endif

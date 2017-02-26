@@ -4,6 +4,7 @@ using namespace std;
 #include "MarkerOptions.h"
 #include "Point.h"
 #include "LatLng.h"
+#include <QDebug>
 
 googleMaps::MarkerOptions::MarkerOptions(QObject* parent)
 {
@@ -161,3 +162,12 @@ qreal googleMaps::MarkerOptions::getZIndex() const
     return this->m_zIndex;
 }
 
+void googleMaps::MarkerOptions::deserialize(const QVariantMap& data)
+{
+    qDebug() << "[MarkerOptions] parse MarkerOptions result " << data << "\n";
+}
+
+void googleMaps::MarkerOptions::deserialize(const QVariant& data)
+{
+
+}
