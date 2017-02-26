@@ -11,6 +11,8 @@ using namespace std;
 #include "LatLngBounds.h"
 #include "LatLng.h"
 #include "Size.h"
+#include "Marker.h"
+#include "MarkerOptions.h"
 
 namespace googleMaps
 {
@@ -19,6 +21,8 @@ namespace googleMaps
 	class LatLngBounds;
 	class LatLng;
 	class MouseEvent;
+    class Marker;
+    class MarkerOptions;
 	// class AbstractGoogleMapsService;
 	class Map;
     class Size;
@@ -128,6 +132,7 @@ namespace googleMaps
             int m_tilt;
             int m_zoom;
             QString m_mapsKey;
+            QList<googleMaps::Marker> m_markers;
 
         public:
             explicit Map( QObject* parent = 0);
@@ -146,21 +151,25 @@ namespace googleMaps
             int getTilt() const;
             void panMapTo(googleMaps::LatLng latLng);
             void setMapsKey(const QString key);
-            void setOptions(const googleMaps::MapOptions options);
+            //void setOptions(const googleMaps::MapOptions options);
             QString getMapsKey() const;
+            static googleMaps::Marker createMarker(const MarkerOptions options);
 
             
         public slots:
-            void updateMapTypeId(googleMaps::EMapTypeID mapTypeId);
-            void updateZoom(QVariant zoom);
-            void updateCenter(QVariant latlng);
-            void updateOptions(googleMaps::MapOptions options);
-            void updateTilt(int tilt);
-            void updateBounds(LatLngBounds latLngBounds);
-            void centerMapAt(googleMaps::LatLng latLng);
-            void panToBound(googleMaps::LatLngBounds latLngBounds);
-            void updateMapTypes(googleMaps::MapTypeRegistry mapTypes);
+            void updateMapTypeId(const googleMaps::EMapTypeID mapTypeId);
+            void updateZoom(const   QVariant zoom);
+            void updateCenter(const QVariant latlng);
+            void updateOptions(const googleMaps::MapOptions options);
+            void updateTilt(const int tilt);
+            void updateBounds(const LatLngBounds latLngBounds);
+            void centerMapAt(const googleMaps::LatLng latLng);
+            void panToBound(const googleMaps::LatLngBounds latLngBounds);
+            void updateMapTypes(const googleMaps::MapTypeRegistry mapTypes);
             void startMap();
+            void addMarker(googleMaps::Marker marker);
+            void clearMarker(googleMaps::LatLng position);
+            void clearMarkers();
 
         signals:
             void boundsChanged(googleMaps::LatLngBounds latLngBounds);
@@ -177,6 +186,9 @@ namespace googleMaps
             void mapsKeySet();
             void optionsChanged();
             void startMapView();
+            void addMarkerRequest(Marker position);
+            void clearMarkerRequest(LatLng position);
+            void clearAllMarkersRequest();
 
 	};
 }

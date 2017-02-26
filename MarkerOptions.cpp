@@ -8,6 +8,7 @@ using namespace std;
 
 googleMaps::MarkerOptions::MarkerOptions(QObject* parent)
 {
+    setParent(parent);
     m_clickable = true;
     m_crossOnDrag = true;
     m_draggable = true;

@@ -14,6 +14,7 @@ googleMaps::Map::Map(QObject *parent)
 {
     setParent(parent);
     m_mapsKey = "";
+    m_markers = QList<googleMaps::Marker>();
 }
 
 googleMaps::Map::~Map()
@@ -23,13 +24,7 @@ googleMaps::Map::~Map()
 
 googleMaps::Map::Map(const googleMaps::MapOptions options)
 {
-   setOptions(options);
-}
-
-void googleMaps::Map::setOptions(const googleMaps::MapOptions options)
-{
-    m_options = options;
-    emit optionsChanged();
+   updateOptions(options);
 }
 
 googleMaps::Map::Map(const googleMaps::Map &rhs)
@@ -83,7 +78,7 @@ googleMaps::MapOptions googleMaps::Map::getOptions() const
     return m_options;
 }
 
-void googleMaps::Map::updateBounds(googleMaps::LatLngBounds latLngBounds)
+void googleMaps::Map::updateBounds(const LatLngBounds latLngBounds)
 {
     m_bounds = latLngBounds;
 }
@@ -112,31 +107,31 @@ int googleMaps::Map::getZoom() const
     return m_zoom;
 }
 
-void googleMaps::Map::updateCenter(QVariant latlng)
+void googleMaps::Map::updateCenter(const QVariant latlng)
 {
     m_mapCenter.deserialize(latlng);
     qDebug() << "[googleMaps::Map] centerMapAt " << m_mapCenter.lat() << "  " << m_mapCenter.lng();
     emit centerChanged(m_mapCenter);
 }
 
-void googleMaps::Map::centerMapAt(googleMaps::LatLng latLng)
+void googleMaps::Map::centerMapAt(const LatLng latLng)
 {
     m_mapCenter = latLng;
     qDebug() << "[googleMaps::Map] centerMapAt " << m_mapCenter.lat() << "  " << m_mapCenter.lng();
     emit centerOnLocation(m_mapCenter.lat(), m_mapCenter.lng());
 }
 
-void googleMaps::Map::panToBound(googleMaps::LatLngBounds latLngBounds)
+void googleMaps::Map::panToBound(const LatLngBounds latLngBounds)
 {
 	throw "Not yet implemented";
 }
 
-void googleMaps::Map::updateMapTypeId(googleMaps::EMapTypeID mapTypeId)
+void googleMaps::Map::updateMapTypeId(const EMapTypeID mapTypeId)
 {
     m_mapTypeID = mapTypeId;
 }
 
-void googleMaps::Map::updateZoom(QVariant zoom)
+void googleMaps::Map::updateZoom(const QVariant zoom)
 {
     qDebug() <<  "[Map] update zoom  "  << zoom;
     m_zoom = zoom.toDouble();
@@ -145,6 +140,7 @@ void googleMaps::Map::updateZoom(QVariant zoom)
 void googleMaps::Map::updateOptions(googleMaps::MapOptions options)
 {
     m_options = options;
+    emit optionsChanged();
 }
 
 void googleMaps::Map::panMapTo(googleMaps::LatLng latLng)
@@ -157,13 +153,13 @@ int googleMaps::Map::getTilt() const
     return m_tilt;
 }
 
-void googleMaps::Map::updateTilt(int tilt)
+void googleMaps::Map::updateTilt(const int tilt)
 {
     m_tilt = tilt;
 }
 
 
-void googleMaps::Map::updateMapTypes(googleMaps::MapTypeRegistry mapTypes)
+void googleMaps::Map::updateMapTypes(const MapTypeRegistry mapTypes)
 {
     for (auto key : mapTypes.get().keys())
     {
@@ -178,4 +174,25 @@ googleMaps::MapTypeRegistry googleMaps::Map::getMapTypes() const
 }
 
 
+void googleMaps::Map::addMarker(googleMaps::Marker marker)
+{
+    m_markers.push_back(marker);
+    emit addMarkerRequest(marker);
+}
 
+void googleMaps::Map::clearMarker(googleMaps::LatLng position)
+{
+    emit clearMarkerRequest(position);
+}
+
+void googleMaps::Map::clearMarkers()
+{
+    emit clearAllMarkersRequest();
+}
+
+googleMaps::Marker googleMaps::Map::createMarker(const MarkerOptions options)
+{
+    googleMaps::Marker marker = googleMaps::Marker();
+    marker.setOptions(options);
+    return marker;
+}
