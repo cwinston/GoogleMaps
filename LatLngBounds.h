@@ -116,6 +116,8 @@ namespace googleMaps
                 bool isValid() const;
                 static QString cardinalToText(const googleMaps::ECardinalPositions pos);
                 static QString cardinalToText(const int pos);
+                googleMaps::LatLng getPoint(const int pos);
+                QList<googleMaps::LatLng> exportPath();
 
             signals:
                 void boundsChanged(googleMaps::ECardinalPositions position);

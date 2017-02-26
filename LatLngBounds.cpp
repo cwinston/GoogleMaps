@@ -435,3 +435,50 @@ bool googleMaps::LatLngBounds::isValid() const
     qDebug() << "[LatLngBounds] isValid " << flag;
     return flag;
 }
+
+googleMaps::LatLng googleMaps::LatLngBounds::getPoint(const int pos)
+{
+    googleMaps::LatLng locPoint;
+    switch(pos)
+    {
+        case googleMaps::ECardinalPositions::POS_CENTER:
+            locPoint = m_centerPoint;
+        break;
+        case POS_EAST:
+            locPoint = m_east;
+        break;
+        case POS_NORTH:
+            locPoint = m_north;
+            break;
+        case POS_NORTH_EAST:
+            locPoint = m_nePoint;
+            break;
+        case POS_NORTH_WEST:
+            locPoint = m_nwPoint;
+            break;
+        case POS_SOUTH:
+            locPoint = m_south;
+            break;
+        case POS_SOUTH_EAST:
+            locPoint = m_sePoint;
+            break;
+        case POS_SOUTH_WEST:
+            locPoint = m_swPoint;
+            break;
+          case POS_WEST:
+            locPoint = m_west;
+            break;
+    }
+    return locPoint;
+}
+
+QList<googleMaps::LatLng> googleMaps::LatLngBounds::exportPath()
+{
+    QList<googleMaps::LatLng> path;
+    for ( int posIdx = POS_NORTH; posIdx != POS_NORTH_WEST; ++posIdx )
+    {
+        LatLng pos = getPoint(posIdx);
+        path.push_back(pos);
+    }
+    return path;
+}
