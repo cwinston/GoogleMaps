@@ -24,13 +24,21 @@ namespace googleMaps
             Point(const Point& rhs);
             Point(qreal xVal, qreal yVal);
             googleMaps::Point& googleMaps::Point::operator=(const Point &rhs);
-            bool equals(googleMaps::Point other);
-            QString toString();
-            void setX(qreal x);
+            bool googleMaps::Point::operator==(const Point &rhs);
+            bool equals(const googleMaps::Point other);
+            QString toString();           
             qreal getX() const;
-            void setY(const qreal y);
             qreal getY() const;
+
+        public slots:
+            void setY(const qreal y);
+            void setX(const qreal x);
+
+        signals:
+           void pointChanged();
 	};
 }
+
+Q_DECLARE_METATYPE(googleMaps::Point)
 
 #endif

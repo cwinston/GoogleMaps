@@ -32,7 +32,19 @@ googleMaps::Point& googleMaps::Point::operator=(const Point &rhs)
     return *this;
 }
 
-bool googleMaps::Point::equals(googleMaps::Point other)
+bool googleMaps::Point::operator==(const Point &rhs)
+{
+    if ((rhs.getX() == m_x) && (rhs.getY() == m_y))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool googleMaps::Point::equals(const Point other)
 {
     if ((other.getX() == m_x) && (other.getY() == m_y))
     {
@@ -48,8 +60,10 @@ QString googleMaps::Point::toString() {
 	throw "Not yet implemented";
 }
 
-void googleMaps::Point::setX(qreal x) {
+void googleMaps::Point::setX(const qreal x)
+{
     this->m_x = x;
+    emit pointChanged();
 }
 
 qreal googleMaps::Point::getX() const
@@ -60,6 +74,7 @@ qreal googleMaps::Point::getX() const
 void googleMaps::Point::setY(const qreal y)
 {
     this->m_y = y;
+    emit pointChanged();
 }
 
 qreal googleMaps::Point::getY() const
