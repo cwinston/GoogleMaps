@@ -49,6 +49,18 @@
                                         console.log("start map  ");
                                         startMap();
                                 });
+                                channel.objects.Map.addMarkerRequest.connect(function(position)
+                                {
+                                    console.log("addMarkerRequest  "+position);
+                                    console.log("map  "+map);
+                                    var newMarker = new google.maps.Marker({position:position, map:map});
+                                });
+                                channel.objects.Map.clearMarkerRequest.connect(function(position)
+                                {
+                                    console.log("clearMarkerRequest  "+position);
+                                    console.log("map  "+map);
+                                  //  var newMarker = new google.maps.Marker({position:position, map:map});
+                                });
                                 if (window.map.mapsKey !== "")
                                 {
                                     loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&key="+window.map.mapsKey);
