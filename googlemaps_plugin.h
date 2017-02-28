@@ -20,6 +20,8 @@
 #include "MarkerOptions.h"
 #include "Size.h"
 #include "Point.h"
+#include "Polygon.h"
+#include "PolygonOptions.h"
 
 
 class GoogleMapsPlugin : public googleMaps::MapsInterface

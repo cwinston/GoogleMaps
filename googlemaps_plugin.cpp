@@ -24,6 +24,8 @@ void GoogleMapsPlugin::registerTypes(const char *uri)
     qmlRegisterType<googleMaps::MarkerOptions>(uri, 1, 0, "MarkerOptions");
     qmlRegisterType<googleMaps::Size>(uri, 1, 0, "Size");
     qmlRegisterType<googleMaps::Point>(uri, 1, 0, "Point");
+    qmlRegisterType<googleMaps::Polygon>(uri, 1, 0, "Polygon");
+    qmlRegisterType<googleMaps::PolygonOptions>(uri, 1, 0, "PolygonOptions");
 }
 
 void GoogleMapsPlugin::computeArea(const QList<googleMaps::LatLng>& path)

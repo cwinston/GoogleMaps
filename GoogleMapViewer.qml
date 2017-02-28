@@ -16,6 +16,8 @@ Item
     signal mapMarkerCreated(variant marker);
     signal mapMarkerCleared();
     signal mapMarkersCleared();
+    signal mapPolygonCreated();
+    signal mapPolygonCleared();
     property bool isMapReady: false;
     property string mapsKey: "";
 
@@ -98,6 +100,7 @@ Item
 
         onMarkerCreated:
         {
+            console.log("[MAPVIEWER] Marker Created ");
             mapMarkerCreated(marker);
         }
 
@@ -109,6 +112,16 @@ Item
         onMarkersCleared:
         {
             mapMarkersCleared();
+        }
+
+        onPolygonCreated:
+        {
+            mapPolygonCreated();
+        }
+
+        onPolygonCleared:
+        {
+            mapPolygonCleared();
         }
 
     }
@@ -166,9 +179,10 @@ Item
         mapController.centerMapAt(location);
     }
 
-    function addMarker(position)
+    function addMarker(options)
     {
-        mapController.addMarker(position);
+        console.log("[GMV] addMarker  ");
+        mapController.addMarker(options);
     }
 
     function clearMarker(position)
@@ -179,5 +193,16 @@ Item
     function clearMarkers()
     {
         mapController.clearMarkers();
+    }
+
+    function addPolygon(options)
+    {
+        console.log("[GMV] addPolygon  ");
+        mapController.addPolygon(options);
+    }
+
+    function clearPolygon(options)
+    {
+        mapController.clearPolygon(options);
     }
 }

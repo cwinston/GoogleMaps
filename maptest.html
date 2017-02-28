@@ -53,13 +53,19 @@
                                 {
                                     console.log("addMarkerRequest  "+position);
                                     console.log("map  "+map);
-                                    var newMarker = new google.maps.Marker({position:position, map:map});
+                                    var newMarker = new google.maps.Marker({position:position, map:window.googleMap});
                                 });
                                 channel.objects.Map.clearMarkerRequest.connect(function(position)
                                 {
                                     console.log("clearMarkerRequest  "+position);
                                     console.log("map  "+map);
-                                  //  var newMarker = new google.maps.Marker({position:position, map:map});
+                                  //  var newMarker = new google.maps.Marker({position:position, map:window.googleMap});
+                                });
+                                channel.objects.Map.addPolygonRequest.connect(function(options)
+                                {
+                                    console.log("Adding polygon .... ");
+                                    var polygon = new google.maps.Polygon(options);
+                                    polygon.setMap(window.googleMap);
                                 });
                                 if (window.map.mapsKey !== "")
                                 {
@@ -239,7 +245,7 @@
 	function placeMarker(event)
 	{
          console.log("placeMarker  "+event.latLng);
-		var newMarker = new google.maps.Marker({position:event.latLng, map:map});
+                var newMarker = new google.maps.Marker({position:event.latLng, map:window.googleMap});
 	}
   
 	function handleZoomChange(event)
@@ -268,6 +274,20 @@
 	{
   
 	}
+
+        function createPolygon(path)
+        {
+            var bounds = new google.maps.Polygon({
+                      paths: path,
+                      strokeColor: '#FF00FF',
+                      strokeOpacity: 0.8,
+                      strokeWeight: 3,
+                      fillColor: '#FF0000',
+                      fillOpacity: 0.00
+                    });
+            bounds.setMap(window.googleMap);
+
+        }
 
         function startMap()
         {

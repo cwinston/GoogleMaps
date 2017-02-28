@@ -113,6 +113,8 @@ namespace googleMaps
             void markerCreated(googleMaps::Marker marker);
             void markersCleared();
             void markerCleared();
+            void polygonCreated();
+            void polygonCleared();
 
     public slots:
             /// <summary>
@@ -171,10 +173,12 @@ namespace googleMaps
             void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
             void setMapsKey(const QString key);
-            void addMarker(googleMaps::Marker position);
+            void addMarker(googleMaps::MarkerOptions option);
             void clearMarker(googleMaps::LatLng position);
             void clearMarkers();
             googleMaps::Marker createMarker(const googleMaps::MarkerOptions options = MarkerOptions());
+            void addPolygon(googleMaps::PolygonOptions options);
+            void clearPolygon(googleMaps::PolygonOptions options);
 
 
         private slots:

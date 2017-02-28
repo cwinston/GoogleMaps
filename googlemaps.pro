@@ -31,7 +31,9 @@ SOURCES += \
     MarkerOptions.cpp \
     Point.cpp \
     Size.cpp \
-    LatLngValidator.cpp
+    LatLngValidator.cpp \
+    Polygon.cpp \
+    PolygonOptions.cpp
 
 HEADERS += \
     googlemaps_plugin.h \
@@ -59,7 +61,9 @@ HEADERS += \
     MarkerOptions.h \
     Point.h \
     Size.h \
-    LatLngValidator.h
+    LatLngValidator.h \
+    Polygon.h \
+    PolygonOptions.h
 
 
 pluginfiles.files += \

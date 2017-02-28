@@ -84,11 +84,13 @@ void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)
     m_map->centerMapAt(newCenter);
 }
 
-void googleMaps::GoogleMaps::addMarker(googleMaps::Marker position)
+void googleMaps::GoogleMaps::addMarker(MarkerOptions option)
 {
     if (m_map)
     {
-        m_map->addMarker(position);
+         qDebug() << "[GoogleMaps] addMarker " << option.getPosition().toString();
+        m_map->addMarker(option);
+        emit markerCreated(option);
     }
 }
 
@@ -96,7 +98,9 @@ void googleMaps::GoogleMaps::clearMarker(googleMaps::LatLng position)
 {
     if (m_map)
     {
+        qDebug() << "[GoogleMaps] clearMarker " << position.toString();
         m_map->clearMarker(position);
+        emit markerCleared();
     }
 }
 
@@ -111,6 +115,24 @@ void googleMaps::GoogleMaps::clearMarkers()
 googleMaps::Marker googleMaps::GoogleMaps::createMarker(const googleMaps::MarkerOptions options)
 {
     return googleMaps::Map::createMarker(options);
+}
+
+void googleMaps::GoogleMaps::addPolygon(googleMaps::PolygonOptions options)
+{
+    if (m_map)
+    {
+        qDebug() << "[GoogleMaps] addPolygon ";
+        m_map->addPolygon(options);
+    }
+}
+
+void googleMaps::GoogleMaps::clearPolygon(googleMaps::PolygonOptions options)
+{
+    if (m_map)
+    {
+        qDebug() << "[GoogleMaps] clearPolygon ";
+        m_map->clearPolygon(options);
+    }
 }
 
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)

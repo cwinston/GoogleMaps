@@ -196,3 +196,15 @@ googleMaps::Marker googleMaps::Map::createMarker(const MarkerOptions options)
     marker.setOptions(options);
     return marker;
 }
+
+void googleMaps::Map::addPolygon(googleMaps::PolygonOptions options)
+{
+    Polygon newPG = Polygon(options);
+    m_polygons.push_back(newPG);
+    emit addPolygonRequest(options);
+}
+
+void googleMaps::Map::clearPolygon(googleMaps::PolygonOptions options)
+{
+
+}

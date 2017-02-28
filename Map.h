@@ -13,6 +13,8 @@ using namespace std;
 #include "Size.h"
 #include "Marker.h"
 #include "MarkerOptions.h"
+#include "Polygon.h"
+#include "PolygonOptions.h"
 
 namespace googleMaps
 {
@@ -26,6 +28,8 @@ namespace googleMaps
 	// class AbstractGoogleMapsService;
 	class Map;
     class Size;
+    class Polygon;
+    class PolygonOptions;
 }
 
 namespace googleMaps
@@ -133,6 +137,7 @@ namespace googleMaps
             int m_zoom;
             QString m_mapsKey;
             QList<googleMaps::Marker> m_markers;
+            QList<googleMaps::Polygon> m_polygons;
 
         public:
             explicit Map( QObject* parent = 0);
@@ -170,6 +175,8 @@ namespace googleMaps
             void addMarker(googleMaps::Marker marker);
             void clearMarker(googleMaps::LatLng position);
             void clearMarkers();
+            void addPolygon(googleMaps::PolygonOptions options);
+            void clearPolygon(googleMaps::PolygonOptions options);
 
         signals:
             void boundsChanged(googleMaps::LatLngBounds latLngBounds);
@@ -189,6 +196,8 @@ namespace googleMaps
             void addMarkerRequest(Marker position);
             void clearMarkerRequest(LatLng position);
             void clearAllMarkersRequest();
+            void addPolygonRequest(googleMaps::PolygonOptions options);
+            void clearPolygonRequest(googleMaps::PolygonOptions options);
 
 	};
 }
