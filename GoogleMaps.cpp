@@ -11,13 +11,23 @@ googleMaps::GoogleMaps::GoogleMaps(QObject *parent):
 
 googleMaps::GoogleMaps::~GoogleMaps()
 {
-    disconnect(m_map, SIGNAL(centerChanged(googleMaps::LatLng)), this, SIGNAL(centerChanged(googleMaps::LatLng)));
-    disconnect(m_map, SIGNAL(zoom_changed(qreal)), this, SIGNAL(zoomChanged(qreal)));
+
     if (m_channel)
     {
-        delete m_channel;
+
+    }
+    if (m_geoCoder)
+    {
         delete m_geoCoder;
+    }
+    if (m_sphericalGeometryService)
+    {
         delete m_sphericalGeometryService;
+    }
+    if (m_map)
+    {
+        disconnect(m_map, SIGNAL(centerChanged(googleMaps::LatLng)), this, SIGNAL(centerChanged(googleMaps::LatLng)));
+        disconnect(m_map, SIGNAL(zoom_changed(qreal)), this, SIGNAL(zoomChanged(qreal)));
         delete m_map;
     }
 }

@@ -14,6 +14,7 @@ googleMaps::MarkerOptions::MarkerOptions(QObject* parent)
     m_draggable = true;
     m_label = "center";
     m_opacity = 1;
+    m_zIndex = 10;
     m_visible = true;
 }
 

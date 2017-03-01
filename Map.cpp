@@ -174,10 +174,12 @@ googleMaps::MapTypeRegistry googleMaps::Map::getMapTypes() const
 }
 
 
-void googleMaps::Map::addMarker(googleMaps::Marker marker)
+void googleMaps::Map::addMarker(MarkerOptions options)
 {
+    qDebug() << "[googleMaps::Map] addMarker ";
+    googleMaps::Marker marker = googleMaps::Marker(options);
     m_markers.push_back(marker);
-    emit addMarkerRequest(marker);
+    emit addMarkerRequest(options);
 }
 
 void googleMaps::Map::clearMarker(googleMaps::LatLng position)

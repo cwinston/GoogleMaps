@@ -172,7 +172,7 @@ namespace googleMaps
             void panToBound(const googleMaps::LatLngBounds latLngBounds);
             void updateMapTypes(const googleMaps::MapTypeRegistry mapTypes);
             void startMap();
-            void addMarker(googleMaps::Marker marker);
+            void addMarker(googleMaps::MarkerOptions options);
             void clearMarker(googleMaps::LatLng position);
             void clearMarkers();
             void addPolygon(googleMaps::PolygonOptions options);
@@ -181,8 +181,8 @@ namespace googleMaps
         signals:
             void boundsChanged(googleMaps::LatLngBounds latLngBounds);
             void centerChanged(googleMaps::LatLng position);
-            void click(LatLng mapLocation);
-            void dblclick(LatLng mapLocation);
+            void click(googleMaps::LatLng mapLocation);
+            void dblclick(googleMaps::LatLng mapLocation);
             void drag();
             void dragend();
             void dragstart();
@@ -193,8 +193,8 @@ namespace googleMaps
             void mapsKeySet();
             void optionsChanged();
             void startMapView();
-            void addMarkerRequest(Marker position);
-            void clearMarkerRequest(LatLng position);
+            void addMarkerRequest(googleMaps::MarkerOptions options);
+            void clearMarkerRequest(googleMaps::LatLng position);
             void clearAllMarkersRequest();
             void addPolygonRequest(googleMaps::PolygonOptions options);
             void clearPolygonRequest(googleMaps::PolygonOptions options);
