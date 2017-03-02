@@ -179,12 +179,12 @@ void googleMaps::Map::addMarker(MarkerOptions options)
     qDebug() << "[googleMaps::Map] addMarker ";
     googleMaps::Marker marker = googleMaps::Marker(options);
     m_markers.push_back(marker);
-    emit addMarkerRequest(options);
+    emit addMarkerRequest(options.serialize());
 }
 
 void googleMaps::Map::clearMarker(googleMaps::LatLng position)
 {
-    emit clearMarkerRequest(position);
+    emit clearMarkerRequest(position.serialize());
 }
 
 void googleMaps::Map::clearMarkers()
@@ -203,7 +203,7 @@ void googleMaps::Map::addPolygon(googleMaps::PolygonOptions options)
 {
     Polygon newPG = Polygon(options);
     m_polygons.push_back(newPG);
-    emit addPolygonRequest(options);
+    emit addPolygonRequest(options.serialize());
 }
 
 void googleMaps::Map::clearPolygon(googleMaps::PolygonOptions options)

@@ -193,10 +193,10 @@ namespace googleMaps
             void mapsKeySet();
             void optionsChanged();
             void startMapView();
-            void addMarkerRequest(googleMaps::MarkerOptions options);
-            void clearMarkerRequest(googleMaps::LatLng position);
+            void addMarkerRequest(QVariantMap options);
+            void clearMarkerRequest(QVariantMap position);
             void clearAllMarkersRequest();
-            void addPolygonRequest(googleMaps::PolygonOptions options);
+            void addPolygonRequest(QVariantMap options);
             void clearPolygonRequest(googleMaps::PolygonOptions options);
 
 	};
