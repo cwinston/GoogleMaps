@@ -134,6 +134,14 @@
          isValidLatLng(*this);
     }
 
+    QVariantMap googleMaps::LatLng::serialize() const
+    {
+        QVariantMap options;
+        options.insert(GEO_LAT, m_lat);
+        options.insert(GEO_LNG, m_lng);
+        return options;
+    }
+
     void googleMaps::LatLng::reset()
     {
         m_lat = -1;

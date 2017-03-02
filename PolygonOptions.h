@@ -6,6 +6,18 @@ using namespace std;
 
 #include "LatLng.h"
 
+#define POLYGON_CLICKABLE "clickable"
+#define POLYGON_DRAGGABLE "draggable"
+#define POLYGON_EDITABLE "editable"
+#define POLYGON_VISIBLE "visible"
+#define POLYGON_FILLCOLOR "fillColor"
+#define POLYGON_STROKECOLOR "strokeColor"
+#define POLYGON_STROKEOPACITY "strokeOpacity"
+#define POLYGON_STROKEWEIGHT "strokeWeight"
+#define POLYGON_FILLOPACITY "fillOpacity"
+#define POLYGON_ZINDEX "zIndex"
+#define POLYGON_PATH "path"
+
 namespace googleMaps
 {
 	class LatLng;
@@ -36,6 +48,20 @@ namespace googleMaps
             PolygonOptions(const PolygonOptions& rhs);
             //assignment operator
             PolygonOptions& operator=(const PolygonOptions &rhs);
+            Q_INVOKABLE bool isClickable() const;
+            Q_INVOKABLE bool isDraggable() const;
+            Q_INVOKABLE bool isEditable() const;
+            Q_INVOKABLE QString getFillColor() const;
+            Q_INVOKABLE qreal getFillOpacity() const;
+            Q_INVOKABLE QString getStrokeColor() const;
+            Q_INVOKABLE qreal getStrokeOpacity() const;
+            Q_INVOKABLE qreal getStrokeWeight() const;
+            Q_INVOKABLE bool isVisible() const;
+            Q_INVOKABLE qreal getZIndex() const;
+            Q_INVOKABLE QList<LatLng> getPath() const;
+            QVariantMap serialize() const;
+
+        public slots:
             void setClickable(const bool clickable);
             void setDraggable(const bool draggable);
             void setEditable(const bool editable);
@@ -47,17 +73,9 @@ namespace googleMaps
             void setVisible(const bool visible);
             void setZIndex(const qreal zIndex);
             void setPath(const QList<googleMaps::LatLng> path);
-            bool isClickable() const;
-            bool isDraggable() const;
-            bool isEditable() const;
-            QString getFillColor() const;
-            qreal getFillOpacity() const;
-            QString getStrokeColor() const;
-            qreal getStrokeOpacity() const;
-            qreal getStrokeWeight() const;
-            bool isVisible() const;
-            qreal getZIndex() const;
-            QList<googleMaps::LatLng> getPath() const;
+
+        private:
+            static QVariant serializePath(const QList<LatLng> &list );
 	};
 }
 Q_DECLARE_METATYPE(googleMaps::PolygonOptions)

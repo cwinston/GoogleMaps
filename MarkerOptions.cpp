@@ -173,3 +173,19 @@ void googleMaps::MarkerOptions::deserialize(const QVariant& data)
 {
 
 }
+
+QVariantMap googleMaps::MarkerOptions::serialize() const
+{
+    QVariantMap options;
+    options.insert(MARKER_CLICKABLE, m_clickable);
+    options.insert(MARKER_DRAGGABLE, m_draggable);
+    options.insert(MARKER_CROSSONDRAG, m_crossOnDrag);
+    options.insert(MARKER_ICON, m_icon);
+    options.insert(MARKER_LABEL, m_label);
+    options.insert(MARKER_OPACITY, m_opacity);
+    options.insert(MARKER_TITLE, m_title);
+    options.insert(MARKER_VISIBLE, m_visible);
+    options.insert(MARKER_ZINDEX, m_zIndex);
+    options.insert(MARKER_POSITION, m_position.serialize());
+    return options;
+}

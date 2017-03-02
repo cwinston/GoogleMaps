@@ -54,6 +54,34 @@ googleMaps::PolygonOptions& googleMaps::PolygonOptions::operator=(const PolygonO
     return *this;
 }
 
+QVariantMap googleMaps::PolygonOptions::serialize() const
+{
+    QVariantMap options;
+    options.insert(POLYGON_CLICKABLE, m_clickable);
+    options.insert(POLYGON_DRAGGABLE, m_draggable);
+    options.insert(POLYGON_EDITABLE, m_editable);
+    options.insert(POLYGON_FILLCOLOR, m_fillColor);
+    options.insert(POLYGON_FILLOPACITY, m_fillOpacity);
+    options.insert(POLYGON_STROKECOLOR, m_strokeColor);
+    options.insert(POLYGON_STROKEOPACITY, m_strokeOpacity);
+    options.insert(POLYGON_VISIBLE, m_visible);
+    options.insert(POLYGON_ZINDEX, m_zIndex);
+    options.insert(POLYGON_STROKEWEIGHT, m_strokeWeight);
+    options.insert(POLYGON_PATH, serializePath(m_path));
+    return options;
+}
+
+QVariant googleMaps::PolygonOptions::serializePath( const QList<googleMaps::LatLng> &list )
+{
+    QVariantList newList;
+    foreach( const googleMaps::LatLng &item, list )
+    {
+        newList << QVariant(item.serialize());
+    }
+
+    return QVariant(newList);
+}
+
 void googleMaps::PolygonOptions::setClickable(const bool clickable)
 {
     this->m_clickable = clickable;
@@ -161,6 +189,6 @@ void googleMaps::PolygonOptions::setPath(const QList<googleMaps::LatLng> path)
 
 QList<googleMaps::LatLng> googleMaps::PolygonOptions::getPath()  const
 {
-    return this->m_path;
+    return m_path;
 }
 

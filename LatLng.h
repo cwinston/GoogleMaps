@@ -55,6 +55,7 @@ namespace googleMaps
                 QJsonObject toJSON();
                 void deserialize(const QVariantMap& data);
                 void deserialize(const QVariant& data);
+                QVariantMap serialize() const;
                 void reset();
                 static QString directionToText(const googleMaps::ECardinalPoints dir);
 
