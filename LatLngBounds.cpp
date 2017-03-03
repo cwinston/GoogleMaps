@@ -343,13 +343,21 @@ void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
 void googleMaps::LatLngBounds::invalidate()
 {
     m_north.reset();
+     m_validator.setBit(POS_NORTH, false);
     m_nePoint.reset();
+     m_validator.setBit(POS_NORTH_EAST, false);
     m_nwPoint.reset();
-    m_sePoint.reset();    
-    m_swPoint.reset();    
+     m_validator.setBit(POS_NORTH_WEST, false);
+    m_sePoint.reset();
+     m_validator.setBit(POS_SOUTH_EAST, false);
+    m_swPoint.reset();
+     m_validator.setBit(POS_SOUTH_WEST, false);
     m_east.reset();
-    m_west.reset();    
+     m_validator.setBit(POS_EAST, false);
+    m_west.reset();
+     m_validator.setBit(POS_WEST, false);
     m_south.reset();
+     m_validator.setBit(POS_SOUTH, false);
     emit boundsValidityChanged(false);
 }
 
@@ -377,7 +385,7 @@ QString googleMaps::LatLngBounds::cardinalToText(const googleMaps::ECardinalPosi
             cardPos = CARDINAL_SOUTH;
             break;
         case POS_SOUTH_EAST:
-            cardPos = CARDINAL_EAST;
+            cardPos = CARDINAL_SE;
             break;
         case POS_SOUTH_WEST:
             cardPos = CARDINAL_SW;
@@ -413,7 +421,7 @@ QString googleMaps::LatLngBounds::cardinalToText(const int pos)
             cardPos = CARDINAL_SOUTH;
             break;
         case POS_SOUTH_EAST:
-            cardPos = CARDINAL_EAST;
+            cardPos = CARDINAL_SE;
             break;
         case POS_SOUTH_WEST:
             cardPos = CARDINAL_SW;
