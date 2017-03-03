@@ -67,7 +67,7 @@ bool googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
     }
     else
     {
-         m_validator.setBit(bit2Set, false);
+         m_validator.setBit(POS_NORTH_WEST, false);
          return false;
     }
 }
@@ -89,7 +89,7 @@ bool googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
     }
     else
     {
-        m_validator.setBit(bit2Set, true);
+        m_validator.setBit(POS_SOUTH_EAST, true);
         return false;
     }
 }
@@ -111,7 +111,7 @@ bool googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_NORTH_EAST, false);
         return false;
     }
 }
@@ -133,7 +133,7 @@ bool googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_SOUTH_WEST, false);
         return false;
     }
 }
@@ -169,7 +169,7 @@ bool googleMaps::LatLngBounds::setCenter(const googleMaps::LatLng center)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_CENTER, false);
         return false;
     }
 }
@@ -231,7 +231,7 @@ bool googleMaps::LatLngBounds::setEast(const LatLng east)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_EAST, false);
         return false;
     }
 }
@@ -253,7 +253,7 @@ bool googleMaps::LatLngBounds::setNorth(const LatLng north)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_NORTH, false);
         return false;
     }
 }
@@ -275,7 +275,7 @@ bool googleMaps::LatLngBounds::setSouth(const LatLng south)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_SOUTH, false);
         return false;
     }
 
@@ -298,7 +298,7 @@ bool googleMaps::LatLngBounds::setWest(const LatLng west)
     }
     else
     {
-        m_validator.setBit(bit2Set, false);
+        m_validator.setBit(POS_WEST, false);
         return false;
     }
 }
@@ -342,13 +342,13 @@ void googleMaps::LatLngBounds::deserialize(const QVariantMap& data)
 
 void googleMaps::LatLngBounds::invalidate()
 {
-    m_sePoint.reset();
-    m_nwPoint.reset();
-    m_swPoint.reset();
-    m_nePoint.reset();
-    m_east.reset();
-    m_west.reset();
     m_north.reset();
+    m_nePoint.reset();
+    m_nwPoint.reset();
+    m_sePoint.reset();    
+    m_swPoint.reset();    
+    m_east.reset();
+    m_west.reset();    
     m_south.reset();
     emit boundsValidityChanged(false);
 }
@@ -475,7 +475,7 @@ googleMaps::LatLng googleMaps::LatLngBounds::getPoint(const int pos)
 QList<googleMaps::LatLng> googleMaps::LatLngBounds::exportPath()
 {
     QList<googleMaps::LatLng> path;
-    for ( int posIdx = POS_NORTH; posIdx != POS_NORTH_WEST; ++posIdx )
+    for ( int posIdx = POS_NORTH; posIdx != POS_CENTER; ++posIdx )
     {
         LatLng pos = getPoint(posIdx);
         path.push_back(pos);

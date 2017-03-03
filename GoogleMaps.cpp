@@ -145,6 +145,16 @@ void googleMaps::GoogleMaps::clearPolygon(googleMaps::PolygonOptions options)
     }
 }
 
+void googleMaps::GoogleMaps::clearPolygons()
+{
+    if (m_map)
+    {
+        qDebug() << "[GoogleMaps] clearPolygons ";
+        m_map->clearPolygons();
+    }
+
+}
+
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
 {
     //qDebug() << "[GoogleMaps] computeArea " << path.size();

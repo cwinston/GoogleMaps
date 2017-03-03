@@ -177,6 +177,7 @@ namespace googleMaps
             void clearMarkers();
             void addPolygon(googleMaps::PolygonOptions options);
             void clearPolygon(googleMaps::PolygonOptions options);
+            void clearPolygons();
 
         signals:
             void boundsChanged(googleMaps::LatLngBounds latLngBounds);
@@ -198,6 +199,7 @@ namespace googleMaps
             void clearAllMarkersRequest();
             void addPolygonRequest(QVariantMap options);
             void clearPolygonRequest(googleMaps::PolygonOptions options);
+            void clearPolygonsRequest();
 
 	};
 }

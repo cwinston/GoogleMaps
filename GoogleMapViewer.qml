@@ -190,7 +190,7 @@ Item
         mapController.clearMarker(position);
     }
 
-    function clearMarkers()
+    function clearAllMarkers()
     {
         mapController.clearMarkers();
     }
@@ -204,5 +204,10 @@ Item
     function clearPolygon(options)
     {
         mapController.clearPolygon(options);
+    }
+
+    function clearPolygons()
+    {
+        mapController.clearPolygons();
     }
 }

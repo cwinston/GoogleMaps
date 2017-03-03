@@ -210,3 +210,8 @@ void googleMaps::Map::clearPolygon(googleMaps::PolygonOptions options)
 {
 
 }
+
+void googleMaps::Map::clearPolygons()
+{
+    emit clearPolygonsRequest();
+}

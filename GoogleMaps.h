@@ -179,6 +179,7 @@ namespace googleMaps
             googleMaps::Marker createMarker(const googleMaps::MarkerOptions options = MarkerOptions());
             void addPolygon(googleMaps::PolygonOptions options);
             void clearPolygon(googleMaps::PolygonOptions options);
+            void clearPolygons();
 
 
         private slots:

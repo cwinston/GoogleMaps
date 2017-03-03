@@ -3,7 +3,7 @@
     #include <QDebug>
     #include "LatLng.h"
 
-    googleMaps::LatLng::LatLng(QObject *parent):m_lat(-1), m_lng(-1)
+    googleMaps::LatLng::LatLng(QObject *parent):m_lat(-100), m_lng(-200)
     {
         setParent(parent);
     }
@@ -104,11 +104,11 @@
          {
              if (locPoint == GEO_LAT)
              {
-                 m_lat = data[locPoint].toDouble();
+                 setLat(data[locPoint].toDouble());
              }
              else if (locPoint == GEO_LNG)
              {
-                m_lng = data[locPoint].toDouble();
+                setLng(data[locPoint].toDouble());
              }
          }
          qDebug() << "[LatLng]  lat  " << m_lat << "   lng "<< m_lng << "\n";
@@ -124,11 +124,11 @@
          {
              if (locPoint == GEO_LAT)
              {
-                 m_lat = data.toMap()[locPoint].toDouble();
+                 setLat(data.toMap()[locPoint].toDouble());
              }
              else if (locPoint == GEO_LNG)
              {
-                m_lng = data.toMap()[locPoint].toDouble();
+                setLng(data.toMap()[locPoint].toDouble());
              }
          }
          isValidLatLng(*this);
@@ -144,8 +144,8 @@
 
     void googleMaps::LatLng::reset()
     {
-        m_lat = -1;
-        m_lng = -1;
+        setLat(-100);
+        setLng(-200);
     }
 
 
