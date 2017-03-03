@@ -50,16 +50,16 @@ void googleMaps::GeocoderResult::parseIncomingData(const QVariant& data)
 
     for (auto resProp : propertyMap.keys())
     {
-        qDebug() << "\n\n [GeocoderResult] key " << resProp << "\n " << propertyMap[resProp];
+     //   qDebug() << "\n\n [GeocoderResult] key " << resProp << "\n " << propertyMap[resProp];
         if (resProp == GEO_ADDRESS_COMPONENTS)
         {
            GeocoderAddressComponent addyComponent;
            QVariantList components = propertyMap[resProp].toList();
-           qDebug() << "[GeocoderResult] parse datacomponents result " << components.size() << "\n";
+       //    qDebug() << "[GeocoderResult] parse datacomponents result " << components.size() << "\n";
            for (auto component : components)
            {
                QVariantMap addyPropMap = component.toMap();
-                qDebug() << "[GeocoderResult] addy datacomponents result " << addyPropMap[GEO_ADDY_LONG_NAME].toString();
+          //      qDebug() << "[GeocoderResult] addy datacomponents result " << addyPropMap[GEO_ADDY_LONG_NAME].toString();
                 addyComponent.setLongName(addyPropMap[GEO_ADDY_LONG_NAME].toString());
                 addyComponent.setShortName(addyPropMap[GEO_ADDY_SHORT_NAME].toString());
                 addyComponent.setTypes(addyPropMap[GEO_TYPES].toStringList());
@@ -70,27 +70,27 @@ void googleMaps::GeocoderResult::parseIncomingData(const QVariant& data)
         }
         else if (resProp == GEO_FORMATTED_ADDRESS)
         {
-            qDebug() << "[GeocoderResult] parse formatted addy result " << propertyMap[resProp] << "\n";
+         //   qDebug() << "[GeocoderResult] parse formatted addy result " << propertyMap[resProp] << "\n";
             m_formattedAddress = propertyMap[resProp].toString();
         }
         else if (resProp == GEO_GEOMETRY)
         {
-             qDebug() << "[GeocoderResult] parse geometry result " << propertyMap[resProp] << "\n";
+         //    qDebug() << "[GeocoderResult] parse geometry result " << propertyMap[resProp] << "\n";
              m_geometry.deserialize(propertyMap[resProp].toMap());
         }
         else if (resProp == GEO_PARTIAL_MATCH)
         {
-            qDebug() << "[GeocoderResult] parse partial match " << propertyMap[resProp] << "\n";
+        //    qDebug() << "[GeocoderResult] parse partial match " << propertyMap[resProp] << "\n";
             m_partialMatch = propertyMap[resProp].toBool();
         }
         else if (resProp == GEO_PLACE_ID)
         {
-            qDebug() << "[GeocoderResult] parse place id " << propertyMap[resProp] << "\n";
+       //     qDebug() << "[GeocoderResult] parse place id " << propertyMap[resProp] << "\n";
             m_placeID = propertyMap[resProp].toString();
         }
         else if (resProp == GEO_TYPES)
         {
-            qDebug() << "[GeocoderResult] parse geo types " << propertyMap[resProp] << "\n";
+       //     qDebug() << "[GeocoderResult] parse geo types " << propertyMap[resProp] << "\n";
             m_types = propertyMap[resProp].toStringList();
         }
     }

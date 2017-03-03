@@ -7,6 +7,7 @@ using namespace std;
 
 googleMaps::GeocoderRequest::GeocoderRequest(QObject *parent)
 {
+    setParent(parent);
 }
 
 googleMaps::GeocoderRequest::~GeocoderRequest() {

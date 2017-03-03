@@ -52,8 +52,8 @@ googleMaps::LatLngBounds& googleMaps::LatLngBounds::operator=(const LatLngBounds
 
 bool googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_WEST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_WEST) <<   "    val " << POS_NORTH_WEST << "    - " << bit2Set;
+    //qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_WEST);
+   // qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_WEST) <<   "    val " << POS_NORTH_WEST << "    - " << bit2Set;
     if (nwPoint.isValidLatLng(nwPoint))
     {
        m_nwPoint = nwPoint;
@@ -74,8 +74,8 @@ bool googleMaps::LatLngBounds::setNWPoint(const googleMaps::LatLng nwPoint)
 
 bool googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_EAST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_EAST) <<   "    val " << POS_SOUTH_EAST << "    - " << bit2Set;
+  //  qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_EAST);
+   // qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_EAST) <<   "    val " << POS_SOUTH_EAST << "    - " << bit2Set;
     if (LatLng::isValidLatLng(sePoint))
     {
         m_sePoint = sePoint;
@@ -96,8 +96,8 @@ bool googleMaps::LatLngBounds::setSEPoint(const googleMaps::LatLng sePoint)
 
 bool googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_EAST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_EAST) <<  "    val " << POS_NORTH_EAST <<  "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH_EAST);
+    //qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH_EAST) <<  "    val " << POS_NORTH_EAST <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(nePoint))
     {
         m_nePoint = nePoint;
@@ -118,8 +118,8 @@ bool googleMaps::LatLngBounds::setNEPoint(const googleMaps::LatLng nePoint)
 
 bool googleMaps::LatLngBounds::setSWPoint(const googleMaps::LatLng swPoint)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_WEST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_WEST) <<  "    val " << POS_SOUTH_WEST <<  "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH_WEST);
+    //qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH_WEST) <<  "    val " << POS_SOUTH_WEST <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(swPoint))
     {
         m_swPoint = swPoint;
@@ -154,8 +154,8 @@ googleMaps::LatLng googleMaps::LatLngBounds::getCenter() const
 
 bool googleMaps::LatLngBounds::setCenter(const googleMaps::LatLng center)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_CENTER);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_CENTER) <<  "    val " << POS_CENTER <<  "    - " << bit2Set;
+    //qreal bit2Set = qPow(2, ECardinalPositions::POS_CENTER);
+    //qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_CENTER) <<  "    val " << POS_CENTER <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(center))
     {
         m_centerPoint = center;
@@ -216,8 +216,8 @@ QString googleMaps::LatLngBounds::toString()
 
 bool googleMaps::LatLngBounds::setEast(const LatLng east)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_EAST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_EAST) << "    val " << POS_EAST << "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_EAST);
+   // qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_EAST) << "    val " << POS_EAST << "    - " << bit2Set;
     if (LatLng::isValidLatLng(east))
     {
         m_east = east;
@@ -238,8 +238,8 @@ bool googleMaps::LatLngBounds::setEast(const LatLng east)
 
 bool googleMaps::LatLngBounds::setNorth(const LatLng north)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH) <<  "    val " << POS_NORTH <<  "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_NORTH);
+   // qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_NORTH) <<  "    val " << POS_NORTH <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(north))
     {
         m_north = north;
@@ -260,8 +260,8 @@ bool googleMaps::LatLngBounds::setNorth(const LatLng north)
 
 bool googleMaps::LatLngBounds::setSouth(const LatLng south)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH) <<  "    val " << POS_SOUTH <<  "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_SOUTH);
+    //qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_SOUTH) <<  "    val " << POS_SOUTH <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(south))
     {
         m_south = south;
@@ -283,8 +283,8 @@ bool googleMaps::LatLngBounds::setSouth(const LatLng south)
 
 bool googleMaps::LatLngBounds::setWest(const LatLng west)
 {
-    qreal bit2Set = qPow(2, ECardinalPositions::POS_WEST);
-    qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_WEST) <<  "    val " << POS_WEST <<  "    - " << bit2Set;
+   // qreal bit2Set = qPow(2, ECardinalPositions::POS_WEST);
+    //qDebug() << "[LatLngBounds] set position " << cardinalToText(POS_WEST) <<  "    val " << POS_WEST <<  "    - " << bit2Set;
     if (LatLng::isValidLatLng(west))
     {
         m_west = west;

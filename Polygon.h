@@ -26,7 +26,6 @@ namespace googleMaps
         Q_PROPERTY(qreal fillOpacity READ getFillOpacity WRITE updateFillOpacity NOTIFY fillOpacityChanged)
         Q_PROPERTY(QString strokeColor READ getStrokeColor WRITE updateStrokeColor NOTIFY strokeColorChanged)
         Q_PROPERTY(qreal strokeOpacity READ getStrokeOpacity WRITE updateStrokeOpacity NOTIFY strokeOpacityChanged)
-        Q_PROPERTY(qreal strokeOpacity READ getStrokeOpacity WRITE updateStrokeOpacity NOTIFY strokeOpacityChanged)
         Q_PROPERTY(qreal strokeWeight READ getStrokeWeight WRITE updateStrokeWeight NOTIFY strokeWeightChanged)
         Q_PROPERTY(qreal zIndex READ getZIndex WRITE updateZIndex NOTIFY zIndexChanged)
         protected:

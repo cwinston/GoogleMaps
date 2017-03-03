@@ -79,16 +79,16 @@
         LatLngValidator* validator = new LatLngValidator();
         QString posStr = position.toString();
         int pos = 0;
-        qDebug() << "[LatLng] posStr " <<  posStr;
+        //qDebug() << "[LatLng] posStr " <<  posStr;
         int validState = static_cast<int>(validator->validate(posStr, pos));
-        qDebug() << "[LatLng] state   " << QString::number(validState);
+        //qDebug() << "[LatLng] state   " << QString::number(validState);
         if ((position.lat() >= -90.00) && (position.lat() <= 90.00))
         {
             if ((position.lng() >= -180.00) && (position.lng() <= 180.00))
             {
                 if (validState == 2)
                 {
-                    qDebug() << "[LatLng] latitude & longitude is valid ";
+                    //qDebug() << "[LatLng] latitude & longitude is valid ";
                     return true;
                 }
             }
@@ -98,8 +98,8 @@
 
     void  googleMaps::LatLng::deserialize(const QVariantMap& data)
     {
-        qDebug() << "[LatLng] parse latLng result " << data << "\n";
-         qDebug() << "[LatLng]  latLng keys " << data.keys() << "\n";
+        //qDebug() << "[LatLng] parse latLng result " << data << "\n";
+         //qDebug() << "[LatLng]  latLng keys " << data.keys() << "\n";
          for (auto locPoint : data.keys())
          {
              if (locPoint == GEO_LAT)
@@ -111,15 +111,15 @@
                 setLng(data[locPoint].toDouble());
              }
          }
-         qDebug() << "[LatLng]  lat  " << m_lat << "   lng "<< m_lng << "\n";
+         //qDebug() << "[LatLng]  lat  " << m_lat << "   lng "<< m_lng << "\n";
          isValidLatLng(*this);
     }
 
 
     void  googleMaps::LatLng::deserialize(const QVariant& data)
     {
-         qDebug() << "[LatLng] parse latLng result " << data << "\n";
-         qDebug() << "[LatLng]  latLng keys " << data.toMap().keys() << "\n";
+         //qDebug() << "[LatLng] parse latLng result " << data << "\n";
+         //qDebug() << "[LatLng]  latLng keys " << data.toMap().keys() << "\n";
          for (auto locPoint : data.toMap().keys())
          {
              if (locPoint == GEO_LAT)

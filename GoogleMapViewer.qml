@@ -29,11 +29,11 @@ Item
         url: "maptest.html"
 
          onLoadingChanged: {
-             console.log("  loading changed  isloading  "+loading);
+         //    console.log("  loading changed  isloading  "+loading);
              if (!mapController.connectionMade)
              {
-                 console.log("  channel ready?   "+mapController.connectionMade)
-                 console.log("  webChannel transports  "+webChannel.transports[0]);
+               //  console.log("  channel ready?   "+mapController.connectionMade)
+                // console.log("  webChannel transports  "+webChannel.transports[0]);
                 mapController.channel = webview.webChannel;
              }
          }
@@ -76,31 +76,31 @@ Item
 
         onPositionResultsReceived:
         {
-            console.log("position result in  "+mapController.positionResult)
+           // console.log("position result in  "+mapController.positionResult)
             positionResultReceived(mapController.positionResult);
         }
 
         onCenterChanged:
         {
-            console.log("[MAPVIEWER] center changed "+position);
+          //  console.log("[MAPVIEWER] center changed "+position);
             mapCenterChanged(position);
         }
 
         onZoomChanged:
         {
-            console.log("[MAPVIEWER] zoom changed "+zoomLevel);
+         //   console.log("[MAPVIEWER] zoom changed "+zoomLevel);
             mapZoomChanged(zoomLevel);
         }
 
         onBoundsChanged:
         {
-            console.log("[MAPVIEWER] bounds changed "+bounds);
+         //   console.log("[MAPVIEWER] bounds changed "+bounds);
             mapBoundsChanged(bounds);
         }
 
         onMarkerCreated:
         {
-            console.log("[MAPVIEWER] Marker Created ");
+         //   console.log("[MAPVIEWER] Marker Created ");
             mapMarkerCreated(marker);
         }
 
@@ -175,13 +175,13 @@ Item
 
     function centerMapAt(location)
     {
-        console.log("[GMV] centerMapAt  "+location);
+       // console.log("[GMV] centerMapAt  "+location);
         mapController.centerMapAt(location);
     }
 
     function addMarker(options)
     {
-        console.log("[GMV] addMarker  ");
+       // console.log("[GMV] addMarker  ");
         mapController.addMarker(options);
     }
 
@@ -197,7 +197,7 @@ Item
 
     function addPolygon(options)
     {
-        console.log("[GMV] addPolygon  ");
+       // console.log("[GMV] addPolygon  ");
         mapController.addPolygon(options);
     }
 

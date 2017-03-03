@@ -7,6 +7,7 @@ googleMaps::Point::Point(QObject *parent)
 {
     m_x = 0;
     m_y = 0;
+    setParent(parent);
 }
 
 googleMaps::Point::Point(qreal xVal, qreal yVal)

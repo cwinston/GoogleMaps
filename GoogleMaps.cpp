@@ -241,7 +241,7 @@ void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
 void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString& status)
 {
 //    qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
-    qDebug() << "[GeoWorldBuilder]   GeoLocation Received ";
+    qDebug() << "[GeoWorldBuilder]   GeoLocation Received " << status;
     emit geoLocationsReceived();
 }
 
