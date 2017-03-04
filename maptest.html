@@ -278,8 +278,9 @@
   
 	function placeMarker(event)
 	{
-         console.log("placeMarker  "+event.latLng);
-                var newMarker = new google.maps.Marker({position:event.latLng, map:window.googleMap});
+            console.log("placeMarker  "+event.latLng);
+            var newMarker = new google.maps.Marker({position:event.latLng, map:window.googleMap});
+            markers.push(newMarker);
 	}
   
 	function handleZoomChange(event)
@@ -341,7 +342,7 @@
              };
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
             window.googleMap = map;
-            google.maps.event.addListener(map, 'click', placeMarker);
+            google.maps.event.addListener(map, 'dblclick', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
             google.maps.event.addListener(map, 'center_changed', handleMapCenterChange);
         }
