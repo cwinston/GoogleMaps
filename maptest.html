@@ -46,11 +46,6 @@
                                         console.log("centerOnLocation   "+channel.objects.Map.zoom);
                                         console.log("test 1st arg   "+arguments[0]);
                                 });
-                                channel.objects.Map.startMapView.connect(function()
-                                {
-                                        console.log("start map  ");
-                                        startMap();
-                                });
                                 channel.objects.Map.addMarkerRequest.connect(function(options)
                                 {
                                     console.log("addMarkerRequest  "+options);
@@ -164,7 +159,7 @@
                                 console.log("ElevationService   "+window.elevationService);
                             }
 
-
+                            channel.objects.Map.setPluginLoaded(true);
                     });
                 }
                 console.log("initialize   "+channel);
@@ -345,6 +340,7 @@
             google.maps.event.addListener(map, 'dblclick', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
             google.maps.event.addListener(map, 'center_changed', handleMapCenterChange);
+            channel.objects.Map.setPluginLoaded(true);
         }
 	
 	function loadjsfile(filename)
@@ -354,12 +350,18 @@
 		var fileref=document.createElement('script')
 		fileref.setAttribute("type","text/javascript")
                 fileref.setAttribute("src", filename);
+                fileref.addEventListener("load", function()
+                {
+                    console.log("google maps loaded ");
+                    startMap();
+                });
                 if (typeof fileref!=="undefined")
 		{
-                console.log("loading "+fileref);
-			document.getElementsByTagName("head")[0].appendChild(fileref)
+                    console.log("loading "+fileref);
+                    document.getElementsByTagName("head")[0].appendChild(fileref)
 		}
                 console.log("Loaded  "+document.scripts.length);
+
 	}
     </script>
   </head>

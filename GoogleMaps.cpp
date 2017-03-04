@@ -58,11 +58,7 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     {
         m_map->setMapsKey(m_mapsKey);
     }
-    m_startupTimer = new QTimer(this);
-    m_startupTimer->setSingleShot(true);
-    m_startupTimer->setInterval(1800);
-    connect(m_startupTimer, SIGNAL(timeout()), this, SLOT(handleStartupTimeout()));
-    m_startupTimer->start();
+    emit transportReady();
 }
 
 void googleMaps::GoogleMaps::setMapsKey(const QString key)
@@ -79,13 +75,6 @@ QString googleMaps::GoogleMaps::getMapKey() const
 bool googleMaps::GoogleMaps::isConnected()
 {
    return m_transportReady;
-}
-
-void googleMaps::GoogleMaps::handleStartupTimeout()
-{
-    qDebug() << "[GoogleMaps] start map " ;
-    m_map->startMap();
-    emit transportReady();
 }
 
 void googleMaps::GoogleMaps::centerMapAt(googleMaps::LatLng newCenter)

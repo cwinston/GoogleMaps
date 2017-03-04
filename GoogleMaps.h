@@ -92,7 +92,6 @@ namespace googleMaps
         googleMaps::MaxZoomService* m_maxZoomService;
         googleMaps::ElevationService* m_elevationService;
         googleMaps::Map* m_map;
-        QTimer* m_startupTimer;
         QWebChannel* m_channel;
         bool m_transportReady;
         QString m_mapsKey;
@@ -186,7 +185,6 @@ namespace googleMaps
             void handleMaxZoomReceived(qreal zoomLevel);
             void handleDistanceResults(qreal distance);
             void handlePositionResults(googleMaps::LatLng position);
-            void handleStartupTimeout();
 
 
     };
