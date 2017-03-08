@@ -210,4 +210,14 @@ Item
     {
         mapController.clearPolygons();
     }
+
+    function zoomInRequest()
+    {
+        mapController.zoomInRequest();
+    }
+
+    function zoomOutRequest()
+    {
+        mapController.zoomOutRequest();
+    }
 }

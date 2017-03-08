@@ -274,3 +274,13 @@ googleMaps::LatLng googleMaps::GoogleMaps::getPositionResult() const
 {
     return m_sphericalGeometryService->getPositionResults();
 }
+
+void googleMaps::GoogleMaps::zoomInRequest()
+{
+    m_map->sendZoomInRequest();
+}
+
+void googleMaps::GoogleMaps::zoomOutRequest()
+{
+    m_map->sendZoomOutRequest();
+}

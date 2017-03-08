@@ -179,6 +179,8 @@ namespace googleMaps
             void addPolygon(googleMaps::PolygonOptions options);
             void clearPolygon(googleMaps::PolygonOptions options);
             void clearPolygons();
+            void zoomInRequest();
+            void zoomOutRequest();
 
 
         private slots:

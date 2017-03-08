@@ -215,3 +215,13 @@ void googleMaps::Map::clearPolygons()
 {
     emit clearPolygonsRequest();
 }
+
+void googleMaps::Map::sendZoomOutRequest()
+{
+    emit zoomOutRequest();
+}
+
+void googleMaps::Map::sendZoomInRequest()
+{
+    emit zoomInRequest();
+}

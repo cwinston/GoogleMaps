@@ -158,6 +158,8 @@ namespace googleMaps
             void setMapsKey(const QString key);
             //void setOptions(const googleMaps::MapOptions options);
             QString getMapsKey() const;
+            void sendZoomOutRequest();
+            void sendZoomInRequest();
             static googleMaps::Marker createMarker(const MarkerOptions options);
 
             
@@ -200,6 +202,8 @@ namespace googleMaps
             void addPolygonRequest(QVariantMap options);
             void clearPolygonRequest(googleMaps::PolygonOptions options);
             void clearPolygonsRequest();
+            void zoomInRequest();
+            void zoomOutRequest();
 
 	};
 }

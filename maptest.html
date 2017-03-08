@@ -96,6 +96,18 @@
                                     }
                                     polygons = [];
                                 });
+                                channel.objects.Map.zoomInRequest.connect(function()
+                                {
+                                    var currentZoom = window.googleMap.getZoom()+1;
+                                    console.log("zoomIn request "+currentZoom);
+                                    window.googleMap.setZoom(currentZoom);
+                                });
+                                channel.objects.Map.zoomOutRequest.connect(function()
+                                {
+                                    var currentZoom = window.googleMap.getZoom()-1;
+                                    console.log("zoomOut request "+window.googleMap.getZoom());
+                                    window.googleMap.setZoom(currentZoom);
+                                });
                                 if (window.map.mapsKey !== "")
                                 {
                                     loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&key="+window.map.mapsKey);
@@ -340,7 +352,7 @@
             google.maps.event.addListener(map, 'dblclick', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
             google.maps.event.addListener(map, 'center_changed', handleMapCenterChange);
-            channel.objects.Map.setPluginLoaded(true);
+
         }
 	
 	function loadjsfile(filename)
