@@ -14,7 +14,7 @@ googleMaps::GoogleMaps::~GoogleMaps()
 
     if (m_channel)
     {
-
+        delete m_channel;
     }
     if (m_geoCoder)
     {
@@ -70,6 +70,15 @@ void googleMaps::GoogleMaps::setMapsKey(const QString key)
 QString googleMaps::GoogleMaps::getMapKey() const
 {
     return m_mapsKey;
+}
+
+void googleMaps::GoogleMaps::updateMapOptions(const googleMaps::MapOptions options)
+{
+    if (m_map)
+    {
+        qDebug() << "[GoogleMaps] updateMapOptions ";
+        m_map->updateOptions(options);
+    }
 }
 
 bool googleMaps::GoogleMaps::isConnected()

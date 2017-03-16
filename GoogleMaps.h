@@ -172,6 +172,7 @@ namespace googleMaps
             void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
             void setMapsKey(const QString key);
+            void updateMapOptions(const googleMaps::MapOptions options);
             void addMarker(googleMaps::MarkerOptions option);
             void clearMarker(googleMaps::LatLng position);
             void clearMarkers();
