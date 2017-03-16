@@ -179,6 +179,11 @@ Item
         mapController.centerMapAt(location);
     }
 
+    function updateMapOptions(options)
+    {
+        mapController.updateMapOptions(options);
+    }
+
     function addMarker(options)
     {
        // console.log("[GMV] addMarker  ");
