@@ -7,11 +7,27 @@ using namespace std;
 googleMaps::MapOptions::MapOptions(QObject* parent)
 {
     setParent(parent);
+    m_backgroundColor = "#222222";
     m_disableDefaultUI = false;
     m_disableDoubleClickZoom = false;
     m_draggable = true;
     m_mapTypeControl = true;
     m_zoomControl = true;
+    m_fullscreenControlPosition = googleMaps::ECP_RIGHT_TOP;
+    m_zoomControlPosition = googleMaps::ECP_BOTTOM_RIGHT;
+    m_rotateControl = true;
+    m_rotateControlPosition = googleMaps::ECP_LEFT_CENTER;
+    m_heading = 0;
+    m_minZoom = 2;
+    m_maxZoom = 17;
+    m_zoom = 10;
+    m_mapTypeId = MAPTYPE_ROADMAP;
+    m_scaleControl = false;
+    m_scaleControlPosition = googleMaps::ECP_LEFT_CENTER;
+    m_mapTypeControlPosition = googleMaps::ECP_TOP_LEFT;
+    m_mapTypeControlStyle = MAPTYPE_STYLE_DEFAULT;
+
+
 }
 
 //copy constructor
@@ -35,6 +51,11 @@ googleMaps::MapOptions::MapOptions(const MapOptions& rhs)
    m_rotateControlPosition = rhs.getRotateControlPosition();
    m_fullscreenControlPosition = rhs.getFullscreenControlPosition();
    m_zoomControlPosition = rhs.getZoomControlPosition();
+   m_scaleControlPosition = rhs.getScaleControlPosition();
+   m_scaleControl = rhs.getScaleControl();
+   m_mapTypeControlStyle = rhs.getMapTypeControlStyle();
+   m_mapTypeControlPosition = rhs.getMapTypeControlPosition();
+   m_mapTypeIds = rhs.getMapTypeIds();
 }
 
 //assignment operator
@@ -62,6 +83,11 @@ googleMaps::MapOptions& googleMaps::MapOptions::operator=(const googleMaps::MapO
     m_rotateControlPosition = rhs.getRotateControlPosition();
     m_fullscreenControlPosition = rhs.getFullscreenControlPosition();
     m_zoomControlPosition = rhs.getZoomControlPosition();
+    m_scaleControlPosition = rhs.getScaleControlPosition();
+    m_scaleControl = rhs.getScaleControl();
+    m_mapTypeControlStyle = rhs.getMapTypeControlStyle();
+    m_mapTypeControlPosition = rhs.getMapTypeControlPosition();
+    m_mapTypeIds = rhs.getMapTypeIds();
     return *this;
 }
 
@@ -124,12 +150,12 @@ bool googleMaps::MapOptions::hasMapTypeControl() const
     return this->m_mapTypeControl;
 }
 
-void googleMaps::MapOptions::updateMapTypeId(const EMapTypeID mapTypeId)
+void googleMaps::MapOptions::updateMapTypeId(const QString mapTypeId)
 {
     this->m_mapTypeId = mapTypeId;
 }
 
-googleMaps::EMapTypeID googleMaps::MapOptions::getMapTypeId() const
+QString googleMaps::MapOptions::getMapTypeId() const
 {
     return this->m_mapTypeId;
 }
@@ -243,6 +269,56 @@ int googleMaps::MapOptions::getZoomControlPosition() const
     return this->m_zoomControlPosition;
 }
 
+int googleMaps::MapOptions::getScaleControlPosition() const
+{
+    return m_scaleControlPosition;
+}
+
+int googleMaps::MapOptions::getMapTypeControlPosition() const
+{
+    return m_mapTypeControlPosition;
+}
+
+QString googleMaps::MapOptions::getMapTypeControlStyle() const
+{
+    return m_mapTypeControlStyle;
+}
+
+QList<QString> googleMaps::MapOptions::getMapTypeIds() const
+{
+    return m_mapTypeIds;
+}
+
+bool googleMaps::MapOptions::getScaleControl() const
+{
+   return m_scaleControl;
+}
+
+void googleMaps::MapOptions::updateScaleControlPosition(const int position)
+{
+    m_scaleControlPosition = position;
+}
+
+void googleMaps::MapOptions::updateScaleControl(const bool sControl)
+{
+    m_scaleControl = sControl;
+}
+
+void googleMaps::MapOptions::updateMapTypeControlPosition(const int position)
+{
+    m_mapTypeControlPosition = position;
+}
+
+void googleMaps::MapOptions::updateMapTypeControlStyle(const QString style)
+{
+    m_mapTypeControlStyle = style;
+}
+
+void googleMaps::MapOptions::addMapType(const QString type)
+{
+    m_mapTypeIds.push_back(type);
+}
+
 QVariantMap googleMaps::MapOptions::serialize() const
 {
     QVariantMap options;
@@ -264,5 +340,9 @@ QVariantMap googleMaps::MapOptions::serialize() const
     options.insert(MAP_ROTATE_CONTROL_POSITION, m_rotateControlPosition);
     options.insert(MAP_FULLSCREEN_CONTROL_POSITION, m_fullscreenControlPosition);
     options.insert(MAP_ZOOMCONTROL_POSITION, m_zoomControlPosition);
+    options.insert(MAP_SCALE_CONTROL, m_scaleControl);
+    options.insert(MAP_SCALE_CONTROL_POSITION, m_scaleControlPosition);
+    options.insert(MAP_MAPTYPECONTROLPOSITION, m_mapTypeControlPosition);
+    options.insert(MAP_MAPTYPECONTROLSTYLE, m_mapTypeControlStyle);
     return options;
 }
