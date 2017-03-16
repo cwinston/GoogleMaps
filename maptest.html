@@ -21,6 +21,8 @@
   var lastMessage;
   var markers = [];
   var polygons = [];
+  var mapStarted = false;
+  var mapOptions;
 
 	function initialize()
 	{
@@ -108,6 +110,22 @@
                                     console.log("zoomOut request "+window.googleMap.getZoom());
                                     window.googleMap.setZoom(currentZoom);
                                 });
+                                channel.objects.Map.updateMapOptionsRequest.connect(function(options)
+                                {
+                                    console.log("update Map options request "+options);
+                                    console.log("mapStarted "+mapStarted);
+                                    if (mapStarted)
+                                    {
+                                       mapOptions = channel.objects.Map.getOptionsMap();
+                                    }
+                                    else
+                                    {
+                                        mapOptions = options;
+
+                                    }
+                                    startMap();
+
+                                });
                                 if (window.map.mapsKey !== "")
                                 {
                                     loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&key="+window.map.mapsKey);
@@ -170,8 +188,6 @@
                                 window.elevationService = channel.objects.ElevationService;
                                 console.log("ElevationService   "+window.elevationService);
                             }
-
-                            channel.objects.Map.setPluginLoaded(true);
                     });
                 }
                 console.log("initialize   "+channel);
@@ -331,27 +347,79 @@
 
         }
 
+        function setMapOptions(options)
+        {
+
+        }
+
         function startMap()
         {
-            console.log("starting map  "+google.maps);
+            console.log("starting map  "+channel.objects.Map.options.center.lat);
+            console.log(" mapLoaded " +channel.objects.Map.options.mapLoaded);
             google.maps.visualRefresh = true;
             var map;
-            var mapOptions =
+            var options;
+            options = channel.objects.Map.options;
+
+            if (options.center.lat != -100)
             {
-                    zoom: 8,
-                    scaleControl: true,
-                    scaleControlOptions:
-                    {
-                        position: google.maps.ControlPosition.BOTTOM_CENTER
-                    },
-                    center: new google.maps.LatLng(30.267, -97),
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-             };
+
+                console.log("lat:  "+options.center.lat+"   lng: "+options.center.lng);
+
+                mapOptions =
+                {
+                        zoom: options.zoom,
+                        scaleControl: options.scaleControl,
+                        scaleControlOptions:
+                        {
+                            position: google.maps.ControlPosition.BOTTOM_LEFT
+                        },
+                        center: new google.maps.LatLng(options.center.lat, options.center.lng),
+                        mapTypeId: options.mapTypeId,
+                        maxZoom: options.maxZoom,
+                        minZoom: options.minZoom,
+                        disableDefaultUI: options.disableDefaultUI,
+                        disableDoubleClickZoom: options.disableDoubleClickZoom,
+                        draggable: options.draggable,
+                        heading: options.heading,
+                        clickableIcons: options.clickableIcons,
+                        backgroundColor: options.backgroundColor,
+                        mapTypeControl: options.mapTypeControl,
+                        fullscreenControl: options.fullscreenControl,
+                        rotateControl: options.rotateControl,
+                        rotationControlOptions:
+                        {
+                            position: options.rotationControlPosition,
+                        },
+                        mapTypeControlOptions:
+                        {
+                            position: options.mapTypeControlPosition
+                        },
+                        mapTypeControlStyle: options.mapTypeControlStyle,
+
+                 };
+
+            }
+            else
+            {
+                mapOptions =
+                {
+                        zoom: 8,
+                        scaleControl: true,
+                        scaleControlOptions:
+                        {
+                            position: google.maps.ControlPosition.BOTTOM_CENTER
+                        },
+                        center: new google.maps.LatLng(30.267, -97),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                 };
+            }
+
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-            window.googleMap = map;
             google.maps.event.addListener(map, 'dblclick', placeMarker);
             google.maps.event.addListener(map, 'zoom_changed', handleZoomChange);
             google.maps.event.addListener(map, 'center_changed', handleMapCenterChange);
+            window.googleMap = map;
 
         }
 	
@@ -365,7 +433,9 @@
                 fileref.addEventListener("load", function()
                 {
                     console.log("google maps loaded ");
-                    startMap();
+                    channel.objects.Map.updateMapLoaded(true);
+                    mapStarted = true;
+
                 });
                 if (typeof fileref!=="undefined")
 		{
