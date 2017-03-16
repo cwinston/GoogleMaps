@@ -35,38 +35,17 @@ namespace googleMaps
 namespace googleMaps
 {
     
-    enum EMapTypeControlStyle
-    {
-        MTCS_DEFAULT = 0,
-        MTCS_DROPDOWN_MENU,
-        MTCS_HORIZONTAL_BAR,
-    };
-    
-    enum EControlPosition
-    {
-        ECP_BOTTOM_CENTER = 0,
-        ECP_BOTTOM_LEFT,
-        ECP_BOTTOM_RIGHT,
-        ECP_LEFT_BOTTOM,
-        ECP_LEFT_CENTER,
-        ECP_LEFT_TOP,
-        ECP_RIGHT_BOTTOM,
-        ECP_RIGHT_CENTER,
-        ECP_RIGHT_TOP,
-        ECP_TOP_CENTER,
-        ECP_TOP_LEFT,
-        ECP_TOP_RIGHT,
-    };
+
 
     class MapType: public QObject
     {
         Q_OBJECT
         protected:
-            QString m_alt;
             int m_maxZoom;
             int m_minZoom;
-            QString m_name;
             int m_radius;
+            QString m_alt;
+            QString m_name;
             QString m_projection;
             googleMaps::Size m_tileSize;
 
@@ -126,6 +105,8 @@ namespace googleMaps
         Q_PROPERTY(googleMaps::LatLng center READ getCenter NOTIFY centerChanged WRITE centerMapAt)
         Q_PROPERTY(int zoom READ getZoom WRITE updateZoom NOTIFY zoom_changed)
         Q_PROPERTY(QString mapsKey READ getMapsKey NOTIFY mapsKeySet)
+        Q_PROPERTY(QVariantMap options READ getOptionsMap NOTIFY optionsChanged)
+        Q_PROPERTY(bool mapLoaded READ getMapLoaded WRITE updateMapLoaded NOTIFY mapLoadedChanged)
 
         protected:
             googleMaps::MapTypeRegistry m_mapTypes;
@@ -135,6 +116,7 @@ namespace googleMaps
             googleMaps::EMapTypeID m_mapTypeID;
             int m_tilt;
             int m_zoom;
+            bool m_mapLoaded;
             QString m_mapsKey;
             QList<googleMaps::Marker> m_markers;
             QList<googleMaps::Polygon> m_polygons;
@@ -157,9 +139,11 @@ namespace googleMaps
             void panMapTo(googleMaps::LatLng latLng);
             void setMapsKey(const QString key);
             //void setOptions(const googleMaps::MapOptions options);
-            QString getMapsKey() const;
+            Q_INVOKABLE QString getMapsKey() const;
             void sendZoomOutRequest();
             void sendZoomInRequest();
+            Q_INVOKABLE QVariantMap getOptionsMap() const;
+            Q_INVOKABLE bool getMapLoaded() const;
             static googleMaps::Marker createMarker(const MarkerOptions options);
 
             
@@ -180,6 +164,7 @@ namespace googleMaps
             void addPolygon(googleMaps::PolygonOptions options);
             void clearPolygon(googleMaps::PolygonOptions options);
             void clearPolygons();
+            void updateMapLoaded(const bool loaded);
 
         signals:
             void boundsChanged(googleMaps::LatLngBounds latLngBounds);
@@ -204,6 +189,8 @@ namespace googleMaps
             void clearPolygonsRequest();
             void zoomInRequest();
             void zoomOutRequest();
+            void updateMapOptionsRequest(QVariantMap options);
+            void mapLoadedChanged();
 
 	};
 }

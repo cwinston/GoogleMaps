@@ -33,7 +33,7 @@ SOURCES += \
     Size.cpp \
     LatLngValidator.cpp \
     Polygon.cpp \
-    PolygonOptions.cpp
+    PolygonOptions.cpp \
 
 HEADERS += \
     googlemaps_plugin.h \
@@ -63,7 +63,7 @@ HEADERS += \
     Size.h \
     LatLngValidator.h \
     Polygon.h \
-    PolygonOptions.h
+    PolygonOptions.h \
 
 
 pluginfiles.files += \

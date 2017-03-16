@@ -14,6 +14,7 @@ googleMaps::Map::Map(QObject *parent)
 {
     setParent(parent);
     m_mapsKey = "";
+    m_mapLoaded = false;
     m_markers = QList<googleMaps::Marker>();
 }
 
@@ -67,15 +68,35 @@ QString googleMaps::Map::getMapsKey() const
     return m_mapsKey;
 }
 
+QVariantMap googleMaps::Map::getOptionsMap() const
+{
+     qDebug() <<  "[Map] getOptionsMap  ";
+    return m_options.serialize();
+}
+
 void googleMaps::Map::startMap()
 {
-     qDebug() <<  "[Map] startMapView  ";
+     qDebug() <<  "[Map] startMapView  " << m_mapLoaded;
     emit startMapView();
 }
 
 googleMaps::MapOptions googleMaps::Map::getOptions() const
 {
     return m_options;
+}
+
+bool googleMaps::Map::getMapLoaded() const
+{
+    return m_mapLoaded;
+}
+
+void googleMaps::Map::updateMapLoaded(const bool loaded)
+{
+    qDebug() <<  "[Map] MapLoaded  ";
+    m_mapLoaded = loaded;
+    QVariantMap map;
+    map = getOptionsMap();
+    emit updateMapOptionsRequest(map);
 }
 
 void googleMaps::Map::updateBounds(const LatLngBounds latLngBounds)
@@ -139,7 +160,14 @@ void googleMaps::Map::updateZoom(const QVariant zoom)
 
 void googleMaps::Map::updateOptions(googleMaps::MapOptions options)
 {
+    QVariantMap map;
     m_options = options;
+     qDebug() <<  "[Map] updateOptions  ";
+    map = getOptionsMap();
+    if (m_mapLoaded)
+    {
+        emit updateMapOptionsRequest(map);
+    }
     emit optionsChanged();
 }
 
