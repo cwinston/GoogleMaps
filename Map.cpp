@@ -118,7 +118,7 @@ googleMaps::LatLng googleMaps::Map::getCenter() const
     return m_mapCenter;
 }
 
-googleMaps::EMapTypeID googleMaps::Map::getMapTypeId() const
+QString googleMaps::Map::getMapTypeId() const
 {
     return m_mapTypeID;
 }
@@ -147,9 +147,15 @@ void googleMaps::Map::panToBound(const LatLngBounds latLngBounds)
 	throw "Not yet implemented";
 }
 
-void googleMaps::Map::updateMapTypeId(const EMapTypeID mapTypeId)
+void googleMaps::Map::updateMapTypeId(const QString mapTypeId)
 {
     m_mapTypeID = mapTypeId;
+     qDebug() <<  "[Map] updateMapType  " << m_mapLoaded;
+    if (m_mapLoaded)
+    {
+        emit updateMapTypeRequest(mapTypeId);
+    }
+    emit maptypeid_changed();
 }
 
 void googleMaps::Map::updateZoom(const QVariant zoom)
@@ -162,7 +168,7 @@ void googleMaps::Map::updateOptions(googleMaps::MapOptions options)
 {
     QVariantMap map;
     m_options = options;
-     qDebug() <<  "[Map] updateOptions  ";
+     qDebug() <<  "[Map] updateOptions  " << m_mapLoaded;
     map = getOptionsMap();
     if (m_mapLoaded)
     {

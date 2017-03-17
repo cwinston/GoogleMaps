@@ -113,7 +113,7 @@ namespace googleMaps
             googleMaps::LatLngBounds m_bounds;
             googleMaps::MapOptions m_options;
             googleMaps::LatLng m_mapCenter;
-            googleMaps::EMapTypeID m_mapTypeID;
+            QString m_mapTypeID;
             int m_tilt;
             int m_zoom;
             bool m_mapLoaded;
@@ -132,7 +132,7 @@ namespace googleMaps
             googleMaps::LatLngBounds getBounds() const;
             googleMaps::LatLng getCenter() const;
             googleMaps::MapOptions getOptions() const;
-            googleMaps::EMapTypeID getMapTypeId() const;
+            QString getMapTypeId() const;
             googleMaps::MapTypeRegistry getMapTypes() const;
             int getZoom() const;
             int getTilt() const;
@@ -148,7 +148,7 @@ namespace googleMaps
 
             
         public slots:
-            void updateMapTypeId(const googleMaps::EMapTypeID mapTypeId);
+            void updateMapTypeId(const QString mapTypeId);
             void updateZoom(const   QVariant zoom);
             void updateCenter(const QVariant latlng);
             void updateOptions(const googleMaps::MapOptions options);
@@ -190,6 +190,7 @@ namespace googleMaps
             void zoomInRequest();
             void zoomOutRequest();
             void updateMapOptionsRequest(QVariantMap options);
+            void updateMapTypeRequest(QString type);
             void mapLoadedChanged();
 
 	};

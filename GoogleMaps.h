@@ -173,6 +173,7 @@ namespace googleMaps
             void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
             void setMapsKey(const QString key);
             void updateMapOptions(const googleMaps::MapOptions options);
+            void updateMapType(const QString type);
             void addMarker(googleMaps::MarkerOptions option);
             void clearMarker(googleMaps::LatLng position);
             void clearMarkers();

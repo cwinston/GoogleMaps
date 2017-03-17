@@ -81,6 +81,15 @@ void googleMaps::GoogleMaps::updateMapOptions(const googleMaps::MapOptions optio
     }
 }
 
+void googleMaps::GoogleMaps::updateMapType(const QString type)
+{
+    if (m_map)
+    {
+        qDebug() << "[GoogleMaps] updateMapType ";
+        m_map->updateMapTypeId(type);
+    }
+}
+
 bool googleMaps::GoogleMaps::isConnected()
 {
    return m_transportReady;
@@ -151,6 +160,16 @@ void googleMaps::GoogleMaps::clearPolygons()
         m_map->clearPolygons();
     }
 
+}
+
+void googleMaps::GoogleMaps::zoomInRequest()
+{
+    m_map->sendZoomInRequest();
+}
+
+void googleMaps::GoogleMaps::zoomOutRequest()
+{
+    m_map->sendZoomOutRequest();
 }
 
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
@@ -282,14 +301,4 @@ qreal googleMaps::GoogleMaps::getDistanceResult() const
 googleMaps::LatLng googleMaps::GoogleMaps::getPositionResult() const
 {
     return m_sphericalGeometryService->getPositionResults();
-}
-
-void googleMaps::GoogleMaps::zoomInRequest()
-{
-    m_map->sendZoomInRequest();
-}
-
-void googleMaps::GoogleMaps::zoomOutRequest()
-{
-    m_map->sendZoomOutRequest();
 }

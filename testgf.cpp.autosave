@@ -1,0 +1,30 @@
+#include "testgf.h"
+#include <QObject>
+
+#define wildcard "?"
+
+bool testGF::match(const QString pattern, const QString str2Match) const
+{
+    bool flag = false;
+    int tester = 0;
+    if (pattern.length != str2Match.length)
+    {
+        return flag;
+    }
+    for (int i = 0; i < str2Match.length; ++i)
+    {
+        if (str2Match[i] == wildcard)
+        {
+            ++tester;
+        }
+        else if (str2Match[i] == pattern[i])
+        {
+            ++tester;
+        }        
+    }
+    if (tester == str2Match.length)
+    {
+        flag = true;
+    }
+    return flag;
+}

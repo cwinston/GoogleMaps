@@ -126,6 +126,11 @@
                                     startMap();
 
                                 });
+                                channel.objects.Map.updateMapTypeRequest.connect(function(type)
+                                {
+                                    console.log("update Map type request "+type);
+                                    window.googleMap.setMapTypeId(type);
+                                });
                                 if (window.map.mapsKey !== "")
                                 {
                                     loadjsfile("https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&key="+window.map.mapsKey);

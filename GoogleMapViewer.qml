@@ -184,6 +184,11 @@ Item
         mapController.updateMapOptions(options);
     }
 
+    function updateMapType(mapType)
+    {
+        mapController.updateMapType(mapType);
+    }
+
     function addMarker(options)
     {
        // console.log("[GMV] addMarker  ");
