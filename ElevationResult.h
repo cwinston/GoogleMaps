@@ -20,6 +20,10 @@ namespace googleMaps
 	 */
     class ElevationResult : public QObject
 	{
+        Q_PROPERTY(qreal elevation READ getElevation WRITE setElevation NOTIFY elevationChanged)
+        Q_PROPERTY(googleMaps::LatLng location READ getLocation WRITE setLocation NOTIFY locationChanged)
+        Q_PROPERTY(qreal resolution READ getResolution WRITE setResolution NOTIFY resolutionChanged)
+        Q_OBJECT
         protected:
             qreal m_elevation;
             googleMaps::LatLng m_location;
@@ -33,16 +37,25 @@ namespace googleMaps
 
         public:
             explicit ElevationResult(QObject* parent = 0);
-            ~ElevationResult();
+            virtual ~ElevationResult();
             ElevationResult(const googleMaps::ElevationResult& rhs);
             googleMaps::ElevationResult& operator=(const googleMaps::ElevationResult& rhs);
-            void setElevation(qreal elevation);
-            qreal getElevation();
-            void setLocation(googleMaps::LatLng location);
-            googleMaps::LatLng getLocation();
+            qreal getElevation() const;
+            googleMaps::LatLng getLocation() const;
+            qreal getResolution() const;
+
+        public slots:
             void setResolution(qreal resolution);
-            qreal getResolution();
+            void setElevation(qreal elevation);
+            void setLocation(googleMaps::LatLng location);
+
+        signals:
+            void elevationChanged();
+            void locationChanged();
+            void resolutionChanged();
 	};
+
+        Q_DECLARE_METATYPE(googleMaps::ElevationResult)
 }
 
 #endif
