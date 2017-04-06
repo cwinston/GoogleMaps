@@ -15,19 +15,40 @@ googleMaps::LocationElevationRequest::LocationElevationRequest(const LocationEle
     m_locations = rhs.getLocations();
 }
 
+googleMaps::LocationElevationRequest& googleMaps::LocationElevationRequest::operator=(const googleMaps::LocationElevationRequest rhs)
+{
+    if(this == &rhs)
+    {
+        return *this;
+    }
+    m_locations = rhs.getLocations();
+    return *this;
+}
+
 googleMaps::LocationElevationRequest::~LocationElevationRequest()
 {
 }
 
-void googleMaps::LocationElevationRequest::addLocation(googleMaps::LatLng location) {
-	throw "Not yet implemented";
+void googleMaps::LocationElevationRequest::addLocation(googleMaps::LatLng location)
+{
+    m_locations.append(location.serialize());
+    emit locationsChanged();
 }
 
-void googleMaps::LocationElevationRequest::removeLocation(googleMaps::LatLng location) {
-	throw "Not yet implemented";
+void googleMaps::LocationElevationRequest::clearLocations()
+{
+    m_locations.clear();
+    emit locationsChanged();
 }
 
-QList<googleMaps::LatLng> googleMaps::LocationElevationRequest::getLocations() const {
+QVariantList googleMaps::LocationElevationRequest::getLocations() const
+{
     return this->m_locations;
+}
+
+void googleMaps::LocationElevationRequest::updateLocations(const QVariantList locations)
+{
+    m_locations = locations;
+    emit locationsChanged();
 }
 

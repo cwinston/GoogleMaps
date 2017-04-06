@@ -18,16 +18,23 @@ namespace googleMaps
 	{
         Q_OBJECT
         protected:
-            QList<googleMaps::LatLng> m_locations;
+            QVariantList m_locations;
 
         public:
             explicit LocationElevationRequest(QObject *parent = 0);
             LocationElevationRequest(const LocationElevationRequest& rhs);
-            ~LocationElevationRequest();
+            googleMaps::LocationElevationRequest& operator=(const googleMaps::LocationElevationRequest rhs);
+            virtual ~LocationElevationRequest();
             void addLocation(googleMaps::LatLng location);
-            void removeLocation(googleMaps::LatLng location);
-            QList<googleMaps::LatLng> getLocations() const;
+            QVariantList getLocations() const;
+            void clearLocations();
+        public slots:
+            void updateLocations(const QVariantList locations);
+
+        signals:
+            void locationsChanged();
 	};
+    Q_DECLARE_METATYPE(googleMaps::LocationElevationRequest)
 }
 
 #endif
