@@ -8,11 +8,12 @@ googleMaps::MapOptions::MapOptions(QObject* parent)
 {
     setParent(parent);
     m_backgroundColor = "#222222";
-    m_disableDefaultUI = false;
+    m_disableDefaultUI = true;
     m_disableDoubleClickZoom = false;
     m_draggable = true;
     m_mapTypeControl = true;
     m_zoomControl = true;
+    m_fullscreenControl = false;
     m_fullscreenControlPosition = googleMaps::ECP_RIGHT_TOP;
     m_zoomControlPosition = googleMaps::ECP_BOTTOM_RIGHT;
     m_rotateControl = true;
