@@ -70,9 +70,12 @@ namespace googleMaps
         Q_PROPERTY(QWebChannel* channel READ getChannel WRITE setChannel NOTIFY transportReady)
         Q_PROPERTY(bool connectionMade READ isConnected NOTIFY transportReady)
         Q_PROPERTY(QVariantList geocoderResults READ getGeoCoderResults NOTIFY geoLocationsReceived)
+        Q_PROPERTY(QVariantList elevationResults READ getElevationResults NOTIFY elevationResultsReceived)
         Q_PROPERTY(googleMaps::LatLng positionResult READ getPositionResult NOTIFY positionResultsReceived)
         Q_PROPERTY(qreal distnceResult READ getDistanceResult NOTIFY distanceResultsReceived)
         Q_PROPERTY(QString mapsKey READ getMapKey WRITE setMapsKey)
+        Q_PROPERTY(googleMaps::LatLng mapCenter READ getMapCenter NOTIFY centerChanged)
+        Q_PROPERTY(qreal zoomLevel READ getZoomLevel NOTIFY zoomChanged)
 
     public:
         explicit GoogleMaps(QObject *parent = 0);
@@ -85,6 +88,9 @@ namespace googleMaps
         qreal getDistanceResult() const;
         googleMaps::LatLng getPositionResult() const;
         QString getMapKey() const;
+        qreal getZoomLevel() const;
+        googleMaps::LatLng getMapCenter() const;
+
 
     protected:
         googleMaps::Geocoder* m_geoCoder;
@@ -105,7 +111,7 @@ namespace googleMaps
             void centerChanged(googleMaps::LatLng position);
             void zoomChanged(qreal zoomLevel);
             void maxZoomReceived(qreal zoomLevel);
-            void elevationResultsReceived(QList<googleMaps::ElevationResult> results);
+            void elevationResultsReceived(QVariantList results);
             void sendMessage(const QJsonObject &message);
             void geoLocationsReceived();
             void transportReady();
@@ -165,12 +171,10 @@ namespace googleMaps
             void getMaxZoomAtLatLng(googleMaps::LatLng latLng);
             void geocodeName(QString location);
             void geocodeLatLng(googleMaps::LatLng latLng);
-            void getElevationAlongPath(googleMaps::PathElevationRequest request);
-            void getElevationForLocations(googleMaps::LocationElevationRequest request);
             void messageReceived(const QJsonObject& message);
-            void handleGeocoderResults(QVariantList results, QString &status);
-            void handleMaxZoomResults(googleMaps::MaxZoomResult result, int status);
-            void handleElevationResults(QList<googleMaps::ElevationResult> results, int status);
+            void handleGeocoderResults(const QVariantList results, const QString &status);
+            void handleMaxZoomResults(googleMaps::MaxZoomResult result, QString status);
+            void handleElevationResults(const QVariantList results, const QString status);
             void setMapsKey(const QString key);
             void updateMapOptions(const googleMaps::MapOptions options);
             void updateMapType(const QString type);
@@ -183,6 +187,11 @@ namespace googleMaps
             void clearPolygons();
             void zoomInRequest();
             void zoomOutRequest();
+            void getElevationAlongPath(const googleMaps::PathElevationRequest request);
+            void getElevationForLocations(const googleMaps::LocationElevationRequest request);
+            googleMaps::PathElevationRequest getLastPathElevationRequest() const;
+            googleMaps::LocationElevationRequest getLastLocationElevationRequest() const;
+            QVariantList& getElevationResults();
 
 
         private slots:

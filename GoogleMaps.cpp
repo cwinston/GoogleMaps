@@ -44,11 +44,11 @@ void googleMaps::GoogleMaps::setChannel(QWebChannel* chnl)
     m_transportReady = true;
     m_geoCoder = new googleMaps::Geocoder(this);
     m_sphericalGeometryService = new googleMaps::SphericalGeometry(this);
- //   m_elevationService = new googleMaps::ElevationService(this);
+    m_elevationService = new googleMaps::ElevationService(this);
  //   m_maxZoomService = new googleMaps::MaxZoomService(this);
     m_map = new googleMaps::Map(this);
     m_channel->registerObject(QStringLiteral("Geocoder"), m_geoCoder);
- //   m_channel->registerObject(QStringLiteral("ElevationService"), m_elevationService);
+    m_channel->registerObject(QStringLiteral("ElevationService"), m_elevationService);
     m_channel->registerObject(QStringLiteral("SphericalGeometry"), m_sphericalGeometryService);
  //   m_channel->registerObject(QStringLiteral("MaxZoom"), m_maxZoomService);
     m_channel->registerObject(QStringLiteral("Map"), m_map);
@@ -172,6 +172,32 @@ void googleMaps::GoogleMaps::zoomOutRequest()
     m_map->sendZoomOutRequest();
 }
 
+qreal googleMaps::GoogleMaps::getZoomLevel() const
+{
+    if (m_map)
+    {
+        return m_map->getZoom();
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+googleMaps::LatLng googleMaps::GoogleMaps::getMapCenter() const
+{
+    LatLng pos;
+    if (m_map)
+    {
+        pos = m_map->getCenter();
+    }
+    else
+    {
+        pos = LatLng(-100, -200);
+    }
+    return pos;
+}
+
 void googleMaps::GoogleMaps::computeArea(const QList<googleMaps::LatLng>& path)
 {
     //qDebug() << "[GoogleMaps] computeArea " << path.size();
@@ -238,14 +264,6 @@ void googleMaps::GoogleMaps::geocodeLatLng(googleMaps::LatLng latLng)
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::getElevationAlongPath(googleMaps::PathElevationRequest request) {
-    throw "Not yet implemented";
-}
-
-void googleMaps::GoogleMaps::getElevationForLocations(googleMaps::LocationElevationRequest request) {
-    throw "Not yet implemented";
-}
-
 void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
 {
      QJsonDocument doc(message);
@@ -255,7 +273,7 @@ void googleMaps::GoogleMaps::messageReceived(const QJsonObject& message)
     qDebug() << " Json message received " << strJson;
 }
 
-void googleMaps::GoogleMaps::handleGeocoderResults(QVariantList results, QString& status)
+void googleMaps::GoogleMaps::handleGeocoderResults(const QVariantList results, const QString &status)
 {
 //    qDebug() << "[GoogleMaps] handleGeocoderResults " << results.size();
     qDebug() << "[GeoWorldBuilder]   GeoLocation Received " << status;
@@ -276,12 +294,14 @@ void googleMaps::GoogleMaps::handlePositionResults(LatLng position)
     emit positionResultsReceived();
 }
 
-void googleMaps::GoogleMaps::handleMaxZoomResults(googleMaps::MaxZoomResult result, int status) {
+void googleMaps::GoogleMaps::handleMaxZoomResults(googleMaps::MaxZoomResult result, QString status) {
     throw "Not yet implemented";
 }
 
-void googleMaps::GoogleMaps::handleElevationResults(QList<googleMaps::ElevationResult> results, int status) {
-    throw "Not yet implemented";
+void googleMaps::GoogleMaps::handleElevationResults(const QVariantList results, const QString status)
+{
+    disconnect(m_elevationService, SIGNAL(elevationResultsReceived(QVariantList,QString)), this, SLOT(handleElevationResults(QVariantList,QString)));
+    emit elevationResultsReceived(results);
 }
 
 void googleMaps::GoogleMaps::handleMaxZoomReceived(qreal zoomLevel) {
@@ -301,4 +321,30 @@ qreal googleMaps::GoogleMaps::getDistanceResult() const
 googleMaps::LatLng googleMaps::GoogleMaps::getPositionResult() const
 {
     return m_sphericalGeometryService->getPositionResults();
+}
+
+void googleMaps::GoogleMaps::getElevationAlongPath(const googleMaps::PathElevationRequest request)
+{
+    m_elevationService->getElevationAlongPath(request);
+}
+
+void googleMaps::GoogleMaps::getElevationForLocations(const googleMaps::LocationElevationRequest request)
+{
+    m_elevationService->getElevationForLocations(request);
+    connect(m_elevationService, SIGNAL(elevationResultsReceived()), this, SLOT(handleElevationResults(QVariantList,QString)));
+}
+
+googleMaps::PathElevationRequest googleMaps::GoogleMaps::getLastPathElevationRequest() const
+{
+    return m_elevationService->getLastPathElevationRequest();
+}
+
+googleMaps::LocationElevationRequest googleMaps::GoogleMaps::getLastLocationElevationRequest() const
+{
+    return m_elevationService->getLastLocationElevationRequest();
+}
+
+QVariantList& googleMaps::GoogleMaps::getElevationResults()
+{
+    return m_elevationService->getElevationResults();
 }
