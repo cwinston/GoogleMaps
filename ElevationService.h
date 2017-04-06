@@ -8,13 +8,14 @@ using namespace std;
 #include "LocationElevationRequest.h"
 #include "ElevationResult.h"
 #include "LatLng.h"
-//#include "AbstractGoogleMapsService.h"
 
 #define INVALID_REQUEST "INVALID_REQUEST"
 #define STATUS_OK "STATUS_OK"
 #define OVER_QUERY_LIMIT "OVER_QUERY_LIMIT"
 #define REQUEST_DENIED "REQUEST_DENIED"
 #define UNKNOWN_ERROR "UNKNOWN_ERROR"
+#define PATH_REQUEST "path"
+#define LOCATION_REQUEST "location"
 
 namespace googleMaps
 {
@@ -22,7 +23,6 @@ namespace googleMaps
 	class LocationElevationRequest;
 	class ElevationResult;
 	class LatLng;
-	// class AbstractGoogleMapsService;
 	class ElevationService;
 }
 
@@ -40,18 +40,31 @@ namespace googleMaps
     class ElevationService: public QObject
 	{
         Q_OBJECT
+    protected:
+            googleMaps::PathElevationRequest m_pathRequest;
+            googleMaps::LocationElevationRequest m_locationRequest;
+            QVariantList m_results;
+            QString m_requestType;
         public:
             explicit ElevationService(QObject* parent = 0);
-            virtual ~ElevationService();
-            void getElevationAlongPath(googleMaps::PathElevationRequest request, EElevationStatus status);
-            void getElevationForLocations(googleMaps::LocationElevationRequest request, EElevationStatus status);
-            void elevationResultsReceived(googleMaps::ElevationResult result, EElevationStatus status);
-            static googleMaps::PathElevationRequest createPathElevationRequest(QList<googleMaps::LatLng> path, qreal samples);
+            ElevationService(const googleMaps::ElevationService& rhs);
+            void getElevationAlongPath(const googleMaps::PathElevationRequest request);
+            void getElevationForLocations(const googleMaps::LocationElevationRequest request);
+            googleMaps::PathElevationRequest getLastPathElevationRequest() const;
+            googleMaps::LocationElevationRequest getLastLocationElevationRequest() const;
+            QVariantList& getElevationResults();
+            static googleMaps::PathElevationRequest createPathElevationRequest(QList<googleMaps::LatLng> paths, qreal samples);
             static googleMaps::LocationElevationRequest createLocationElevationRequest(QList<googleMaps::LatLng> locations);
 
-        protected slots:
-            void handleResultsReceived(QList<googleMaps::ElevationResult>);
+        public slots:
+            void updateElevationResults(QVariantList results, QString status);
+
+        signals:
+            void elevationResultsReceived(QVariantList results, QString status);
+            void requestElevationPath(googleMaps::PathElevationRequest request);
+            void requestElevation4Location(googleMaps::LocationElevationRequest request);
 	};
+    Q_DECLARE_METATYPE(googleMaps::ElevationService)
 }
 
 #endif
