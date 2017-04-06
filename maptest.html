@@ -190,8 +190,18 @@
                             }
                             if (channel.objects.ElevationService != null)
                             {
+                                var elevator = new google.maps.ElevationService;
                                 window.elevationService = channel.objects.ElevationService;
                                 console.log("ElevationService   "+window.elevationService);
+                                channel.objects.ElevationService.requestElevationPath.connect(function(request)
+                                {
+                                    console.log("requestElevationPath   ");
+                                    elevator.getElevationAlongPath(request, handlePathElevationResults);
+                                });
+                                channel.objects.ElevationService.requestElevation4Location.connect(function(request)
+                                {
+                                    console.log("requestElevation4Location   ");
+                                });
                             }
                     });
                 }
@@ -215,6 +225,26 @@
     });
 
     document.addEventListener(window, 'load', initialize);
+
+  function handlePathElevationResults(elevations, status)
+  {
+    console.log("PathElevationResults returned  "+window.elevationService);
+    if (status === 'OK') 
+    {
+       // Retrieve the first result
+        
+    }
+    else
+    {
+    
+    }
+    
+  }
+
+  function handleLocationElevationResults(results, status)
+  {
+    console.log("LocationElevationResults returned "+window.elevationService);
+  }
   
   <!-- Can call this from AIR using the DOM for geocoding stuff..weeeeee -->
   function geocodeStringAddress(_stringAddress)
@@ -369,7 +399,7 @@
             if (options.center.lat != -100)
             {
 
-                console.log("lat:  "+options.center.lat+"   lng: "+options.center.lng);
+                console.log("lat:  "+options.center.lat+"   lng: "+options.center.lng+ "   drag "+options.draggable);
 
                 mapOptions =
                 {
